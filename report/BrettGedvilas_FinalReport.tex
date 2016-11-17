@@ -1,0 +1,223 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.5in, bottom=1in, left=1.25in, right=1.25in]{geometry}
+\usepackage{graphicx}
+%\usepackage{tikz}
+%
+%\usetikzlibrary{shapes.geometric, arrows}
+
+\begin{document}
+
+
+\title{Database Project Report}
+\author{Brett Gedvilas\\CSCI 2421 Fall 2016}
+\maketitle
+
+\section*{Project Summary}
+
+The goal of this project was to create a simple database in c++!
+
+\newpage
+
+
+
+% ************************  Function Summary ***************************
+\section*{Summary of Functions}
+
+
+\newpage
+
+
+% ************************ Design Document Page ************************
+\section*{Design Document}
+
+\subsection*{C++ Implementation of an Address Book Database}
+\begin{center}
+\vspace{.5cm}
+By: Brett Gedvilas\\
+Student ID: 810-74-9234\\
+Date: October 27, 2016\\
+\end{center}
+
+\subsection*{Problem Description}
+
+	Being able to access and gain meaningful insights from large sets of data can be a very effective tool in a number of
+different academic or professional fields. Unfortunately, a data set that includes thousands or millions of entries, each
+having their own fields, presents a challenge of how to efficiently store, search, sort, and display the data as needed. 
+
+	Our specific problem domain was to create a database that contains the contacts of an address book. This database must
+satisfy a number of functional goals which allow the user to easily navigate the database and direct output of their choice
+to a desired location. The program can read in a list of contacts from an external file and then allow the user to perform a variety of operations on the data such as: 
+\begin{itemize}
+	\item Modify the database manually by adding and deleting records in the database or modifying an existing entry.
+	\item Search the database using a field of the users choice and perform sub-searches on the search results.
+	\item Sort the database (or search results) using a given field.
+	\item Display selected fields of either database entries or search results.
+	\item Output the database or search results to a file.
+\end{itemize}
+\newpage
+\subsection*{Software Architecture}
+\vspace{1cm}
+	% ********************** Program Flow Chart ************************
+Basic Program Flow	
+	
+\includegraphics[scale = .6]{flowChart.png}
+
+
+\subsection*{Input Requirements}
+
+	The inputs for the database come in three main flavours. 
+
+	\begin{enumerate}
+		\item The bulk of the data for each record will be read in from a file and directly parsed and stored in the main
+		      binary search tree. The program will assume a specific file format for the records and any deviation from
+		      this will cause the file to be rejected.
+		
+		\item The second input method is for the user to create a new record and directly add data to each field. In this
+		   	  case, the program will perform basic input validation to ensure the user has entered appropriate values. 
+
+		\item The third type of input will come from the user selecting menu items and performing searches on the database.
+		  	  In the case of menu selection, the program will ask the user to select from a numeric list of menu options. 
+		  	  The user must enter a valid integer corresponding to a menu option.	
+		
+	\end{enumerate}		
+	
+	 
+	
+	
+
+
+\subsection*{Output Requirements}
+
+	The program can pipe information from the database to an output .txt file. All output will be in ascii
+coded text. The format of the output mirrors the format of the input file for the database. Each record is separated by a |.
+The fields of each record are newline delimited, and within the affiliate field, each affiliate is separated by a semi-colon,
+ and the sub-fields of each affiliate (if used) are delimited by a comma. The user will have the option of which fields to 
+include in the output file. The output can consist of the entire database, or the results of a search query. A detailed
+ description of each output field is shown below.
+
+	\begin{description}
+	
+		\item[ID\#] A unique 9 digit unsigned integer. Stored as a c++ unsigned int data type. Any 9 digit integer is valid, 
+					provided it is a non-zero positive value and does not match any existing ID\#. The ID\# 000000000 will
+					be considered invalid. This gives the database up to 1 billion possible unique ID\#'s
+					 
+		\item[First Name] String
+		\item[Middle Name] String
+		\item[Last Name] String
+		\item[Company Name] String
+		\item[Home Phone] String
+		\item[Office Phone] String
+		\item[Email] String
+		\item[Mobile Phone] String
+		\item[Street Address] String
+		\item[City] String
+		\item[State] String
+		\item[Zip Code] Unsigned Integer
+		\item[Country] String
+		
+		\item[Affiliate] Linked List
+		
+	\end{description}
+
+
+
+
+\subsection*{Problem Solution Discussion}
+	% 1 paragraph, ~100 words
+
+
+\subsection*{Data Structures}
+
+	The main data structure used to organize the data base will take the form of a Binary Search Tree. Each record or contact
+in the address book will be represented by a node in the tree, organized by the unique ID number of each contact. We can
+leverage the power of the Binary Search Tree in order to efficiently search by ID number but searching using other fields
+will require each node in the tree to be visited.
+	
+	Two main areas surface when considering the data structures to be used in the program: How to store the affiliates for each contact, and how to store search results from a database query.
+	
+	\begin{enumerate}
+		\item I decided that the affiliates for each contact will be stored using a linked list, taking advantage of the c++ 
+			  STL list container. Broadly speaking, a queue or stack does not translate well to this application. A user may
+			  choose to access an affiliate not at the top of the stack (or front of queue) and that alone excludes them 
+			  from consideration. In this case, I decided that an array or vector were also not appropriate for a few 
+			  reasons. First, a c++ array is constricted to a certain size and the number of affiliates for a contact 
+			  is unknown until runtime. Furthermore, just creating an array with a size that would likely be large enough 
+			  for the number of affiliates would lead to a large amount of wasted memory. Even a contact with no affiliates
+			  would still have an array of size n allocated for it. Similarly, while a vector is implemented as a dynamic 
+			  array and would account for resizing to store more elements, they are still allocated with extra space. Again,
+			  since I'm making the assumption that the number of affiliates will remain rather relatively small this leads 
+			  to a fair amount of wasted memory. 
+			  
+			  The use of a linked list helps to alleviate some of these problems. Although a linked list is less efficient at
+			  accessing its elements than an array or vector, because the number of entries will remain small the difference 
+			  between an access time on the order of O(1) or constant, and an access time on the order of O(n) or linear will
+			  be negligible. The trade off is one of speed vs. memory, but traversing a linked list of, say, 15 affiliates 
+			  is trivial compared with the direct access afforded by a vector. That leads me to another consideration which
+			  is how and when the affiliates will be accessed. Most of the access to affiliates will be done by the program
+			  searching for a name or possibly a substring. In this case, each element will need to be visited anyway and 
+			  so the number of times direct access to the affiliates is needed is assumed to be very low.
+			  
+			  Finally, using a linked list allows the container to grow only as much as is needed which helps to make 
+			  efficient use of memory.
+			  
+		\item Search results from the database fall under one of two categories:
+		
+		\begin{enumerate}
+			\item Last Name Search - I made the assumption that by and large, the most common search of the database will
+									  be by last name. For this reason, I chose to leverage the search efficiency of the
+									  database and create a second binary search tree for all the contacts, but ordered by
+									  last name as opposed to the ID\#. Then all subsequent searches using the last name 
+									  as a search field can occur in log(n) time.
+			
+			\item Other Fields - Data structures for other searches will by dynamically created and destroyed while the 
+								 program is running. In my design, the user will not be limited to the number of searches
+								 they can perform on the database. Saving a copy of every search result would create an
+								 unreasonably large use of memory while the program was running, and in extreme cases could
+								 deplete the available system memory and cause a crash. Instead, each instance of a search
+								 will only exist for as long as the user is still making queries on that search data.
+								 
+								 The structure of each search result will once again be implemented as a linked list. For 
+								 many of the same reasons as described above, a linked list once again maximizes our use 
+								 of memory while reasonably managing the complexity of operating on the list. Any output of 
+								 search results (to either a file or console) requires each item to be visited, so a linked
+								 list performs no worse than any other structure in this respect. Using the c++ STL list 
+								 allows for easy checks for the number of elements in the list, and if sorted, accessing
+								 elements in alphabetical or reverse order.
+		\end{enumerate}
+			  		
+		
+	\end{enumerate}
+
+\subsection*{User Interface Scheme}
+
+
+	The program uses a menu-driven, text-based user interface scheme. The top level menu is the main menu, which then 
+branches to most of the sub-menus.
+
+\vspace{.25cm}
+
+Main Menu: 
+\begin{enumerate}
+\setlength\itemsep{-2pt}
+\item Browse Contacts
+\item Search Contacts
+\item Modify Address Book
+\item Write to file
+\end{enumerate}
+
+
+
+%\newpage
+%
+%
+%% ********************* Summary of Program Status *********************
+%\section*{Program Status}
+%
+%This program successfully compiles and runs.
+%
+%
+%\subsection*{CSEgrid Status}
+%
+%I just made the csegrid my bitch!
+
+\end{document}
