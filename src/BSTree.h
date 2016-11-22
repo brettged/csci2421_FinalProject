@@ -8,7 +8,7 @@ using namespace std;
 class BSTree {
 private:
     Node* root;
-    void addNode(int key, Node* leaf);
+    void addNode(unsigned int key, Node* leaf);
     Node* deleteNode(Node* node, int key);
     void freeNode(Node* leaf);
 public:
@@ -16,7 +16,15 @@ public:
     ~BSTree();
     Node* Root() { return root; }
     void setRoot(Node * _root) {root = _root;}
-    void addNode(int key);
+    // void addNode(int key);
+    //
+    // ***** B. Gedvilas edits 11/22/2016 *****
+
+    void addNode(Record* contactPtr);
+
+
+    // ******** End Edits *********
+
     Node* findNode(int key, Node* parent);
     void printPreorder(Node* node);
     void printInorder(Node* node);

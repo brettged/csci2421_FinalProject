@@ -28,22 +28,36 @@ void BSTree::freeNode(Node* leaf)
 
 }
 
-// Add a node
-void BSTree::addNode(int key)
-{
-    // No elements. Add the root
-    if ( root == nullptr ) {
-        Node* n = new Node();
-        n->setKey(key);
-        root = n;
-    }
-    else {
-        addNode(key, root);
-    }
+// // Add a node
+// void BSTree::addNode(int key)
+// {
+//     // No elements. Add the root
+//     if ( root == nullptr ) {
+//         Node* n = new Node();
+//         n->setKey(key);
+//         root = n;
+//     }
+//     else {
+//         addNode(key, root);
+//     }
+// }
+
+void BSTree::addNode(Record* contactPtr) {
+  // No elements. Add the root
+  if ( root == nullptr ) {
+      Node* n = new Node();
+      n->setKey(contactPtr->getId());
+      n->setDataPtr(contactPtr); // set the node pointer to the record
+      root = n;
+  }
+  else {
+      addNode(contactPtr->getId(), root);
+  }
 }
 
+
 // Add a node (private)
-void BSTree::addNode(int key, Node* leaf) {
+void BSTree::addNode(unsigned int key, Node* leaf) {
     if ( key <= leaf->Key() )
     {
         if ( leaf->Left() != nullptr )
@@ -147,7 +161,7 @@ void BSTree::printInorder(Node* node)
   }
 
   // after the left tree is visited, vist the current node
-  cout << node->Key() << endl;
+  cout << node->Key() << endl;//node->getContact()->getId() << endl;
 
   // then search the right subtree
   if (node->Right() != nullptr) {

@@ -9,7 +9,7 @@
 //  Date:   10/30/2016
 //  Edited by Brett Gedvilas at marked locations
 //
-//  Assignment: Final Project - A c++ Database System
+//  Assignment: Final Project - c++ Database
 //
 //
 //  This file contains the Node class prototype.
@@ -49,7 +49,7 @@ private:
 
     //************ B. Gedvilas Edits *****************
 
-    Record contact; // Include an instance of a record in each node
+    Record* dataPtr; // Include a pointer to a record for each node
 
     //***************** End of Edits *****************
 
@@ -66,10 +66,13 @@ public:
     // I'll make the assertion that no contact will have a user id of 0 so that
     // will be used as the initialization value.
     Node() {key = 0; left = nullptr; right=nullptr; parent = nullptr;};
-    
+
+    Node(Record _contact);
+
+
     //***************** End of Edits *****************
 
-    void setKey() { key = contact.getId(); }; // the key gets set to the contact id#
+    void setKey(unsigned int _key) { key = _key; }; // the key gets set to the contact id#
     void setLeft(Node* aLeft) { left = aLeft; };
     void setRight(Node* aRight) { right = aRight; };
     void setParent(Node* aParent) { parent = aParent; };
@@ -81,7 +84,8 @@ public:
 
     //************* B. Gedvilas Edits ******************
 
-    Record getContact() {return contact;}; // returns the contact from the node
+    void setDataPtr(Record* _dataPtr) {dataPtr = _dataPtr;};
+    Record* getContact() {return dataPtr;}; // returns pointer to contact info
 
     //**************** End of Edits ********************
 

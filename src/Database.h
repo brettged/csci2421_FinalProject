@@ -38,9 +38,9 @@ class Database {
 
   private:
 
-  //  BSTree dataTree; // The main structure of the database is a binary search tree.
+    BSTree dataTree; // The main structure of the database is a binary search tree.
     //BSTree nameTree; // A binary search tree using the last name field as key.
-    int size; // number of entries in the BSTree
+    unsigned int size; // number of entries in the BSTree
 
     list<Record> searchResults; // searches return a linked list in this variable
 
@@ -62,7 +62,7 @@ class Database {
     void addEntry(); // user inputs information for a new contact
 
     // overloaded addEntry adds a complete contact
-    void addEntry(Record contact);
+    void addEntry(Record *contactPtr);
 
 
     void removeEntry(); // delete an entry from database
@@ -74,6 +74,11 @@ class Database {
 
     void display(); // displays the current database
     void display(list<Record>); // displays the results of a search
+
+
+
+    BSTree getDataTree() {return dataTree;};
+    unsigned int getSize() {return size;};
 
 
     // Search functions, returns linked lists of search results or maybe a BSTree

@@ -43,9 +43,9 @@ class Affiliate {
 
   public:
 
-    Affiliate();
+    Affiliate(){};
 
-    ~Affiliate();
+    ~Affiliate(){};
 
 
     //************ Mutator Methods *****************

@@ -76,65 +76,63 @@ void Database::readFile() {
   unsigned int tempInt; // Temporary variable to hold integer values
   string tempString; // Temporary variable to hold string values
 
-  Record tempRecord; // Only create one Record object, can keep overwriting it
+  // Record tempRecord; // Only create one Record object, can keep overwriting it
                      // to insert into Database
 
   // The main while loop for reading in data from the file
   while (inFile >> tempInt) {
 
+    Record* contactPtr = new Record; // dynamically allocate memory for a new contact
+
     size++; //increment size of database by 1
 
-    tempRecord.setId(tempInt);
+    contactPtr->setId(tempInt);
 
     inFile >> tempString;
-    tempRecord.setFirstName(tempString);
+    contactPtr->setFirstName(tempString);
 
     inFile >> tempString;
-    tempRecord.setMidName(tempString);
+    contactPtr->setMidName(tempString);
 
     inFile >> tempString;
-    tempRecord.setLastName(tempString);
+    contactPtr->setLastName(tempString);
     inFile.ignore();
 
     getline(inFile, tempString);
-    // inFile >> tempString;
-    tempRecord.setCompany(tempString);
+    contactPtr->setCompany(tempString);
 
     getline(inFile, tempString);
-    tempRecord.setHomePhone(tempString);
+    contactPtr->setHomePhone(tempString);
 
     getline(inFile, tempString);
-    tempRecord.setOffice(tempString);
+    contactPtr->setOffice(tempString);
 
     inFile >> tempString;
-    tempRecord.setEmail(tempString);
+    contactPtr->setEmail(tempString);
 
     inFile.ignore();
     getline(inFile, tempString);
-    tempRecord.setMobile(tempString);
+    contactPtr->setMobile(tempString);
 
     getline(inFile, tempString);
-    tempRecord.setStAddr(tempString);
+    contactPtr->setStAddr(tempString);
 
     getline(inFile, tempString);
-    tempRecord.setCity(tempString);
+    contactPtr->setCity(tempString);
 
     inFile >> tempString;
-    tempRecord.setState(tempString);
+    contactPtr->setState(tempString);
 
     inFile >> tempString;
-    tempRecord.setZipCode(tempString);
+    contactPtr->setZipCode(tempString);
 
     inFile.ignore();
     getline(inFile, tempString);
-    tempRecord.setCountry(tempString);
+    contactPtr->setCountry(tempString);
 
-    // TODO - loop here to add affiliates
 
     getline(inFile, tempString); // grab the next line
                                  // either affiliate or |
-
-
 
     // if the next item isn't a | then we have some affiliates to
     // add to the record
@@ -145,40 +143,40 @@ void Database::readFile() {
       // getline(ss, tempString, ' ');
 
       string token; // for stringstream tokens
-      // Affiliate* affilPtr = new Affiliate; // create a pointer to temporary affiliate
+      // Affiliate* tempAffil = new Affiliate; // create a pointer to temporary affiliate
 
       ss >> token;
 
-      Affiliate affilPtr;
+      Affiliate tempAffil;
 
       // cout << token;
       // every affiliate has a first and last name
-      affilPtr.setFirstName(token);
+      tempAffil.setFirstName(token);
 
-      // cout << affilPtr.getFirstName() << endl;
-
-      // use getline to get the last name, not including comma
+      // cout << tempAffil.getFirstName() << endl;
 
       ss.ignore(); // ignore space between first and last name
 
+      // use getline to get the last name, not including comma
+      // set lastName
       getline(ss, token, ',');
-      affilPtr.setLastName(token);
+      tempAffil.setLastName(token);
 
-      // cout << affilPtr.getLastName() << endl; // display last name
+      // cout << tempAffil.getLastName() << endl; // display last name
 
       // set phone number
       getline(ss, token, ',');
-      affilPtr.setPhone(token);
+      tempAffil.setPhone(token);
 
-      // cout << affilPtr.getPhone() << endl; // confirm phone
+      // cout << tempAffil.getPhone() << endl; // confirm phone
 
       // set email address
       getline(ss, token, ';');
-      affilPtr.setEmail(token);
-      // cout << affilPtr.getEmail() << endl; // confirm email
+      tempAffil.setEmail(token);
+      // cout << tempAffil.getEmail() << endl; // confirm email
 
 
-      tempRecord.addAffiliate(affilPtr); // add the affiliate to the record
+      contactPtr->addAffiliate(tempAffil); // add the affiliate to the record
 
       getline(inFile, tempString);
 
@@ -186,14 +184,11 @@ void Database::readFile() {
     }
 
 
-    // cout << tempRecord;
+    // cout << *contactPtr;
 
-    outFile << tempRecord;
+    // outFile << *contactPtr;
 
-    // TODO - add the record to the database
-
-    tempRecord.clearAll(); // clear data from tempRecord in preparation for
-                           // next item
+    addEntry(contactPtr); // adds record to database tree
 
   }
 
@@ -206,7 +201,7 @@ void Database::readFile() {
 //*******************************************************
 
 // addEntry(Record)
-//
+
 // Precondition:
 // Postcondition: Record object parameter is added to the database
 // Functionality: This function creates a node out of the Record and
@@ -215,9 +210,10 @@ void Database::readFile() {
 //*******************************************************
 
 // TODO - all this shit
-// void Database::addEntry(Record _contact) {
-//
-//   Node
-//
-//
-// }
+void Database::addEntry(Record* _contactPtr) {
+
+
+  dataTree.addNode(_contactPtr);
+
+
+}

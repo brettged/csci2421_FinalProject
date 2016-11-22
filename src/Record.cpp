@@ -35,6 +35,7 @@ Record::Record() {
 
 }
 
+
 Record::~Record() {
 
 }
@@ -115,6 +116,11 @@ void Record::clearAll() {
 
 ostream& operator << (ostream& out, const Record& contact) {
 
+  // Precondition:
+  // Postcondition:
+  // Functionality: Overloads the generic ostream operator <<. When output is
+  //                piped to the console, it will invoke this operator.
+
   out  << "           ID#: " << setw(9) << setfill('0') << contact.idNum << endl
        << "    First Name: " << contact.firstName << endl
        << "   Middle Name: " << contact.middleName << endl
@@ -155,8 +161,15 @@ ostream& operator << (ostream& out, const Record& contact) {
 
 ofstream& operator << (ofstream& out, const Record& contact) {
 
+  // Precondition:
+  // Postcondition:
+  // Functionality: Overloads the ofstream operator <<. This function
+  //                allows each record to be written to a file in the
+  //                same format as the original input file.
 
+  // ensure leading 0's are printed in the id number
   out << endl << setw(9) << setfill('0') << contact.idNum << endl
+       // write all the fields
        << contact.firstName << endl
        << contact.middleName << endl
        << contact.lastName << endl
@@ -171,13 +184,14 @@ ofstream& operator << (ofstream& out, const Record& contact) {
        << contact.zipCode << endl
        << contact.country << endl;
 
+       // utilize list iterator to display all the affiliates
  for (list<Affiliate>::const_iterator it = contact.affiliates.begin(); it != contact.affiliates.end(); ++it) {
 
-   out << *it << endl;
+   out << *it << endl; // Affiliate class has it's own overloaded ostream operator
 
  }
 
- out << '|';
+ out << '|'; // write a character delimiting each record
 
   return out;
 }

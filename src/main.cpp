@@ -20,7 +20,11 @@
 
 // Include the Database class
 #include "Database.h"
+#include "BSTree.h"
 
+
+#include <iostream>
+using namespace std;
 
 // Start of main method
 int main() {
@@ -35,7 +39,16 @@ int main() {
   // from within the Database menus
   //addressBook.mainMenu();
 
+  BSTree testTree;
+  testTree = addressBook.getDataTree();
+
+  testTree.printInorder(testTree.Root());
 
 
   return 0;
 } // End of main
+
+
+// Test Driver Functions
+
+
