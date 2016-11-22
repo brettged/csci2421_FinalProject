@@ -11,7 +11,7 @@ CXXFLAGS = -g -std=c++11
 
 LIBS = -lm
 
-OBJS = main.o Database.o BSTree.o Record.o Affiliate.o Node.o
+OBJS = main.o Database.o Record.o Affiliate.o
 
 TARGET = gedvilasProj
 

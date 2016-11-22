@@ -66,7 +66,7 @@ public:
     // I'll make the assertion that no contact will have a user id of 0 so that
     // will be used as the initialization value.
     Node() {key = 0; left = nullptr; right=nullptr; parent = nullptr;};
-
+    
     //***************** End of Edits *****************
 
     void setKey() { key = contact.getId(); }; // the key gets set to the contact id#

@@ -58,7 +58,7 @@ class Record {
     string streetAddr;
     string city;
     string state;
-    unsigned int zipCode; // zip codes cannot be negative
+    string zipCode;
     string country;
 
     list<Affiliate> affiliates; // double linked list holds the affiliates
@@ -73,22 +73,22 @@ class Record {
 
     // ******** Mutator Methods **********
 
-    void setId();
-    void setFirstName();
-    void setMidName();
-    void setLastName();
-    void setCompany();
-    void setHomePhone();
-    void setOffice();
-    void setEmail();
-    void setMobile();
-    void setStAddr();
-    void setCity();
-    void setState();
-    void setZipCode();
-    void setCountry();
-    void addAffiliate();
-
+    void setId(unsigned int _idNum);
+    void setFirstName(string _first);
+    void setMidName(string _middle);
+    void setLastName(string _last);
+    void setCompany(string _company);
+    void setHomePhone(string _homePhone);
+    void setOffice(string _officePhone);
+    void setEmail(string _email);
+    void setMobile(string _mobilePhone);
+    void setStAddr(string _streetAddr);
+    void setCity(string _city);
+    void setState(string _state);
+    void setZipCode(string _zipCode);
+    void setCountry(string _country);
+    void addAffiliate(Affiliate _affil);
+    void clearAll();
 
     // ******** Accessor Methods **********
 
@@ -104,13 +104,17 @@ class Record {
     string getStAddr() {return streetAddr;};
     string getCity() {return city;};
     string getState() {return state;};
-    unsigned int getZipCode() {return zipCode;};
+    string getZipCode() {return zipCode;};
     string getCountry() {return country;};
     list<Affiliate> getAffiliate() {return affiliates;}; // returns a linked list of the affiliates
 
 
+    // TODO - Overload ostream and ofstream
+
     // overloaded output operator to either display data or write to a file
     friend ostream& operator << (ostream& out, const Record& contact);
+
+    friend ofstream& operator << (ofstream& out, const Record& contact);
 
 };
 

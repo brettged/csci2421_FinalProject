@@ -38,13 +38,19 @@ class Database {
 
   private:
 
-    BSTree dataTree; // the main structure of the database in a binary search tree
-    BSTree nameTree; // A binary search tree using the last name field as key
+  //  BSTree dataTree; // The main structure of the database is a binary search tree.
+    //BSTree nameTree; // A binary search tree using the last name field as key.
     int size; // number of entries in the BSTree
 
     list<Record> searchResults; // searches return a linked list in this variable
 
   public:
+
+
+    // ************** Constructors *************
+    Database();
+    ~Database();
+
 
     bool validateID(unsigned int); // validates a new ID#
 
@@ -54,6 +60,11 @@ class Database {
     void readFile(); // opens an external file and adds entries to database
     void modifyEntry(); // allows user to modify an existing entry
     void addEntry(); // user inputs information for a new contact
+
+    // overloaded addEntry adds a complete contact
+    void addEntry(Record contact);
+
+
     void removeEntry(); // delete an entry from database
 
 

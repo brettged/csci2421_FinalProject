@@ -33,7 +33,7 @@ int main() {
 
   // Display the main menu to the user, all other operations will be controlled
   // from within the Database menus
-  addressBook.mainMenu();
+  //addressBook.mainMenu();
 
 
 
