@@ -29,7 +29,7 @@ public:
     void printPreorder(Node* node);
     void printInorder(Node* node);
     void printPostorder(Node* node);
-    
+
 
     void deleteNode(unsigned int key);
 
@@ -37,6 +37,9 @@ public:
     Node* max(Node* node);
     Node* successor(unsigned int key, Node* parent);
     Node* predecessor(unsigned int key, Node* parent);
+
+
+    void deleteTree(Node* node);
 
 };
 #endif  //BST

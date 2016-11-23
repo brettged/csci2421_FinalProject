@@ -70,6 +70,7 @@ public:
     ~Node() {
 
       delete dataPtr;
+      dataPtr = nullptr;
 
     }
 

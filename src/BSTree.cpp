@@ -109,27 +109,28 @@ Node* BSTree::findNode(unsigned int key, Node* node)
   // If we get to a node pointing to a nullptr, we know that the key value is not
   // in the binary search tree
   if (node == nullptr) {
-    cout << "nullptr\nNode " << key << " not found" << endl;
+    // cout << "nullptr\nNode " << key << " not found" << endl;
   }
 
   // Check to see if the key value at the current node matches the search key
   else if (node->Key() == key) {
-      cout << node->Key() << endl;
-      cout << "Node " << key << " Found" << endl;
+      // cout << node->Key() << endl;
+      // cout << "Node " << key << " Found" << endl;
       return node;
+      // return true;
   }
 
   // If search key is less than the current node, search the left subtree
   else if (key < node->Key()) {
       // search the left tree
-      cout << node->Key() << "->"; // display each node we visit to visualize the search
+      // cout << node->Key() << "->"; // display each node we visit to visualize the search
       findNode(key, node->Left());
   }
 
   // If search key is greater than the current node, search the right subtree
   else if (key > node->Key()){
       // search the right tree
-      cout << node->Key() << "->";
+      // cout << node->Key() << "->";
       findNode(key, node->Right());
   }
 

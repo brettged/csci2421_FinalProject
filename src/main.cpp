@@ -42,9 +42,9 @@ int main() {
   BSTree testTree;
   testTree = addressBook.getDataTree();
 
-  testTree.printInorder(testTree.Root());
+  addressBook.addEntry();
 
-  cout << "Records: " << addressBook.getSize() << endl;
+  testTree.printInorder(testTree.Root());
 
   return 0;
 } // End of main

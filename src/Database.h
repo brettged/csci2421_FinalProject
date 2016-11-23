@@ -79,6 +79,7 @@ class Database {
 
     BSTree getDataTree() {return dataTree;};
     unsigned int getSize() {return size;};
+    void clear();
 
 
     // Search functions, returns linked lists of search results or maybe a BSTree

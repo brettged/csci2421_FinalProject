@@ -40,6 +40,9 @@ Database::Database() {
 
 Database::~Database() {
   // destructor
+
+
+
 }
 
 
@@ -66,9 +69,6 @@ void Database::readFile() {
   //cout << "Enter the file name to read into the database: ";
   //cin >> fileName;
 
-  ofstream outFile;
-  outFile.open("testOut.txt");
-
   fileName = "databasesmall.txt";
 
   inFile.open(fileName);
@@ -76,8 +76,6 @@ void Database::readFile() {
   unsigned int tempInt; // Temporary variable to hold integer values
   string tempString; // Temporary variable to hold string values
 
-  // Record tempRecord; // Only create one Record object, can keep overwriting it
-                     // to insert into Database
 
   // The main while loop for reading in data from the file
   while (inFile >> tempInt) {
@@ -183,15 +181,10 @@ void Database::readFile() {
 
     }
 
-
-    // cout << *contactPtr;
-    // outFile << *contactPtr;
-
     addEntry(contactPtr); // adds record to database tree
   }
 
   inFile.close();
-  outFile.close();
 
 }
 
@@ -201,13 +194,153 @@ void Database::readFile() {
 // addEntry(Record)
 
 // Precondition:
-// Postcondition: Record object parameter is added to the database
+// Postcondition: A record is added to the database
+// Functionality: This function allows the user to create
+//                and enter a new entry int the database
+
+//*******************************************************
+void Database::addEntry() {
+
+  Record* contactPtr = new Record;
+
+  unsigned int tempInt;
+
+  string tempString;
+
+  do {
+
+    cout << "Enter Unique 9 digit ID#: ";
+    cin >> tempInt;
+    contactPtr->setId(tempInt);
+
+  } while(tempInt == (dataTree.findNode(tempInt, dataTree.Root()))->Key());
+
+
+  cout << "    First Name: ";
+  cin >> tempString;
+  contactPtr->setFirstName(tempString);
+
+
+  cout << "   Middle Name: ";
+  cin >> tempString;
+  contactPtr->setMidName(tempString);
+
+
+  cout << "     Last Name: ";
+  cin >> tempString;
+  contactPtr->setLastName(tempString);
+  cin.ignore();
+
+
+  cout << "       Company: ";
+  getline(cin, tempString);
+  contactPtr->setCompany(tempString);
+
+
+  cout << "    Home Phone: ";
+  getline(cin, tempString);
+  contactPtr->setHomePhone(tempString);
+
+
+  cout << "  Office Phone: ";
+  getline(cin, tempString);
+  contactPtr->setOffice(tempString);
+
+
+  cout << " Email Address: ";
+  cin >> tempString;
+  contactPtr->setEmail(tempString);
+
+
+  cout << "  Mobile Phone: ";
+  cin.ignore();
+  getline(cin, tempString);
+  contactPtr->setMobile(tempString);
+
+
+  cout << "Street Address: ";
+  getline(cin, tempString);
+  contactPtr->setStAddr(tempString);
+
+
+  cout << "          City: ";
+  getline(cin, tempString);
+  contactPtr->setCity(tempString);
+
+
+  cout << "         State: ";
+  cin >> tempString;
+  contactPtr->setState(tempString);
+
+
+  cout << "      Zip Code: ";
+  cin >> tempString;
+  contactPtr->setZipCode(tempString);
+
+
+  cout << "       Country: ";
+  cin.ignore();
+  getline(cin, tempString);
+  contactPtr->setCountry(tempString);
+
+
+  char option;
+
+  cout << "Do you have any affiliates to enter? (y/n) ";
+  cin >> option;
+
+  while (option == 'y') {
+
+    Affiliate tempAffil;
+
+    cout << "Affiliate First Name: ";
+    cin >> tempString;
+    tempAffil.setFirstName(tempString);
+
+
+    cout << "Affiliate Last Name: ";
+    cin >> tempString;
+    tempAffil.setLastName(tempString);
+
+
+    cin.ignore();
+    cout << "Affiliate Phone Number: ";
+    getline(cin, tempString);
+    tempAffil.setPhone(tempString);
+
+
+    cout << "Affiliate Email: ";
+    getline(cin, tempString);
+    tempAffil.setEmail(tempString);
+
+
+    contactPtr->addAffiliate(tempAffil); // add the affiliate to the record
+
+    cout << "Enter another affiliate? (y/n) ";
+    cin >> option;
+  }
+
+  cout << "Adding entry..." << endl;
+  addEntry(contactPtr);
+
+
+}
+
+
+
+
+
+
+//*******************************************************
+
+// addEntry(Record)
+
+// Precondition:
+// Postcondition: A record is added to the database
 // Functionality: This function creates a node out of the Record and
 //                inserts the node into the database tree
 
 //*******************************************************
-
-// TODO - all this shit
 void Database::addEntry(Record* _contactPtr) {
 
 
