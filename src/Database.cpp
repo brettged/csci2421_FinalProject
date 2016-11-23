@@ -66,16 +66,23 @@ void Database::readFile() {
   string fileName;
 
   // Prompt the user to enter the filename to read
-  //cout << "Enter the file name to read into the database: ";
-  //cin >> fileName;
+  cout << "Enter the file name to read into the database: ";
+  cin >> fileName;
 
-  fileName = "databasesmall.txt";
+  // fileName = "databasesmall.txt";
 
   inFile.open(fileName);
 
+  // Error check to see if file successfully opened
+  if(!inFile) {
+    cout << "Error! Could not open file: " << fileName << endl;
+    return;
+  }
+
+  cout << endl << "reading file..." << endl;
+
   unsigned int tempInt; // Temporary variable to hold integer values
   string tempString; // Temporary variable to hold string values
-
 
   // The main while loop for reading in data from the file
   while (inFile >> tempInt) {
@@ -208,15 +215,8 @@ bool Database::validateID(unsigned int testID) {
   // start at root of tree and try to find a node with the new id number
   valid = (testID != (dataTree.findNode(testID, dataTree.Root()))->Key());
 
-  // if the id is invalid display error message
-  if (!valid) {
-    cout << "ID# already exists" << endl;
-  }
-
   return valid; // return true if number is unique, false if not
 }
-
-
 
 void Database::addEntry() {
   //*******************************************************
@@ -243,6 +243,11 @@ void Database::addEntry() {
     cin >> tempInt;
 
     validID = validateID(tempInt);
+
+    // if the id is invalid display error message
+    if (!validID) {
+      cout << "ID# already exists" << endl;
+    }
 
   } while(!validID);
 
@@ -374,29 +379,37 @@ void Database::addEntry(Record* _contactPtr) {
 
 }
 
+void Database::removeEntry() {
 
-// void Database::removeEntry(unsigned int idNum) {
-//   //*******************************************************
-//
-//   // removeEntry()
-//
-//   // Precondition:
-//   // Postcondition: A record is deleted from the database
-//   // Functionality: This function deletes a record from the
-//   //                database based on a unique id#
-//
-//   //*******************************************************
-//
-//   Node* nPtr;
-//   nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
-//
-//   // Record* tempPtr = idSearch(idNum); // pointer to the contact information
-//
-//   nPtr->deleteContact(); // deletes pointer to the contact info
-//
-//   dataTree.deleteNode(nPtr->Key());
-//
-// }
+  unsigned int idNum;
+  cout << "Enter ID number of record: ";
+  cin >> idNum;
+
+  if (!validateID(idNum)) {
+    dataTree.deleteNode(idNum);
+  }
+
+  else {
+    cout << "No Record Found" << endl;
+  }
+
+}
+
+void Database::removeEntry(unsigned int idNum) {
+  //*******************************************************
+
+  // removeEntry()
+
+  // Precondition:
+  // Postcondition: A record is deleted from the database
+  // Functionality: This function deletes a record from the
+  //                database based on a unique id#
+
+  //*******************************************************
+
+  dataTree.deleteNode(idNum);
+
+}
 
 Record* Database::idSearch(unsigned int idNum) {
   //*******************************************************
@@ -419,8 +432,117 @@ Record* Database::idSearch(unsigned int idNum) {
 
 
 void Database::mainMenu() {
+  //*******************************************************
 
+  // mainMenu()
 
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+  //*******************************************************
+
+  int menuOption; // user menu choice
+
+  bool runProgram = true;
+
+  while(runProgram) {
+
+    cout << "Main Menu:" << endl;
+    cout << "----------" << endl;
+
+    cout << "1. Read Data File" << endl
+         << "2. Update Database" << endl
+         << "3. Browse Records" << endl
+         << "4. Search Database" << endl
+         << "5. Write Data to File" << endl
+         << "0. Exit" << endl
+         << ": ";
+
+    cin >> menuOption;
+
+    cout << endl;
+
+    switch(menuOption) {
+
+    case 1:
+      readFile();
+      break;
+
+    case 2:
+      updateMenu();
+      break;
+
+    case 3:
+      displayDataMenu();
+      break;
+
+    case 4:
+      searchMenu();
+      break;
+
+    case 0:
+      runProgram = false;
+      break;
+
+    }
+
+    cout << endl;
+  }
 
   return;
+}
+
+
+void Database::searchMenu() {
+  // TODO - search implementations
+  cout << "Search Menu called" << endl;
+}
+
+
+void Database::updateMenu() {
+  // TODO - updata menu shit
+
+  cout << "Modify Database" << endl;
+  cout << "---------------" << endl;
+
+  int menuOption;
+  bool menu = true;
+
+  while(menu) {
+
+    cout << "1. Add New Record" << endl
+         << "2. Modify Record" << endl
+         << "3. Delete Record" << endl
+         << "4. Main Menu" << endl
+         << ": ";
+
+    cin >> menuOption;
+
+    switch(menuOption) {
+
+    case 1:
+      addEntry();
+      break;
+    case 2:
+      // modifyEntry();
+      break;
+    case 3:
+      removeEntry();
+      break;
+    case 4:
+      menu = false;
+    }
+
+  }
+
+
+}
+
+
+void Database::displayDataMenu() {
+  // TODO - figure out display stuff
+  // cout << "Browse data menu called" << endl;
+
+  dataTree.printInorder(dataTree.Root());
+
 }

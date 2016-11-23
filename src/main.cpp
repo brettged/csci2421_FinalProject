@@ -33,7 +33,7 @@ int main() {
   Database addressBook;
 
   // Initial read of data from file
-  addressBook.readFile();
+  // addressBook.readFile();
 
   // Display the main menu to the user, all other operations will be controlled
   // from within the Database menus

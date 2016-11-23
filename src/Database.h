@@ -35,7 +35,7 @@
 using std::list;
 
 class Database {
-  
+
   private:
 
     BSTree dataTree; // The main structure of the database is a binary search tree.
@@ -46,6 +46,7 @@ class Database {
 
     // overloaded addEntry adds a complete contact
     void addEntry(Record* contactPtr);
+    void removeEntry(unsigned int idNum); // delete an entry from database
 
   public:
 
@@ -60,12 +61,12 @@ class Database {
 
     // Basic functions for adding and removing data from database
 
-    void readFile(); // opens an external file and adds entries to database
+    void readFile(); // opens an external file and adds entries to database. Returns true if successful, false if not
     void modifyEntry(); // allows user to modify an existing entry
     void addEntry(); // user inputs information for a new contact
 
 
-    void removeEntry(unsigned int idNum); // delete an entry from database
+    void removeEntry();
 
 
     // Output functions for database
@@ -108,19 +109,14 @@ class Database {
 
     void searchMenu(); // search database sub-menu
 
-
     void updateMenu(); // sub-menu for updating a database entry:
                        // add new entry
                        // modify existing
                        // delete entry
 
-
     void displayDataMenu(); // sub-menu for displaying database entries to the screen
 
-
     void chooseFieldsMenu(); // menu allowing user to pick which fields to display or search from
-
-
 
     int getFields(); // displays all the possible fields in numbered list and returns
                     // an integer entered by the user indicating the desired field
