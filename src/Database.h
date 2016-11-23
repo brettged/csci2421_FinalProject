@@ -35,7 +35,7 @@
 using std::list;
 
 class Database {
-
+  
   private:
 
     BSTree dataTree; // The main structure of the database is a binary search tree.
@@ -43,6 +43,9 @@ class Database {
     unsigned int size; // number of entries in the BSTree
 
     list<Record> searchResults; // searches return a linked list in this variable
+
+    // overloaded addEntry adds a complete contact
+    void addEntry(Record* contactPtr);
 
   public:
 
@@ -61,11 +64,8 @@ class Database {
     void modifyEntry(); // allows user to modify an existing entry
     void addEntry(); // user inputs information for a new contact
 
-    // overloaded addEntry adds a complete contact
-    void addEntry(Record *contactPtr);
 
-
-    void removeEntry(); // delete an entry from database
+    void removeEntry(unsigned int idNum); // delete an entry from database
 
 
     // Output functions for database
@@ -85,6 +85,8 @@ class Database {
     // Search functions, returns linked lists of search results or maybe a BSTree
     list<Record> exactSearch(string searchTerm);
     list<Record> containsSearch(string searchTerm);
+    Record* idSearch(unsigned int idNum); // search database for exact match on id# returns a pointer to the record
+
 
     // NOTE - Sorting functions
     // Sorting a linked list of search results using the list sort function would

@@ -49,7 +49,7 @@ private:
 
     //************ B. Gedvilas Edits *****************
 
-    Record* dataPtr; // Include a pointer to a record for each node
+    Record* dataPtr = nullptr; // Include a pointer to a record for each node
 
     //***************** End of Edits *****************
 
@@ -68,13 +68,8 @@ public:
     Node() {key = 0; left = nullptr; right=nullptr; parent = nullptr;};
 
     ~Node() {
-
-      delete dataPtr;
-      dataPtr = nullptr;
-
+      delete dataPtr; // de-allocate the record the node points to
     }
-
-    Node(Record _contact);
 
 
     //***************** End of Edits *****************

@@ -37,14 +37,14 @@ int main() {
 
   // Display the main menu to the user, all other operations will be controlled
   // from within the Database menus
-  //addressBook.mainMenu();
+  addressBook.mainMenu();
 
-  BSTree testTree;
-  testTree = addressBook.getDataTree();
+  // BSTree testTree;
+  // testTree = addressBook.getDataTree();
 
-  addressBook.addEntry();
+  // addressBook.addEntry();
 
-  testTree.printInorder(testTree.Root());
+  // testTree.printInorder(testTree.Root());
 
   return 0;
 } // End of main

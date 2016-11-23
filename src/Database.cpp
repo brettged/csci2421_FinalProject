@@ -182,24 +182,53 @@ void Database::readFile() {
     }
 
     addEntry(contactPtr); // adds record to database tree
+
   }
 
   inFile.close();
 
 }
 
+bool Database::validateID(unsigned int testID) {
+  //*******************************************************
 
-//*******************************************************
+  // invalidID(unsigned int)
 
-// addEntry(Record)
+  // Precondition:
+  // Postcondition:
+  // Functionality: This function tests the database to see
+  //                if the argument passed to the function
+  //                is already in the database. Returns true
+  //                if testID is unique, false if not
 
-// Precondition:
-// Postcondition: A record is added to the database
-// Functionality: This function allows the user to create
-//                and enter a new entry int the database
+  //*******************************************************
 
-//*******************************************************
+  bool valid;
+
+  // start at root of tree and try to find a node with the new id number
+  valid = (testID != (dataTree.findNode(testID, dataTree.Root()))->Key());
+
+  // if the id is invalid display error message
+  if (!valid) {
+    cout << "ID# already exists" << endl;
+  }
+
+  return valid; // return true if number is unique, false if not
+}
+
+
+
 void Database::addEntry() {
+  //*******************************************************
+
+  // addEntry(Record)
+
+  // Precondition:
+  // Postcondition: A record is added to the database
+  // Functionality: This function allows the user to create
+  //                and enter a new entry int the database
+
+  //*******************************************************
 
   Record* contactPtr = new Record;
 
@@ -207,13 +236,17 @@ void Database::addEntry() {
 
   string tempString;
 
-  do {
+  bool validID = false;
 
+  do {
     cout << "Enter Unique 9 digit ID#: ";
     cin >> tempInt;
-    contactPtr->setId(tempInt);
 
-  } while(tempInt == (dataTree.findNode(tempInt, dataTree.Root()))->Key());
+    validID = validateID(tempInt);
+
+  } while(!validID);
+
+  contactPtr->setId(tempInt);
 
 
   cout << "    First Name: ";
@@ -321,30 +354,73 @@ void Database::addEntry() {
   }
 
   cout << "Adding entry..." << endl;
-  addEntry(contactPtr);
+  addEntry(contactPtr); // call private addEntry()
 
+}
+
+void Database::addEntry(Record* _contactPtr) {
+  //*******************************************************
+
+  // addEntry(Record) - public
+
+  // Precondition:
+  // Postcondition: A record is added to the database
+  // Functionality: This function creates a node out of the Record and
+  //                inserts the node into the database tree
+
+  //*******************************************************
+
+  dataTree.addNode(_contactPtr);
 
 }
 
 
+// void Database::removeEntry(unsigned int idNum) {
+//   //*******************************************************
+//
+//   // removeEntry()
+//
+//   // Precondition:
+//   // Postcondition: A record is deleted from the database
+//   // Functionality: This function deletes a record from the
+//   //                database based on a unique id#
+//
+//   //*******************************************************
+//
+//   Node* nPtr;
+//   nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
+//
+//   // Record* tempPtr = idSearch(idNum); // pointer to the contact information
+//
+//   nPtr->deleteContact(); // deletes pointer to the contact info
+//
+//   dataTree.deleteNode(nPtr->Key());
+//
+// }
+
+Record* Database::idSearch(unsigned int idNum) {
+  //*******************************************************
+
+  // idSearch()
+
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+  //*******************************************************
+
+  Node* nPtr;
+  nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
+
+  return nPtr->getContact(); // return a pointer to record from the node
+
+}
+
+//********************** Menu Functions ****************************
+
+
+void Database::mainMenu() {
 
 
 
-
-//*******************************************************
-
-// addEntry(Record)
-
-// Precondition:
-// Postcondition: A record is added to the database
-// Functionality: This function creates a node out of the Record and
-//                inserts the node into the database tree
-
-//*******************************************************
-void Database::addEntry(Record* _contactPtr) {
-
-
-  dataTree.addNode(_contactPtr);
-
-
+  return;
 }

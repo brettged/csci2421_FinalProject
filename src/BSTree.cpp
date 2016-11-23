@@ -1,4 +1,22 @@
-
+//##############################################################################
+//
+//
+//  FileName: BSTree.cpp
+//  Adapted from BSTree.cpp by Dr. Tom Agustine
+//
+//  Author: Brett Gedvilas
+//  Class:  CSCI 2421
+//  Date:   11/23/2016
+//
+//
+//  Assignment: Final Project - A c++ Database System
+//
+//
+//  This file contains the implementation of the BSTree class.
+//
+//
+//
+//##############################################################################
 
 
 #include <iomanip>
@@ -24,13 +42,13 @@ void BSTree::freeNode(Node* leaf)
     {
 
     }
-    else if ( leaf != nullptr )
-
-        {
-        freeNode(leaf->Left());
-        freeNode(leaf->Right());
-        delete leaf;
-        }
+    // else
+    if ( leaf != nullptr ) {
+      freeNode(leaf->Left());
+      freeNode(leaf->Right());
+      // delete leaf->getContact();
+      delete leaf;
+    }
 
 }
 

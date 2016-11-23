@@ -6,7 +6,7 @@
 //
 //  Author: Brett Gedvilas
 //  Class:  CSCI 2421
-//  Date:   10/30/2016
+//  Date:   11/23/2016
 //
 //
 //  Assignment: Final Project - A c++ Database System
@@ -72,13 +72,4 @@ class Affiliate {
 
 };
 
-
-
 #endif
-
-// United States
-// Troy Borges,(636)553-5433,tborges2450@oic.biz;
-// Bob Corcoran,(808)368-6692,bcorcoran@comcast.net;
-// Mike Franklin,(340)784-9249,mfranklin@qwest.com;
-// Audie Boren,(567)906-9017,aboren5@yahoo.com;
-// Archie Packard,(308)686-9564,apackard@oic.biz;
