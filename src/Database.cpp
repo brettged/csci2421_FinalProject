@@ -185,11 +185,9 @@ void Database::readFile() {
 
 
     // cout << *contactPtr;
-
     // outFile << *contactPtr;
 
     addEntry(contactPtr); // adds record to database tree
-
   }
 
   inFile.close();

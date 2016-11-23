@@ -8,8 +8,8 @@ using namespace std;
 class BSTree {
 private:
     Node* root;
-    void addNode(unsigned int key, Node* leaf);
-    Node* deleteNode(Node* node, int key);
+    void addNode(Record* contactPtr, Node* leaf);
+    Node* deleteNode(Node* node, unsigned int key);
     void freeNode(Node* leaf);
 public:
     BSTree();
@@ -25,18 +25,18 @@ public:
 
     // ******** End Edits *********
 
-    Node* findNode(int key, Node* parent);
+    Node* findNode(unsigned int key, Node* parent);
     void printPreorder(Node* node);
     void printInorder(Node* node);
     void printPostorder(Node* node);
+    
 
-
-    void deleteNode(int key);
+    void deleteNode(unsigned int key);
 
     Node* min(Node* node);
     Node* max(Node* node);
-    Node* successor(int key, Node* parent);
-    Node* predecessor(int key, Node* parent);
+    Node* successor(unsigned int key, Node* parent);
+    Node* predecessor(unsigned int key, Node* parent);
 
 };
 #endif  //BST

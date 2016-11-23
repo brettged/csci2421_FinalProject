@@ -44,6 +44,7 @@ int main() {
 
   testTree.printInorder(testTree.Root());
 
+  cout << "Records: " << addressBook.getSize() << endl;
 
   return 0;
 } // End of main

@@ -137,19 +137,23 @@ ostream& operator << (ostream& out, const Record& contact) {
        << "       Country: " << contact.country << endl
        << "    Affiliates: ";
 
-       for (list<Affiliate>::const_iterator it = contact.affiliates.begin(); it != contact.affiliates.end(); ++it) {
+  for (list<Affiliate>::const_iterator it = contact.affiliates.begin(); it != contact.affiliates.end(); ++it) {
 
-         if (it == contact.affiliates.begin()) {
-           out << *it << endl;
+    if (it == contact.affiliates.begin()) {
+     out << *it << endl;
 
-         }
-         else {
-           out << "                " << *it << endl;
-         }
+    }
+    else {
+     out << "                " << *it << endl;
+    }
 
-       }
+  }
 
-
+  // small formatting modifier to make sure contacts with no affiliates
+  // get displayed correctly
+  if (contact.affiliates.size() == 0) {
+    cout << endl;
+  }
 
 
   out << "              |" << endl;
@@ -189,6 +193,12 @@ ofstream& operator << (ofstream& out, const Record& contact) {
 
    out << *it << endl; // Affiliate class has it's own overloaded ostream operator
 
+ }
+
+ // small formatting modifier to make sure contacts with no affiliates
+ // get displayed correctly
+ if (contact.affiliates.size() == 0) {
+   cout << endl;
  }
 
  out << '|'; // write a character delimiting each record

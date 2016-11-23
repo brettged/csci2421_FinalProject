@@ -67,6 +67,12 @@ public:
     // will be used as the initialization value.
     Node() {key = 0; left = nullptr; right=nullptr; parent = nullptr;};
 
+    ~Node() {
+
+      delete dataPtr;
+
+    }
+
     Node(Record _contact);
 
 

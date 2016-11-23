@@ -1,3 +1,9 @@
+
+
+
+#include <iomanip>
+
+
 #include "BSTree.h"
 
 // Constructor
@@ -48,23 +54,30 @@ void BSTree::addNode(Record* contactPtr) {
       Node* n = new Node();
       n->setKey(contactPtr->getId());
       n->setDataPtr(contactPtr); // set the node pointer to the record
+
+      // Debug statement
+      // Record* testPtr;
+      // testPtr = n->getContact();
+      // cout << testPtr->getLastName() << endl;
+
       root = n;
   }
   else {
-      addNode(contactPtr->getId(), root);
+      addNode(contactPtr, root);
   }
 }
 
 
 // Add a node (private)
-void BSTree::addNode(unsigned int key, Node* leaf) {
-    if ( key <= leaf->Key() )
+void BSTree::addNode(Record* contactPtr, Node* leaf) {
+    if ( contactPtr->getId() <= leaf->Key() )
     {
         if ( leaf->Left() != nullptr )
-            addNode(key, leaf->Left());
+            addNode(contactPtr, leaf->Left());
         else {
             Node* n = new Node();
-            n->setKey(key);
+            n->setKey(contactPtr->getId());
+            n->setDataPtr(contactPtr); // set the node pointer to the record
             n->setParent(leaf);
             leaf->setLeft(n);
         }
@@ -72,10 +85,11 @@ void BSTree::addNode(unsigned int key, Node* leaf) {
     else
     {
         if ( leaf->Right() != nullptr )
-            addNode(key, leaf->Right());
+            addNode(contactPtr, leaf->Right());
         else {
             Node* n = new Node();
-            n->setKey(key);
+            n->setKey(contactPtr->getId());
+            n->setDataPtr(contactPtr); // set the node pointer to the record
             n->setParent(leaf);
             leaf->setRight(n);
         }
@@ -83,7 +97,7 @@ void BSTree::addNode(unsigned int key, Node* leaf) {
 }
 
 // Find a node
-Node* BSTree::findNode(int key, Node* node)
+Node* BSTree::findNode(unsigned int key, Node* node)
 {
   // ******************** Edited by B. Gedvilas 10/30/2016 *********************
   // PRE:
@@ -161,7 +175,12 @@ void BSTree::printInorder(Node* node)
   }
 
   // after the left tree is visited, vist the current node
-  cout << node->Key() << endl;//node->getContact()->getId() << endl;
+  // cout << setw(9) << setfill('0') << node->Key() << "  " << node->getContact()->getLastName() << endl;
+
+  cout << *node->getContact();
+
+  // NOTE - visit node here!!!
+
 
   // then search the right subtree
   if (node->Right() != nullptr) {
@@ -237,7 +256,7 @@ Node* BSTree::max(Node* node)
 // Find successor to a node
 // Find the node, get the node with max value
 // for the right sub-BSTree to get the successor
-Node* BSTree::successor(int key, Node *node)
+Node* BSTree::successor(unsigned int key, Node *node)
 {
 
 
@@ -272,7 +291,7 @@ Node* BSTree::successor(int key, Node *node)
 // Find predecessor to a node
 // Find the node, get the node with max value
 // for the left sub-BSTree to get the predecessor
-Node* BSTree::predecessor(int key, Node *node)
+Node* BSTree::predecessor(unsigned int key, Node *node)
 {
 
     Node* current = findNode(key, node);
@@ -299,14 +318,14 @@ Node* BSTree::predecessor(int key, Node *node)
 }
 
 
-void BSTree::deleteNode(int key)
+void BSTree::deleteNode(unsigned int key)
 {
     if (deleteNode(Root(), key) == nullptr)
         setRoot(nullptr);
 }
 
 //deleteNode (Private)
-Node* BSTree::deleteNode(Node* root,int key)
+Node* BSTree::deleteNode(Node* root, unsigned int key)
 {
 
     /* Given a binary search tree and a key, this function deletes the key
