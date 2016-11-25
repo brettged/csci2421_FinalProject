@@ -31,10 +31,11 @@
 #include "Record.h"
 #include "Affiliate.h"
 
-
 using std::list;
 
 class Database {
+
+  // friend class Search;
 
   private:
 
@@ -42,7 +43,7 @@ class Database {
     //BSTree nameTree; // A binary search tree using the last name field as key.
     unsigned int size; // number of entries in the BSTree
 
-    list<Record> searchResults; // searches return a linked list in this variable
+    // list<Record> searchResults; // searches return a linked lisrt in this variable
 
     // overloaded addEntry adds a complete contact
     void addEntry(Record* contactPtr);
@@ -55,13 +56,13 @@ class Database {
     Database();
     ~Database();
 
-
     bool validateID(unsigned int); // validates a new ID#
 
 
     // Basic functions for adding and removing data from database
 
-    void readFile(); // opens an external file and adds entries to database. Returns true if successful, false if not
+    void readFile(); // opens an external file and adds entries to database.
+                     // Returns true if successful, false if not
     void modifyEntry(); // allows user to modify an existing entry
     void addEntry(); // user inputs information for a new contact
 
@@ -84,9 +85,12 @@ class Database {
 
 
     // Search functions, returns linked lists of search results or maybe a BSTree
-    list<Record> exactSearch(string searchTerm);
-    list<Record> containsSearch(string searchTerm);
+    // list<Record> exactSearch(string searchTerm);
+    // list<Record> containsSearch(string searchTerm);
     Record* idSearch(unsigned int idNum); // search database for exact match on id# returns a pointer to the record
+
+    unsigned int getSearchID();
+    string getSearchTerm();
 
 
     // NOTE - Sorting functions

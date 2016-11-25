@@ -25,9 +25,11 @@
 #include <iostream>
 using namespace std;
 #include "Node.h"
+// #include "Search.h"
 
 // Binary Search Tree class
 class BSTree {
+
 private:
     Node* root;
     void addNode(Record* contactPtr, Node* leaf);
@@ -63,5 +65,9 @@ public:
 
     // void deleteTree(Node* node);
 
+    friend void visitNodes(Node* node);
+
 };
+
+
 #endif  //BST

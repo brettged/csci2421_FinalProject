@@ -27,6 +27,7 @@
 
 #include "Database.h"
 #include "Record.h"
+#include "SearchData.h"
 
 using std::fstream;
 using std::cout;
@@ -41,35 +42,31 @@ Database::Database() {
 Database::~Database() {
   // destructor
 
-
-
 }
 
 
-
-//*******************************************************
-
-// readFile()
-//
-// Precondition:
-// Postcondition: The calling Database object will be populated
-//                with contact data from a file
-// Functionality: This function prompts the user to enter a file
-//                name to read from. It reads the data from the
-//                file and inserts each record into the database
-
-//*******************************************************
-
 void Database::readFile() {
+  //*******************************************************
+
+  // readFile()
+  //
+  // Precondition:
+  // Postcondition: The calling Database object will be populated
+  //                with contact data from a file
+  // Functionality: This function prompts the user to enter a file
+  //                name to read from. It reads the data from the
+  //                file and inserts each record into the database
+
+  //*******************************************************
 
   ifstream inFile; // create input file object
   string fileName;
 
   // Prompt the user to enter the filename to read
-  cout << "Enter the file name to read into the database: ";
-  cin >> fileName;
+  // cout << "Enter the file name to read into the database: ";
+  // cin >> fileName;
 
-  // fileName = "databasesmall.txt";
+  fileName = "databasesmall.txt";
 
   inFile.open(fileName);
 
@@ -376,6 +373,7 @@ void Database::addEntry(Record* _contactPtr) {
   //*******************************************************
 
   dataTree.addNode(_contactPtr);
+  size++;
 
 }
 
@@ -408,7 +406,7 @@ void Database::removeEntry(unsigned int idNum) {
   //*******************************************************
 
   dataTree.deleteNode(idNum);
-
+  size--;
 }
 
 Record* Database::idSearch(unsigned int idNum) {
@@ -424,9 +422,50 @@ Record* Database::idSearch(unsigned int idNum) {
   Node* nPtr;
   nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
 
+  if (nPtr == nullptr) {
+    return nullptr;
+  }
+
   return nPtr->getContact(); // return a pointer to record from the node
 
 }
+
+
+
+unsigned int Database::getSearchID() {
+
+  unsigned int id;
+  cout << "Enter 9 digit ID#: ";
+  cin >> id;
+
+  while ((id > 999999999) || (id <= 0)) {
+    cout << "Invalid Search Term" << endl;
+    cout << "Enter 9 digit ID#: ";
+    cin >> id;
+  }
+
+  return id;
+}
+
+
+string Database::getSearchTerm() {
+
+  string searchTerm;
+  cout << "Enter the search term: ";
+  cin >> searchTerm;
+
+  return searchTerm;
+
+}
+
+// list<Record> Database::exactSearch(string searchTerm) {
+//
+// }
+//
+// list<Record> Database::containsSearch(string searchTerm) {
+//
+//
+// }
 
 //********************** Menu Functions ****************************
 
@@ -451,12 +490,12 @@ void Database::mainMenu() {
     cout << "----------" << endl;
 
     cout << "1. Read Data File" << endl
-         << "2. Update Database" << endl
-         << "3. Browse Records" << endl
-         << "4. Search Database" << endl
-         << "5. Write Data to File" << endl
-         << "0. Exit" << endl
-         << ": ";
+    << "2. Update Database" << endl
+    << "3. Browse Records" << endl
+    << "4. Search Database" << endl
+    << "5. Write Data to File" << endl
+    << "0. Exit" << endl
+    << ": ";
 
     cin >> menuOption;
 
@@ -480,9 +519,17 @@ void Database::mainMenu() {
       searchMenu();
       break;
 
+    case 5:
+      // writeOut(); // writes current database to file
+      break;
+
     case 0:
       runProgram = false;
+      cout << "Goodbye" << endl;
       break;
+
+    default:
+      cout << "That is not a valid choice. Please choose from the given options" << endl;
 
     }
 
@@ -495,7 +542,71 @@ void Database::mainMenu() {
 
 void Database::searchMenu() {
   // TODO - search implementations
-  cout << "Search Menu called" << endl;
+  cout << "Search Database" << endl;
+  cout << "---------------" << endl;
+
+  int menuOption;
+  bool menu = true;
+
+  SearchData newSearch;
+  int field;
+  string term;
+
+  while(menu) {
+
+    cout << "1. Search for ID#" << endl
+    << "2. Search exact" << endl
+    << "3. Search contains" << endl
+    << "4. Write search results to file" << endl
+    << "5. Main Menu" << endl
+    << ": ";
+
+    cin >> menuOption;
+
+    switch(menuOption) {
+
+      // Search the database for an id number
+    case 1:
+      Record* ptr;
+      ptr = idSearch(getSearchID());
+      cout << endl; // for readability
+
+      if (ptr != nullptr) {
+        cout << *ptr;
+      }
+      else {
+        cout << "No record found" << endl;
+      }
+      cout << endl;
+
+      break;
+
+      // Search database for an exact match
+    case 2:
+      field = newSearch.searchField();
+      term = newSearch.getTerm();
+      newSearch.exactSearch(term, field, dataTree.Root());
+      cout << newSearch;
+      break;
+
+      // Search database for fields containing
+    case 3:
+
+      break;
+
+    case 4:
+      // write search results to file
+      break;
+
+    case 5:
+      menu = false;
+      break;
+
+    default:
+      cout << "That is not a valid choice. Please choose from the given options" << endl;
+
+    }
+  }
 }
 
 
@@ -511,10 +622,10 @@ void Database::updateMenu() {
   while(menu) {
 
     cout << "1. Add New Record" << endl
-         << "2. Modify Record" << endl
-         << "3. Delete Record" << endl
-         << "4. Main Menu" << endl
-         << ": ";
+    << "2. Modify Record" << endl
+    << "3. Delete Record" << endl
+    << "4. Main Menu" << endl
+    << ": ";
 
     cin >> menuOption;
 
@@ -531,6 +642,10 @@ void Database::updateMenu() {
       break;
     case 4:
       menu = false;
+
+    default:
+      cout << "That is not a valid choice. Please choose from the given options" << endl;
+
     }
 
   }
@@ -546,3 +661,4 @@ void Database::displayDataMenu() {
   dataTree.printInorder(dataTree.Root());
 
 }
+

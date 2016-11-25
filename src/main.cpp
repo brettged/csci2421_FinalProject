@@ -29,22 +29,16 @@ using namespace std;
 // Start of main method
 int main() {
 
-  // First thing to do is create the database
+  // Create the database
   Database addressBook;
-
-  // Initial read of data from file
-  // addressBook.readFile();
 
   // Display the main menu to the user, all other operations will be controlled
   // from within the Database menus
-  addressBook.mainMenu();
 
-  // BSTree testTree;
-  // testTree = addressBook.getDataTree();
+  addressBook.readFile();
+  // addressBook.mainMenu();
 
-  // addressBook.addEntry();
-
-  // testTree.printInorder(testTree.Root());
+  addressBook.searchMenu();
 
   return 0;
 } // End of main

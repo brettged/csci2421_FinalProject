@@ -128,6 +128,7 @@ Node* BSTree::findNode(unsigned int key, Node* node)
   // in the binary search tree
   if (node == nullptr) {
     // cout << "nullptr\nNode " << key << " not found" << endl;
+    return nullptr;
   }
 
   // Check to see if the key value at the current node matches the search key
@@ -378,4 +379,21 @@ Node* BSTree::deleteNode(Node* root, unsigned int key)
         }
         return root;
 
+}
+
+
+void visitNodes(Node* node) {
+
+  // If the node has a left subtree, recursively call function on that branch
+  if (node->Left() != nullptr) {
+    visitNodes(node->Left());
+  }
+
+  // NOTE - node gets visited here
+  cout << *node->getContact();
+
+  // then search the right subtree
+  if (node->Right() != nullptr) {
+    visitNodes(node->Right());
+  }
 }

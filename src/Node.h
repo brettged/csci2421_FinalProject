@@ -78,7 +78,7 @@ public:
     void setLeft(Node* aLeft) { left = aLeft; };
     void setRight(Node* aRight) { right = aRight; };
     void setParent(Node* aParent) { parent = aParent; };
-    int Key() { return key; };
+    unsigned int Key() { return key; };
     Node* Left() { return left; };
     Node* Right() { return right; };
     Node* Parent() { return parent; };

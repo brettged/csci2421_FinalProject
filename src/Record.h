@@ -109,8 +109,6 @@ class Record {
     list<Affiliate> getAffiliate() {return affiliates;}; // returns a linked list of the affiliates
 
 
-    // TODO - Overload ostream and ofstream
-
     // overloaded output operator to either display data or write to a file
     friend ostream& operator << (ostream& out, const Record& contact);
 
