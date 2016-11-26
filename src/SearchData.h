@@ -26,7 +26,7 @@
 #include <iostream>
 #include <list>
 
-// #include "Database.h"
+#include "Affiliate.h"
 #include "Record.h"
 #include "BSTree.h"
 
@@ -43,7 +43,7 @@ class SearchData {
     list<Record>* current;
     list<Record>* previous;
 
-    
+
   public:
 
     SearchData();
@@ -59,12 +59,14 @@ class SearchData {
 
     int searchField();
 
+    unsigned int getSearchID();
+
     // Search functions, returns linked lists of search results or maybe a BSTree
     void searchTree(string searchTerm, int field, Node* node, bool exact);
     void searchList(string searchTerm, int field, bool exact);
     // void containsSearch(string searchTerm, Node* node);
     Record* idSearch(unsigned int idNum, BSTree* tree); // search database for exact match on id# returns a pointer to the record
-
+    bool affilSearch(string searchTerm, list<Affiliate> affil, bool exact); // searches the affiliates of record, returns true if term in in affiliates, false if not
 
     friend ostream& operator << (ostream& out, const SearchData& results);
     friend ofstream& operator << (ofstream& out, const SearchData& results);

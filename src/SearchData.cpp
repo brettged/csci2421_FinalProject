@@ -4,11 +4,12 @@
 
 
 #include <iostream>
-
+#include <fstream>
 
 #include "SearchData.h"
 #include "Record.h"
 #include "BSTree.h"
+#include "Affiliate.h"
 
 using std::cout;
 using std::cin;
@@ -74,6 +75,22 @@ int SearchData::searchField() {
 }
 
 
+unsigned int SearchData::getSearchID() {
+
+  unsigned int id;
+  cout << "Enter 9 digit ID#: ";
+  cin >> id;
+
+  while ((id > 999999999) || (id <= 0)) {
+    cout << "Invalid Search Term" << endl;
+    cout << "Enter 9 digit ID#: ";
+    cin >> id;
+  }
+
+  return id;
+}
+
+
 // Search functions, returns linked lists of search results or maybe a BSTree
 void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact) {
 
@@ -86,51 +103,54 @@ void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact
   }
 
     // // NOTE - node gets visited here
-    // // cout << *node->getContact();
     switch(field) {
 
-    case 1:
-      recordWord = node->getContact()->getFirstName();
-      break;
-    case 2:
-      recordWord = node->getContact()->getMidName();
-      break;
-    case 3:
-      recordWord = node->getContact()->getLastName();
-      break;
-    case 4:
-      recordWord = node->getContact()->getCompany();
-      break;
-    case 5:
-      recordWord = node->getContact()->getHomePhone();
-      break;
-    case 6:
-      recordWord = node->getContact()->getOffice();
-      break;
-    case 7:
-      recordWord = node->getContact()->getEmail();
-      break;
-    case 8:
-      recordWord = node->getContact()->getMobile();
-      break;
-    case 9:
-      recordWord = node->getContact()->getStAddr();
-      break;
-    case 10:
-      recordWord = node->getContact()->getCity();
-      break;
-    case 11:
-      recordWord = node->getContact()->getState();
-      break;
-    case 12:
-      recordWord = node->getContact()->getZipCode();
-      break;
-    case 13:
-      recordWord = node->getContact()->getCountry();
-      break;
-    case 14:
-      // recordWord = node->getContact()->
-      break;
+      case 1:
+        recordWord = node->getContact()->getFirstName();
+        break;
+      case 2:
+        recordWord = node->getContact()->getMidName();
+        break;
+      case 3:
+        recordWord = node->getContact()->getLastName();
+        break;
+      case 4:
+        recordWord = node->getContact()->getCompany();
+        break;
+      case 5:
+        recordWord = node->getContact()->getHomePhone();
+        break;
+      case 6:
+        recordWord = node->getContact()->getOffice();
+        break;
+      case 7:
+        recordWord = node->getContact()->getEmail();
+        break;
+      case 8:
+        recordWord = node->getContact()->getMobile();
+        break;
+      case 9:
+        recordWord = node->getContact()->getStAddr();
+        break;
+      case 10:
+        recordWord = node->getContact()->getCity();
+        break;
+      case 11:
+        recordWord = node->getContact()->getState();
+        break;
+      case 12:
+        recordWord = node->getContact()->getZipCode();
+        break;
+      case 13:
+        recordWord = node->getContact()->getCountry();
+        break;
+      case 14:
+        // TODO check affiliates
+
+        if (affilSearch(searchTerm, node->getContact()->getAffiliate(), exact)){
+          current->push_back(*node->getContact());
+        }
+        break;
     }
 
     // If the exact flag is set, an exact match is looked for
@@ -138,7 +158,6 @@ void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact
 
       if (recordWord == searchTerm) {
         current->push_back(*node->getContact()); // if the terms match, add pointer to the record to the list
-        // cout << "Adding contact " << node->getContact()->getLastName() << endl;
       }
     }
 
@@ -243,6 +262,53 @@ void SearchData::searchList(string searchTerm, int field, bool exact) {
 
 }
 
+
+bool SearchData::affilSearch(string searchTerm, list<Affiliate> affil, bool exact) {
+
+  bool inAffil = false;
+
+  if (exact) {
+
+    for (list<Affiliate>::iterator it = affil.begin(); it != affil.end(); ++it) {
+
+      if (searchTerm == it->getFirstName()) {
+        inAffil = true;
+      }
+      else if (searchTerm == it->getLastName()) {
+        inAffil = true;
+      }
+      else if (searchTerm == it->getPhone()) {
+        inAffil = true;
+      }
+      else if (searchTerm == it->getEmail()) {
+        inAffil = true;
+      }
+    }
+  }
+
+  else {
+    for (list<Affiliate>::iterator it = affil.begin(); it != affil.end(); ++it) {
+
+      if (it->getFirstName().find(searchTerm) != -1) {
+        inAffil = true;
+      }
+      if (it->getLastName().find(searchTerm) != -1) {
+        inAffil = true;
+      }
+      if (it->getPhone().find(searchTerm) != -1) {
+        inAffil = true;
+      }
+      if (it->getEmail().find(searchTerm) != -1) {
+        inAffil = true;
+      }
+    }
+  }
+
+  return inAffil;
+
+}
+
+
 Record* SearchData::idSearch(unsigned int idNum, BSTree* tree) {
   //*******************************************************
 
@@ -266,6 +332,8 @@ Record* SearchData::idSearch(unsigned int idNum, BSTree* tree) {
 }
 
 
+
+
 //************* Overloaded operators ***************
 
 ostream& operator << (ostream& out, const SearchData& results) {
@@ -282,5 +350,8 @@ ostream& operator << (ostream& out, const SearchData& results) {
 
 ofstream& operator << (ofstream& out, const SearchData& results) {
 
+  for (list<Record>::const_iterator it = results.current->begin(); it != results.current->end(); ++it) {
+    out << *it << endl;
+  }
 
 }

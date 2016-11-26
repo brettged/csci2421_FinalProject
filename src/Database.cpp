@@ -409,43 +409,27 @@ void Database::removeEntry(unsigned int idNum) {
   size--;
 }
 
-Record* Database::idSearch(unsigned int idNum) {
-  //*******************************************************
+// Record* Database::idSearch(unsigned int idNum) {
+//   // *******************************************************
+//   //
+//   // idSearch()
+//   //
+//   // Precondition:
+//   // Postcondition:
+//   // Functionality:
+//   // *******************************************************
+//
+//   Node* nPtr;
+//   nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
+//
+//   if (nPtr == nullptr) {
+//     return nullptr;
+//   }
+//
+//   return nPtr->getContact(); // return a pointer to record from the node
+//
+// }
 
-  // idSearch()
-
-  // Precondition:
-  // Postcondition:
-  // Functionality:
-  //*******************************************************
-
-  Node* nPtr;
-  nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
-
-  if (nPtr == nullptr) {
-    return nullptr;
-  }
-
-  return nPtr->getContact(); // return a pointer to record from the node
-
-}
-
-
-
-unsigned int Database::getSearchID() {
-
-  unsigned int id;
-  cout << "Enter 9 digit ID#: ";
-  cin >> id;
-
-  while ((id > 999999999) || (id <= 0)) {
-    cout << "Invalid Search Term" << endl;
-    cout << "Enter 9 digit ID#: ";
-    cin >> id;
-  }
-
-  return id;
-}
 
 
 string Database::getSearchTerm() {
@@ -554,10 +538,9 @@ void Database::searchMenu() {
   while(menu) {
 
     cout  << "1. Search for ID#" << endl
-          << "2. Search for exact matches" << endl
-          << "3. Search for matches containing search term" << endl
-          // << "4. Write search results to file" << endl
-          << "5. Main Menu" << endl
+          << "2. Search by exact matches" << endl
+          << "3. Search by matches containing" << endl
+          << "4. Main Menu" << endl
           << ": ";
 
     cin >> menuOption;
@@ -567,9 +550,9 @@ void Database::searchMenu() {
       // Search the database for an id number
     case 1:
       Record* ptr;
-      ptr = searchList.idSearch(getSearchID(), getDataTree());
+      ptr = searchList.idSearch(searchList.getSearchID(), getDataTree());
       cout << endl; // for readability
-
+      
       if (ptr != nullptr) {
         cout << *ptr;
       }
@@ -585,7 +568,7 @@ void Database::searchMenu() {
       field = searchList.searchField();
       term = searchList.getTerm();
       searchList.searchTree(term, field, dataTree.Root(), true);
-      searchSubMenu();
+      searchSubMenu(); // after search, go to subsearch menu
       break;
 
       // Search database for containing
@@ -593,14 +576,10 @@ void Database::searchMenu() {
       field = searchList.searchField();
       term = searchList.getTerm();
       searchList.searchTree(term, field, dataTree.Root(), false);
-      searchSubMenu();
+      searchSubMenu(); // go to subsearch menu
       break;
 
     case 4:
-      // write search results to file
-      break;
-
-    case 5:
       menu = false;
       break;
 
@@ -619,9 +598,10 @@ void Database::searchSubMenu() {
   int menuOption;
   bool menu = true;
 
+  cout << endl << "Your search returned " << searchList.getSearchResults().size()
+  << " results" << endl << endl;
+
   while(menu) {
-    cout << endl << "Your search returned " << searchList.getSearchResults().size()
-    << " results" << endl << endl;
 
     cout << "1. Refine Search Results" << endl
          << "2. New Search" << endl
@@ -640,21 +620,33 @@ void Database::searchSubMenu() {
       break;
 
     case 2:
-      searchList.clear(); // clear results and then go to main search menu
+      searchList.clear(); // clear results and then exit this menu
       menu = false;
       break;
 
     case 3:
-      cout << searchList;
+      cout << searchList; // display search results to the screen
       break;
 
     case 4:
       // TODO - Write search results to file
+      {
+
+        ofstream outFile;
+        outFile.open("testOut.txt");
+
+        outFile << searchList;
+
+        outFile.close();
+      }
       break;
 
     case 5:
       menu = false;
       break;
+
+    default:
+      cout << "That is not a valid choice. Please choose from the given options" << endl;
 
     }
 
@@ -678,7 +670,6 @@ void Database::searchAgain() {
          << "2. Search for exact matches" << endl
          << "3. Search for matches containing search term" << endl
          << "4. Go Back" << endl
-        //  << "5. Main Menu" << endl
          << ": ";
 
     cin >> menuOption;
@@ -686,26 +677,39 @@ void Database::searchAgain() {
     switch(menuOption) {
 
     case 1:
-    //  searchAgain(); // keep current results and allow user to search again
-     break;
+      Record* ptr;
+      ptr = searchList.idSearch(searchList.getSearchID(), getDataTree());
+      cout << endl; // for readability
+
+      if (ptr != nullptr) {
+        cout << *ptr;
+      }
+      else {
+        cout << "No record found" << endl;
+      }
+      cout << endl;
+      break;
 
     case 2:
-     field = searchList.searchField();
-     term = searchList.getTerm();
-     searchList.searchList(term, field, true);
-     menu = false;
-     break;
+      field = searchList.searchField();
+      term = searchList.getTerm();
+      searchList.searchList(term, field, true);
+      menu = false;
+      break;
 
     case 3:
       field = searchList.searchField();
       term = searchList.getTerm();
       searchList.searchList(term, field, false);
       menu = false;
-     break;
+      break;
 
     case 4:
-     menu = false;
-     break;
+      menu = false;
+      break;
+
+    default:
+      cout << "That is not a valid choice. Please choose from the given options" << endl;
 
     }
 
@@ -727,39 +731,38 @@ void Database::updateMenu() {
     cout << "1. Add New Record" << endl
          << "2. Modify Record" << endl
          << "3. Delete Record" << endl
-         << "4. Main Menu" << endl
+         << "4. Go Back" << endl
          << ": ";
 
     cin >> menuOption;
 
     switch(menuOption) {
 
-    case 1:
-      addEntry();
-      break;
-    case 2:
-      // modifyEntry();
-      break;
-    case 3:
+      case 1:
+        addEntry();
+        break;
+      case 2:
+        // FIXME
+        // modifyEntry();
+        break;
+      case 3:
 
-      cout << "1. Search for a Record"
-           << "2. Enter ID# of Record to remove"
-           << ": ";
+        cout << "1. Search for a Record"
+             << "2. Enter ID# of Record to remove"
+             << ": ";
 
-      cin >> menuOption;
+        cin >> menuOption;
 
-      if (menuOption == 1) {
-        searchMenu();
-      }
-      else {
+        if (menuOption == 1) {
+          searchMenu();
+        }
         removeEntry();
-      }
-      break;
-    case 4:
-      menu = false;
+        break;
+      case 4:
+        menu = false;
 
-    default:
-      cout << "That is not a valid choice. Please choose from the given options" << endl;
+      default:
+        cout << "That is not a valid choice. Please choose from the given options" << endl;
 
     }
 
@@ -767,7 +770,6 @@ void Database::updateMenu() {
 
 
 }
-
 
 void Database::displayDataMenu() {
   // TODO - figure out display stuff

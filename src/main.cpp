@@ -47,3 +47,9 @@ int main() {
 // Test Driver Functions
 
 
+// TODO - Search Results output to file
+//      - Fix menu flow
+//      - Searching goddamn affiliates
+//      - add delete record option to search menus
+//      - modify record function
+//      - IDEA - make database I/O it's own class

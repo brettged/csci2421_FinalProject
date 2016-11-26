@@ -90,9 +90,9 @@ class Database {
     // Search functions, returns linked lists of search results or maybe a BSTree
     // list<Record> exactSearch(string searchTerm);
     // list<Record> containsSearch(string searchTerm);
-    Record* idSearch(unsigned int idNum); // search database for exact match on id# returns a pointer to the record
+    // Record* idSearch(unsigned int idNum); // search database for exact match on id# returns a pointer to the record
 
-    unsigned int getSearchID();
+    // unsigned int getSearchID();
     string getSearchTerm();
 
 
