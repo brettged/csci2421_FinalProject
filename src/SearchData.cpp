@@ -8,6 +8,7 @@
 
 #include "SearchData.h"
 #include "Record.h"
+#include "BSTree.h"
 
 using std::cout;
 using std::cin;
@@ -22,11 +23,26 @@ SearchData::~SearchData() {
 }
 
 
+list<Record> SearchData::getSearchResults() {
+
+  // return searchResults;
+
+  return *current; // returns the contents of the list pointed to by current
+
+}
+
+void SearchData::clear() {
+
+  searchResults.clear(); // use the stl list clear function
+  current = &searchResults;
+}
+
 string SearchData::getTerm() {
 
   string term;
   cout << "Enter search term: ";
-  cin >> term;
+  cin.ignore();
+  getline(cin, term);
   return term;
 
 }
@@ -59,14 +75,14 @@ int SearchData::searchField() {
 
 
 // Search functions, returns linked lists of search results or maybe a BSTree
-void SearchData::exactSearch(string searchTerm, int field, Node* node) {
+void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact) {
 
   string recordWord;
-
+  current = &searchResults;
 
   // If the node has a left subtree, recursively call function on that branch
   if (node->Left() != nullptr) {
-    exactSearch(searchTerm, field, node->Left());
+    searchTree(searchTerm, field, node->Left(), exact);
   }
 
     // // NOTE - node gets visited here
@@ -117,38 +133,146 @@ void SearchData::exactSearch(string searchTerm, int field, Node* node) {
       break;
     }
 
+    // If the exact flag is set, an exact match is looked for
+    if (exact == true) {
 
-    if (recordWord == searchTerm) {
-      searchResults.push_back(node->getContact()); // if the terms match, add pointer to the record to the list
-      // cout << "Adding contact " << node->getContact()->getLastName() << endl;
+      if (recordWord == searchTerm) {
+        current->push_back(*node->getContact()); // if the terms match, add pointer to the record to the list
+        // cout << "Adding contact " << node->getContact()->getLastName() << endl;
+      }
+    }
+
+    // Otherwise it must be a contains search
+    else {
+
+      if (recordWord.find(searchTerm) != -1) {
+        current->push_back(*node->getContact());
+      }
 
     }
 
-    // cout << recordWord << endl;
-
   // then search the right subtree
   if (node->Right() != nullptr) {
-    exactSearch(searchTerm, field, node->Right());
+    searchTree(searchTerm, field, node->Right(), exact);
   }
 
 }
 
-// list<Record> Search::containsSearch(string searchTerm, Database &data) {
-//
-//   int field = searchField();
-//
-// }
+
+// overloaded exact search, searches the current search results
+void SearchData::searchList(string searchTerm, int field, bool exact) {
+
+  string recordWord;
+
+  if (current == &subSearch) {
+    searchResults.clear();
+    previous = &subSearch;
+    current = &searchResults;
+  }
+
+  else {
+    subSearch.clear();
+    previous = &searchResults;
+    current = &subSearch; // set the current pointer to point at searchResults list
+  }
+
+  for (list<Record>::iterator it = previous->begin(); it != previous->end(); ++it) {
+
+    switch(field) {
+    case 1:
+      recordWord = it->getFirstName();
+      break;
+    case 2:
+      recordWord = it->getMidName();
+      break;
+    case 3:
+      recordWord = it->getLastName();
+      break;
+    case 4:
+      recordWord = it->getCompany();
+      break;
+    case 5:
+      recordWord = it->getHomePhone();
+      break;
+    case 6:
+      recordWord = it->getOffice();
+      break;
+    case 7:
+      recordWord = it->getEmail();
+      break;
+    case 8:
+      recordWord = it->getMobile();
+      break;
+    case 9:
+      recordWord = it->getStAddr();
+      break;
+    case 10:
+      recordWord = it->getCity();
+      break;
+    case 11:
+      recordWord = it->getState();
+      break;
+    case 12:
+      recordWord = it->getZipCode();
+      break;
+    case 13:
+      recordWord = it->getCountry();
+      break;
+    case 14:
+      // recordWord = it->getContact()->
+      break;
+    }
+
+    // If the exact flag is set, an exact match is looked for
+    if (exact == true) {
+
+      if (recordWord == searchTerm) {
+        current->push_back(*it);
+      }
+    }
+
+    // Otherwise it must be a contains search
+    else {
+
+      if (recordWord.find(searchTerm) != -1) {
+        current->push_back(*it);
+      }
+
+    }
+  }
+
+}
+
+Record* SearchData::idSearch(unsigned int idNum, BSTree* tree) {
+  //*******************************************************
+
+  // idSearch()
+
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+  //*******************************************************
+
+  Node* nPtr;
+  nPtr = tree->findNode(idNum, tree->Root()); // find the node with the key to delete
+
+  if (nPtr == nullptr) {
+    return nullptr;
+  }
+
+  return nPtr->getContact(); // return a pointer to record from the node
 
 
+}
 
 
 //************* Overloaded operators ***************
 
 ostream& operator << (ostream& out, const SearchData& results) {
 
-  for (list<Record*>::const_iterator it = results.searchResults.begin(); it != results.searchResults.end(); ++it) {
+  for (list<Record>::const_iterator it = results.current->begin(); it != results.current->end(); ++it) {
 
-    out << **it << endl;
+    out << *it << endl;
 
   }
   return out;

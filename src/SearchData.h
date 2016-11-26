@@ -28,7 +28,7 @@
 
 // #include "Database.h"
 #include "Record.h"
-// #include "Affiliate.h"
+#include "BSTree.h"
 
 #include "Node.h"
 
@@ -36,24 +36,34 @@ class SearchData {
 
   private:
 
-    list<Record*> searchResults; // search result is a list of pointers, each points to a record
+    list<Record> searchResults; // search result is a list of pointers, each points to a record
+    list<Record> subSearch;
 
+    // Pointers to keep track of which list is currently in use
+    list<Record>* current;
+    list<Record>* previous;
+
+    
   public:
 
     SearchData();
     ~SearchData();
 
 
-    // list<Record> getSearchResults;
+    list<Record> getSearchResults();
+
+
+    void clear();
 
     string getTerm();
 
     int searchField();
 
     // Search functions, returns linked lists of search results or maybe a BSTree
-    void exactSearch(string searchTerm, int field, Node* node);
-    // list<Record> containsSearch(string searchTerm, Database &data);
-    // Record* idSearch(unsigned int idNum); // search database for exact match on id# returns a pointer to the record
+    void searchTree(string searchTerm, int field, Node* node, bool exact);
+    void searchList(string searchTerm, int field, bool exact);
+    // void containsSearch(string searchTerm, Node* node);
+    Record* idSearch(unsigned int idNum, BSTree* tree); // search database for exact match on id# returns a pointer to the record
 
 
     friend ostream& operator << (ostream& out, const SearchData& results);

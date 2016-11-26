@@ -490,12 +490,12 @@ void Database::mainMenu() {
     cout << "----------" << endl;
 
     cout << "1. Read Data File" << endl
-    << "2. Update Database" << endl
-    << "3. Browse Records" << endl
-    << "4. Search Database" << endl
-    << "5. Write Data to File" << endl
-    << "0. Exit" << endl
-    << ": ";
+         << "2. Update Database" << endl
+         << "3. Browse Records" << endl
+         << "4. Search Database" << endl
+         << "5. Write Data to File" << endl
+         << "0. Exit" << endl
+         << ": ";
 
     cin >> menuOption;
 
@@ -548,18 +548,17 @@ void Database::searchMenu() {
   int menuOption;
   bool menu = true;
 
-  SearchData newSearch;
   int field;
   string term;
 
   while(menu) {
 
-    cout << "1. Search for ID#" << endl
-    << "2. Search exact" << endl
-    << "3. Search contains" << endl
-    << "4. Write search results to file" << endl
-    << "5. Main Menu" << endl
-    << ": ";
+    cout  << "1. Search for ID#" << endl
+          << "2. Search for exact matches" << endl
+          << "3. Search for matches containing search term" << endl
+          // << "4. Write search results to file" << endl
+          << "5. Main Menu" << endl
+          << ": ";
 
     cin >> menuOption;
 
@@ -568,7 +567,7 @@ void Database::searchMenu() {
       // Search the database for an id number
     case 1:
       Record* ptr;
-      ptr = idSearch(getSearchID());
+      ptr = searchList.idSearch(getSearchID(), getDataTree());
       cout << endl; // for readability
 
       if (ptr != nullptr) {
@@ -583,15 +582,18 @@ void Database::searchMenu() {
 
       // Search database for an exact match
     case 2:
-      field = newSearch.searchField();
-      term = newSearch.getTerm();
-      newSearch.exactSearch(term, field, dataTree.Root());
-      cout << newSearch;
+      field = searchList.searchField();
+      term = searchList.getTerm();
+      searchList.searchTree(term, field, dataTree.Root(), true);
+      searchSubMenu();
       break;
 
-      // Search database for fields containing
+      // Search database for containing
     case 3:
-
+      field = searchList.searchField();
+      term = searchList.getTerm();
+      searchList.searchTree(term, field, dataTree.Root(), false);
+      searchSubMenu();
       break;
 
     case 4:
@@ -609,6 +611,107 @@ void Database::searchMenu() {
   }
 }
 
+void Database::searchSubMenu() {
+
+  cout << "Search Results" << endl;
+  cout << "--------------" << endl;
+
+  int menuOption;
+  bool menu = true;
+
+  while(menu) {
+    cout << endl << "Your search returned " << searchList.getSearchResults().size()
+    << " results" << endl << endl;
+
+    cout << "1. Refine Search Results" << endl
+         << "2. New Search" << endl
+         << "3. Browse Results" << endl
+         << "4. Write search results to file" << endl
+         << "5. Back to Search Menu" << endl
+         << ": ";
+
+    cin >> menuOption;
+    cin.ignore();
+
+    switch(menuOption) {
+
+    case 1:
+      searchAgain(); // keep current results and allow user to search again
+      break;
+
+    case 2:
+      searchList.clear(); // clear results and then go to main search menu
+      menu = false;
+      break;
+
+    case 3:
+      cout << searchList;
+      break;
+
+    case 4:
+      // TODO - Write search results to file
+      break;
+
+    case 5:
+      menu = false;
+      break;
+
+    }
+
+  }
+}
+
+void Database::searchAgain() {
+
+  cout << "Sub Search" << endl;
+  cout << "----------" << endl;
+
+  int menuOption;
+  bool menu = true;
+
+  int field;
+  string term;
+
+  while(menu) {
+
+    cout << "1. Search for ID#" << endl
+         << "2. Search for exact matches" << endl
+         << "3. Search for matches containing search term" << endl
+         << "4. Go Back" << endl
+        //  << "5. Main Menu" << endl
+         << ": ";
+
+    cin >> menuOption;
+
+    switch(menuOption) {
+
+    case 1:
+    //  searchAgain(); // keep current results and allow user to search again
+     break;
+
+    case 2:
+     field = searchList.searchField();
+     term = searchList.getTerm();
+     searchList.searchList(term, field, true);
+     menu = false;
+     break;
+
+    case 3:
+      field = searchList.searchField();
+      term = searchList.getTerm();
+      searchList.searchList(term, field, false);
+      menu = false;
+     break;
+
+    case 4:
+     menu = false;
+     break;
+
+    }
+
+  }
+
+}
 
 void Database::updateMenu() {
   // TODO - updata menu shit
@@ -622,10 +725,10 @@ void Database::updateMenu() {
   while(menu) {
 
     cout << "1. Add New Record" << endl
-    << "2. Modify Record" << endl
-    << "3. Delete Record" << endl
-    << "4. Main Menu" << endl
-    << ": ";
+         << "2. Modify Record" << endl
+         << "3. Delete Record" << endl
+         << "4. Main Menu" << endl
+         << ": ";
 
     cin >> menuOption;
 
@@ -638,7 +741,19 @@ void Database::updateMenu() {
       // modifyEntry();
       break;
     case 3:
-      removeEntry();
+
+      cout << "1. Search for a Record"
+           << "2. Enter ID# of Record to remove"
+           << ": ";
+
+      cin >> menuOption;
+
+      if (menuOption == 1) {
+        searchMenu();
+      }
+      else {
+        removeEntry();
+      }
       break;
     case 4:
       menu = false;

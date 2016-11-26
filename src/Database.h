@@ -30,6 +30,7 @@
 #include "BSTree.h"
 #include "Record.h"
 #include "Affiliate.h"
+#include "SearchData.h"
 
 using std::list;
 
@@ -44,6 +45,8 @@ class Database {
     unsigned int size; // number of entries in the BSTree
 
     // list<Record> searchResults; // searches return a linked lisrt in this variable
+
+    SearchData searchList; // search results are contained in their own class
 
     // overloaded addEntry adds a complete contact
     void addEntry(Record* contactPtr);
@@ -79,7 +82,7 @@ class Database {
 
 
 
-    BSTree getDataTree() {return dataTree;};
+    BSTree* getDataTree() {return &dataTree;};
     unsigned int getSize() {return size;};
     void clear();
 
@@ -111,7 +114,9 @@ class Database {
 
     //********** Main menu sub-menus **************
 
-    void searchMenu(); // search database sub-menu
+    void searchMenu(); // search database menu
+    void searchSubMenu();
+    void searchAgain();
 
     void updateMenu(); // sub-menu for updating a database entry:
                        // add new entry
