@@ -68,6 +68,9 @@ class SearchData {
     Record* idSearch(unsigned int idNum, BSTree* tree); // search database for exact match on id# returns a pointer to the record
     bool affilSearch(string searchTerm, list<Affiliate> affil, bool exact); // searches the affiliates of record, returns true if term in in affiliates, false if not
 
+    bool searchAll(string searchTerm, Record* contact, bool exact);
+
+
     friend ostream& operator << (ostream& out, const SearchData& results);
     friend ofstream& operator << (ofstream& out, const SearchData& results);
 

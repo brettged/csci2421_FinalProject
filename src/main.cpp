@@ -36,9 +36,9 @@ int main() {
   // from within the Database menus
 
   addressBook.readFile();
-  // addressBook.mainMenu();
+  addressBook.mainMenu();
 
-  addressBook.searchMenu();
+  // addressBook.searchMenu();
 
   return 0;
 } // End of main
@@ -49,7 +49,6 @@ int main() {
 
 // TODO - Search Results output to file
 //      - Fix menu flow
-//      - Searching goddamn affiliates
 //      - add delete record option to search menus
 //      - modify record function
 //      - IDEA - make database I/O it's own class

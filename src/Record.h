@@ -29,6 +29,7 @@
 #include <iostream>
 #include "Affiliate.h" // include the affiliate header file
 
+
 using namespace std;
 
 class Record {
@@ -108,6 +109,8 @@ class Record {
     string getCountry() {return country;};
     list<Affiliate> getAffiliate() {return affiliates;}; // returns a linked list of the affiliates
 
+
+    // void modifyRecord();
 
     // overloaded output operator to either display data or write to a file
     friend ostream& operator << (ostream& out, const Record& contact);

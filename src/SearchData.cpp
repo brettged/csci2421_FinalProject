@@ -41,7 +41,7 @@ void SearchData::clear() {
 string SearchData::getTerm() {
 
   string term;
-  cout << "Enter search term: ";
+  cout << "Enter term: ";
   cin.ignore();
   getline(cin, term);
   return term;
@@ -52,7 +52,7 @@ int SearchData::searchField() {
 
   int field;
 
-  cout << "Select search field:" << endl;
+  cout << "Select field:" << endl;
   cout << "1. First Name" << endl
        << "2. Middle Name" << endl
        << "3. Last Name" << endl
@@ -66,7 +66,8 @@ int SearchData::searchField() {
        << "11. State" << endl
        << "12. Zip Code" << endl
        << "13. Country" << endl
-       << "14. Search Affiliates" << endl
+       << "14. Affiliates" << endl
+       << "15. All Fields" << endl
        << ": ";
 
   cin >> field;
@@ -96,6 +97,7 @@ void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact
 
   string recordWord;
   current = &searchResults;
+
 
   // If the node has a left subtree, recursively call function on that branch
   if (node->Left() != nullptr) {
@@ -145,12 +147,17 @@ void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact
         recordWord = node->getContact()->getCountry();
         break;
       case 14:
-        // TODO check affiliates
 
         if (affilSearch(searchTerm, node->getContact()->getAffiliate(), exact)){
           current->push_back(*node->getContact());
         }
         break;
+
+      case 15:
+        if(searchAll(searchTerm, node->getContact(), exact))
+        current->push_back(*node->getContact());
+        break;
+
     }
 
     // If the exact flag is set, an exact match is looked for
@@ -198,49 +205,58 @@ void SearchData::searchList(string searchTerm, int field, bool exact) {
   for (list<Record>::iterator it = previous->begin(); it != previous->end(); ++it) {
 
     switch(field) {
-    case 1:
-      recordWord = it->getFirstName();
-      break;
-    case 2:
-      recordWord = it->getMidName();
-      break;
-    case 3:
-      recordWord = it->getLastName();
-      break;
-    case 4:
-      recordWord = it->getCompany();
-      break;
-    case 5:
-      recordWord = it->getHomePhone();
-      break;
-    case 6:
-      recordWord = it->getOffice();
-      break;
-    case 7:
-      recordWord = it->getEmail();
-      break;
-    case 8:
-      recordWord = it->getMobile();
-      break;
-    case 9:
-      recordWord = it->getStAddr();
-      break;
-    case 10:
-      recordWord = it->getCity();
-      break;
-    case 11:
-      recordWord = it->getState();
-      break;
-    case 12:
-      recordWord = it->getZipCode();
-      break;
-    case 13:
-      recordWord = it->getCountry();
-      break;
-    case 14:
-      // recordWord = it->getContact()->
-      break;
-    }
+      case 1:
+        recordWord = it->getFirstName();
+        break;
+      case 2:
+        recordWord = it->getMidName();
+        break;
+      case 3:
+        recordWord = it->getLastName();
+        break;
+      case 4:
+        recordWord = it->getCompany();
+        break;
+      case 5:
+        recordWord = it->getHomePhone();
+        break;
+      case 6:
+        recordWord = it->getOffice();
+        break;
+      case 7:
+        recordWord = it->getEmail();
+        break;
+      case 8:
+        recordWord = it->getMobile();
+        break;
+      case 9:
+        recordWord = it->getStAddr();
+        break;
+      case 10:
+        recordWord = it->getCity();
+        break;
+      case 11:
+        recordWord = it->getState();
+        break;
+      case 12:
+        recordWord = it->getZipCode();
+        break;
+      case 13:
+        recordWord = it->getCountry();
+        break;
+      case 14:
+
+        if (affilSearch(searchTerm, it->getAffiliate(), exact)){
+          current->push_back(*it);
+        }
+        break;
+
+      case 15:
+        Record* ptr = &*it;
+        if(searchAll(searchTerm, ptr, exact))
+        current->push_back(*it);
+        break;
+      }
 
     // If the exact flag is set, an exact match is looked for
     if (exact == true) {
@@ -332,7 +348,74 @@ Record* SearchData::idSearch(unsigned int idNum, BSTree* tree) {
 }
 
 
+bool SearchData::searchAll(string searchTerm, Record* contact, bool exact) {
 
+  bool searchFlag = false;
+
+  if (exact) {
+    if(contact->getFirstName() == searchTerm)
+      searchFlag = true;
+    else if(contact->getMidName() == searchTerm)
+      searchFlag = true;
+    else if (contact->getLastName() == searchTerm)
+      searchFlag = true;
+    else if (contact->getCompany() == searchTerm)
+      searchFlag = true;
+    else if (contact->getHomePhone() == searchTerm)
+      searchFlag = true;
+    else if (contact->getOffice() == searchTerm)
+      searchFlag = true;
+    else if (contact->getEmail() == searchTerm)
+      searchFlag = true;
+    else if (contact->getMobile() == searchTerm)
+      searchFlag = true;
+    else if (contact->getStAddr() == searchTerm)
+      searchFlag = true;
+    else if (contact->getCity() == searchTerm)
+      searchFlag = true;
+    else if (contact->getState() == searchTerm)
+      searchFlag = true;
+    else if (contact->getZipCode() == searchTerm)
+      searchFlag = true;
+    else if (contact->getCountry() == searchTerm)
+      searchFlag = true;
+    else if (affilSearch(searchTerm, contact->getAffiliate(), exact))
+      searchFlag = true;
+  }
+
+  else {
+    if(contact->getFirstName().find(searchTerm) != -1)
+      searchFlag = true;
+    else if(contact->getMidName().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getLastName().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getCompany().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getHomePhone().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getOffice().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getEmail().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getMobile().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getStAddr().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getCity().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getState().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getZipCode().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (contact->getCountry().find(searchTerm) != -1)
+      searchFlag = true;
+    else if (affilSearch(searchTerm, contact->getAffiliate(), exact))
+      searchFlag = true;
+  }
+
+  return searchFlag;
+}
 
 //************* Overloaded operators ***************
 

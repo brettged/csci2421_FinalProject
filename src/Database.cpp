@@ -203,7 +203,8 @@ bool Database::validateID(unsigned int testID) {
   // Functionality: This function tests the database to see
   //                if the argument passed to the function
   //                is already in the database. Returns true
-  //                if testID is unique, false if not
+  //                if testID is not in database, false if it is
+  //                in the database
 
   //*******************************************************
 
@@ -409,6 +410,127 @@ void Database::removeEntry(unsigned int idNum) {
   size--;
 }
 
+void Database::modifyEntry() {
+
+  unsigned int idNum;
+  cout << "Enter ID# of record to modify: ";
+  cin >> idNum;
+
+  while(validateID(idNum)) {
+    cout << "Invalid ID#" << endl;
+    cout << "Enter ID# of record to modify: ";
+    cin >> idNum;
+  }
+
+  Record* ptr = searchList.idSearch(idNum, &dataTree); // get the record from database
+
+  cout << *ptr << endl; // display the record
+
+  char modify = 'y';
+
+
+  while(modify == 'y' || modify == 'Y') {
+
+    int field = searchList.searchField();
+
+
+    // modifiying an affiliate field function slightly differently
+    if (field == 14) {
+
+
+    }
+
+    string newField = searchList.getTerm();
+
+    switch(field) {
+      case 1:
+        ptr->setFirstName(newField);
+        break;
+      case 2:
+        ptr->setMidName(newField);
+        break;
+      case 3:
+        ptr->setLastName(newField);
+        break;
+      case 4:
+        ptr->setCompany(newField);
+        break;
+      case 5:
+        ptr->setHomePhone(newField);
+        break;
+      case 6:
+        ptr->setOffice(newField);
+        break;
+      case 7:
+        ptr->setEmail(newField);
+        break;
+      case 8:
+        ptr->setMobile(newField);
+        break;
+      case 9:
+        ptr->setStAddr(newField);
+        break;
+      case 10:
+        ptr->setCity(newField);
+        break;
+      case 11:
+        ptr->setState(newField);
+        break;
+      case 12:
+        ptr->setZipCode(newField);
+        break;
+      case 13:
+        ptr->setCountry(newField);
+        break;
+      case 15:
+        newField = searchList.getTerm();
+        ptr->setFirstName(newField);
+
+        newField = searchList.getTerm();
+        ptr->setMidName(newField);
+
+        newField = searchList.getTerm();
+        ptr->setLastName(newField);
+
+        newField = searchList.getTerm();
+        ptr->setCompany(newField);
+
+        newField = searchList.getTerm();
+        ptr->setHomePhone(newField);
+
+        newField = searchList.getTerm();
+        ptr->setOffice(newField);
+
+        newField = searchList.getTerm();
+        ptr->setEmail(newField);
+
+        newField = searchList.getTerm();
+        ptr->setMobile(newField);
+
+        newField = searchList.getTerm();
+        ptr->setStAddr(newField);
+
+        newField = searchList.getTerm();
+        ptr->setCity(newField);
+
+        newField = searchList.getTerm();
+        ptr->setState(newField);
+
+        newField = searchList.getTerm();
+        ptr->setZipCode(newField);
+
+        newField = searchList.getTerm();
+        ptr->setCountry(newField);
+      }
+
+      cout << "Change another field? (y/n) ";
+      cin >> modify;
+  }
+
+  cout << *ptr << endl; // display the update record
+
+}
+
 // Record* Database::idSearch(unsigned int idNum) {
 //   // *******************************************************
 //   //
@@ -552,7 +674,7 @@ void Database::searchMenu() {
       Record* ptr;
       ptr = searchList.idSearch(searchList.getSearchID(), getDataTree());
       cout << endl; // for readability
-      
+
       if (ptr != nullptr) {
         cout << *ptr;
       }
@@ -598,16 +720,18 @@ void Database::searchSubMenu() {
   int menuOption;
   bool menu = true;
 
-  cout << endl << "Your search returned " << searchList.getSearchResults().size()
-  << " results" << endl << endl;
 
   while(menu) {
+
+    cout << endl << "Your search returned " << searchList.getSearchResults().size()
+    << " results" << endl << endl;
 
     cout << "1. Refine Search Results" << endl
          << "2. New Search" << endl
          << "3. Browse Results" << endl
-         << "4. Write search results to file" << endl
-         << "5. Back to Search Menu" << endl
+         << "4. Modify an Entry" << endl
+         << "5. Write search results to file" << endl
+         << "6. Back to Search Menu" << endl
          << ": ";
 
     cin >> menuOption;
@@ -629,6 +753,10 @@ void Database::searchSubMenu() {
       break;
 
     case 4:
+      modifyEntry();
+      break;
+
+    case 5:
       // TODO - Write search results to file
       {
 
@@ -641,7 +769,7 @@ void Database::searchSubMenu() {
       }
       break;
 
-    case 5:
+    case 6:
       menu = false;
       break;
 
@@ -668,7 +796,7 @@ void Database::searchAgain() {
 
     cout << "1. Search for ID#" << endl
          << "2. Search for exact matches" << endl
-         << "3. Search for matches containing search term" << endl
+         << "3. Search for matches containing" << endl
          << "4. Go Back" << endl
          << ": ";
 
@@ -742,8 +870,7 @@ void Database::updateMenu() {
         addEntry();
         break;
       case 2:
-        // FIXME
-        // modifyEntry();
+        modifyEntry();
         break;
       case 3:
 
@@ -778,4 +905,3 @@ void Database::displayDataMenu() {
   dataTree.printInorder(dataTree.Root());
 
 }
-

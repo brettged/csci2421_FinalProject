@@ -110,6 +110,49 @@ void Record::clearAll() {
 
 }
 
+//
+// void Record::modifyRecord() {
+//
+//
+//   char modify = 'y';
+//
+//
+//   while(modify) {
+//
+//     int field;
+//
+//     cout << "Field to Modify:" << endl;
+//     cout << "1. First Name" << endl
+//          << "2. Middle Name" << endl
+//          << "3. Last Name" << endl
+//          << "4. Company Name" << endl
+//          << "5. Home Phone" << endl
+//          << "6. Office Phone" << endl
+//          << "7. Email" << endl
+//          << "8. Mobile Phone" << endl
+//          << "9. Street Address" << endl
+//          << "10. City" << endl
+//          << "11. State" << endl
+//          << "12. Zip Code" << endl
+//          << "13. Country" << endl
+//          << "14. Affiliates" << endl
+//          << ": ";
+//
+//     cin >> field;
+//
+//     cout << "Enter New Value: "
+//
+//     switch(field) {
+//
+//       case 1:
+//
+//     }
+//
+//
+//   }
+//
+//
+// }
 
 // *************** Overloaded ostream and ofstream operators **************
 
