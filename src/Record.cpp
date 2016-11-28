@@ -154,8 +154,14 @@ void Record::clearAll() {
 //
 // }
 
-// *************** Overloaded ostream and ofstream operators **************
 
+bool operator < (const Record& left, const Record& right) {
+
+  return left.lastName < right.lastName;
+
+}
+
+// *************** Overloaded ostream and ofstream operators **************
 
 ostream& operator << (ostream& out, const Record& contact) {
 

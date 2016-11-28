@@ -431,7 +431,7 @@ void Database::modifyEntry() {
 
   while(modify == 'y' || modify == 'Y') {
 
-    int field = searchList.searchField();
+    int field = searchList.getField();
 
 
     // modifiying an affiliate field function slightly differently
@@ -573,6 +573,17 @@ string Database::getSearchTerm() {
 //
 // }
 
+void Database::sortList() {
+
+  searchList.searchTree("CO", 11, dataTree.Root(), true);
+  // searchList.sortLastName();
+  searchList.sortCompany();
+
+  cout << searchList;
+
+}
+
+
 //********************** Menu Functions ****************************
 
 
@@ -687,7 +698,7 @@ void Database::searchMenu() {
 
       // Search database for an exact match
     case 2:
-      field = searchList.searchField();
+      field = searchList.getField();
       term = searchList.getTerm();
       searchList.searchTree(term, field, dataTree.Root(), true);
       searchSubMenu(); // after search, go to subsearch menu
@@ -695,7 +706,7 @@ void Database::searchMenu() {
 
       // Search database for containing
     case 3:
-      field = searchList.searchField();
+      field = searchList.getField();
       term = searchList.getTerm();
       searchList.searchTree(term, field, dataTree.Root(), false);
       searchSubMenu(); // go to subsearch menu
@@ -749,6 +760,7 @@ void Database::searchSubMenu() {
       break;
 
     case 3:
+      // searchList.sortLastName();
       cout << searchList; // display search results to the screen
       break;
 
@@ -758,15 +770,18 @@ void Database::searchSubMenu() {
 
     case 5:
       // TODO - Write search results to file
-      {
 
-        ofstream outFile;
-        outFile.open("testOut.txt");
+      displayDataMenu();
 
-        outFile << searchList;
-
-        outFile.close();
-      }
+      // {
+      //
+      //   ofstream outFile;
+      //   outFile.open("testOut.txt");
+      //
+      //   outFile << searchList;
+      //
+      //   outFile.close();
+      // }
       break;
 
     case 6:
@@ -819,16 +834,16 @@ void Database::searchAgain() {
       break;
 
     case 2:
-      field = searchList.searchField();
+      field = searchList.getField();
       term = searchList.getTerm();
-      searchList.searchList(term, field, true);
+      searchList.subSearch(term, field, true);
       menu = false;
       break;
 
     case 3:
-      field = searchList.searchField();
+      field = searchList.getField();
       term = searchList.getTerm();
-      searchList.searchList(term, field, false);
+      searchList.subSearch(term, field, false);
       menu = false;
       break;
 

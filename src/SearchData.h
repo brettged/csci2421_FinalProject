@@ -22,7 +22,7 @@
 #ifndef SEARCHDATA_H
 #define SEARCHDATA_H
 
-
+// #include <algorithm>
 #include <iostream>
 #include <list>
 
@@ -37,7 +37,7 @@ class SearchData {
   private:
 
     list<Record> searchResults; // search result is a list of pointers, each points to a record
-    list<Record> subSearch;
+    list<Record> subSearchResults;
 
     // Pointers to keep track of which list is currently in use
     list<Record>* current;
@@ -57,18 +57,29 @@ class SearchData {
 
     string getTerm();
 
-    int searchField();
+    int getField();
 
     unsigned int getSearchID();
 
     // Search functions, returns linked lists of search results or maybe a BSTree
     void searchTree(string searchTerm, int field, Node* node, bool exact);
-    void searchList(string searchTerm, int field, bool exact);
+    void subSearch(string searchTerm, int field, bool exact);
     // void containsSearch(string searchTerm, Node* node);
     Record* idSearch(unsigned int idNum, BSTree* tree); // search database for exact match on id# returns a pointer to the record
-    bool affilSearch(string searchTerm, list<Affiliate> affil, bool exact); // searches the affiliates of record, returns true if term in in affiliates, false if not
+    bool affilSearch(string searchTerm, list<Affiliate> affil, bool exact); // searches the affiliates of record,
+                                                                            // returns true if term in in affiliates, false if not
 
     bool searchAll(string searchTerm, Record* contact, bool exact);
+
+
+    //************ Tools to sort the list of search results *************
+
+    void sortLastName();
+    void sortCompany();
+    void sortState();
+    void sortCountry();
+    void sortCity();
+    void selectFields();
 
 
     friend ostream& operator << (ostream& out, const SearchData& results);

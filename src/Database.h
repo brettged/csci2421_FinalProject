@@ -36,7 +36,6 @@ using std::list;
 
 class Database {
 
-  // friend class Search;
 
   private:
 
@@ -55,7 +54,7 @@ class Database {
   public:
 
 
-    // ************** Constructors *************
+    //************** Constructors **************
     Database();
     ~Database();
 
@@ -74,32 +73,22 @@ class Database {
 
 
     // Output functions for database
-    void writeOut(); // writes database to file
-    void writeOut(list<Record>); // writes the results of a search to a file
 
-    void display(); // displays the current database
-    void display(list<Record>); // displays the results of a search
-
+    void sortList();
 
 
     BSTree* getDataTree() {return &dataTree;};
     unsigned int getSize() {return size;};
     void clear();
 
-
-    // Search functions, returns linked lists of search results or maybe a BSTree
-    // list<Record> exactSearch(string searchTerm);
-    // list<Record> containsSearch(string searchTerm);
-    // Record* idSearch(unsigned int idNum); // search database for exact match on id# returns a pointer to the record
-
     // unsigned int getSearchID();
     string getSearchTerm();
 
 
-    // NOTE - Sorting functions
-    // Sorting a linked list of search results using the list sort function would
-    // require an overloaded operator <. This would only allow sorting based on
-    // one field though.
+    SearchData getSearchResults(); // returns the linked list of search results
+
+
+    void outputResults(); // handles the sorting and output of results to a file
 
 
     // Menu functions

@@ -2,7 +2,6 @@
 
 
 
-
 #include <iostream>
 #include <fstream>
 
@@ -48,7 +47,7 @@ string SearchData::getTerm() {
 
 }
 
-int SearchData::searchField() {
+int SearchData::getField() {
 
   int field;
 
@@ -186,20 +185,20 @@ void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact
 
 
 // overloaded exact search, searches the current search results
-void SearchData::searchList(string searchTerm, int field, bool exact) {
+void SearchData::subSearch(string searchTerm, int field, bool exact) {
 
   string recordWord;
 
-  if (current == &subSearch) {
+  if (current == &subSearchResults) {
     searchResults.clear();
-    previous = &subSearch;
+    previous = &subSearchResults;
     current = &searchResults;
   }
 
   else {
-    subSearch.clear();
+    subSearchResults.clear();
     previous = &searchResults;
-    current = &subSearch; // set the current pointer to point at searchResults list
+    current = &subSearchResults; // set the current pointer to point at searchResults list
   }
 
   for (list<Record>::iterator it = previous->begin(); it != previous->end(); ++it) {
@@ -417,13 +416,128 @@ bool SearchData::searchAll(string searchTerm, Record* contact, bool exact) {
   return searchFlag;
 }
 
+
+
+//************* Sorting Operations ****************
+
+void SearchData::sortLastName() {
+
+
+  (*current).sort();
+
+}
+
+void SearchData::sortCompany() {
+
+
+  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
+
+    Record* small = &(*it1);
+
+    list<Record>::iterator it2 = it1;
+
+    for (++it2; it2 != current->end(); ++it2) {
+
+      if (small->getCompany() > it2->getCompany()) {
+        small = &(*it2);
+      }
+
+    }
+
+    Record swp = *it1;
+    *it1 = *small;
+    *small = swp;
+
+
+  }
+
+
+
+
+}
+
+void SearchData::sortState() {
+  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
+
+    Record* small = &(*it1);
+
+    list<Record>::iterator it2 = it1;
+
+    for (++it2; it2 != current->end(); ++it2) {
+
+      if (small->getState() > it2->getState()) {
+        small = &(*it2);
+      }
+
+    }
+
+    Record swp = *it1;
+    *it1 = *small;
+    *small = swp;
+
+
+  }
+}
+
+void SearchData::sortCountry() {
+  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
+
+    Record* small = &(*it1);
+
+    list<Record>::iterator it2 = it1;
+
+    for (++it2; it2 != current->end(); ++it2) {
+
+      if (small->getCountry() > it2->getCountry()) {
+        small = &(*it2);
+      }
+
+    }
+
+    Record swp = *it1;
+    *it1 = *small;
+    *small = swp;
+
+
+  }
+}
+
+void SearchData::sortCity() {
+  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
+
+    Record* small = &(*it1);
+
+    list<Record>::iterator it2 = it1;
+
+    for (++it2; it2 != current->end(); ++it2) {
+
+      if (small->getCity() > it2->getCity()) {
+        small = &(*it2);
+      }
+
+    }
+
+    Record swp = *it1;
+    *it1 = *small;
+    *small = swp;
+
+
+  }
+}
+
+void SearchData::selectFields() {
+
+}
+
+
+
 //************* Overloaded operators ***************
 
 ostream& operator << (ostream& out, const SearchData& results) {
+  
+  for (list<Record>::iterator it = results.current->begin(); it != results.current->end(); ++it) {
 
-  for (list<Record>::const_iterator it = results.current->begin(); it != results.current->end(); ++it) {
-
-    out << *it << endl;
+    out << *it;
 
   }
   return out;

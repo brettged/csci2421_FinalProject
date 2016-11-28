@@ -26,6 +26,9 @@
 #include <iostream>
 using namespace std;
 
+
+void outputDriver(Database adrBook);
+
 // Start of main method
 int main() {
 
@@ -36,11 +39,18 @@ int main() {
   // from within the Database menus
 
   addressBook.readFile();
-  addressBook.mainMenu();
+
+
+  // outputDriver(addressBook);
+
+  // addressBook.mainMenu();
+
+  addressBook.sortList();
 
   // addressBook.searchMenu();
 
   return 0;
+
 } // End of main
 
 
@@ -52,3 +62,13 @@ int main() {
 //      - add delete record option to search menus
 //      - modify record function
 //      - IDEA - make database I/O it's own class
+
+
+
+// void outputDriver(Database adrBook) {
+//
+//
+//   adrBook.sortList();
+//
+//
+// }

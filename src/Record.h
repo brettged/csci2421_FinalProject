@@ -112,6 +112,10 @@ class Record {
 
     // void modifyRecord();
 
+    // overload less than operator
+    friend bool operator < (const Record& left, const Record& right);
+
+
     // overloaded output operator to either display data or write to a file
     friend ostream& operator << (ostream& out, const Record& contact);
 
