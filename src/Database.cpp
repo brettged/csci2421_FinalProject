@@ -76,7 +76,7 @@ void Database::readFile() {
     return;
   }
 
-  cout << endl << "reading file..." << endl;
+  cout << endl << "reading file..." << endl << endl;
 
   unsigned int tempInt; // Temporary variable to hold integer values
   string tempString; // Temporary variable to hold string values
@@ -385,7 +385,8 @@ void Database::removeEntry() {
   cin >> idNum;
 
   if (!validateID(idNum)) {
-    dataTree.deleteNode(idNum);
+    // dataTree.deleteNode(idNum); CHANGED
+    removeEntry(idNum);
   }
 
   else {
@@ -725,6 +726,7 @@ void Database::searchMenu() {
 
 void Database::searchSubMenu() {
 
+  cout << endl;
   cout << "Search Results" << endl;
   cout << "--------------" << endl;
 
@@ -742,7 +744,8 @@ void Database::searchSubMenu() {
          << "3. Browse Results" << endl
          << "4. Modify an Entry" << endl
          << "5. Write search results to file" << endl
-         << "6. Back to Search Menu" << endl
+         << "6. Remove an Entry from Database" << endl
+         << "7. Back to Search Menu" << endl
          << ": ";
 
     cin >> menuOption;
@@ -750,48 +753,38 @@ void Database::searchSubMenu() {
 
     switch(menuOption) {
 
-    case 1:
-      searchAgain(); // keep current results and allow user to search again
-      break;
+      case 1:
+        searchAgain(); // keep current results and allow user to search again
+        break;
 
-    case 2:
-      searchList.clear(); // clear results and then exit this menu
-      menu = false;
-      break;
+      case 2:
+        searchList.clear(); // clear results and then return to search menu
+        menu = false;
+        break;
 
-    case 3:
-      // searchList.sortLastName();
-      cout << searchList; // display search results to the screen
-      break;
+      case 3:
+        cout << searchList; // display search results to the screen
+        break;
 
-    case 4:
-      modifyEntry();
-      break;
+      case 4:
+        modifyEntry();
+        break;
 
-    case 5:
-      // TODO - Write search results to file
+      case 5:
+        displayDataMenu();
+        break;
 
-      displayDataMenu();
+      case 6:
+        removeEntry();
 
-      // {
-      //
-      //   ofstream outFile;
-      //   outFile.open("testOut.txt");
-      //
-      //   outFile << searchList;
-      //
-      //   outFile.close();
-      // }
-      break;
+      case 7:
+        menu = false;
+        break;
 
-    case 6:
-      menu = false;
-      break;
+      default:
+        cout << "That is not a valid choice. Please choose from the given options" << endl;
 
-    default:
-      cout << "That is not a valid choice. Please choose from the given options" << endl;
-
-    }
+      }
 
   }
 }
@@ -917,6 +910,92 @@ void Database::displayDataMenu() {
   // TODO - figure out display stuff
   // cout << "Browse data menu called" << endl;
 
-  dataTree.printInorder(dataTree.Root());
+  int menuOption;
+  bool menu = true;
+
+  cout << endl;
+  cout << "Output Database" << endl;
+  cout << "---------------" << endl << endl;
+
+  while(menu) {
+
+    cout << "1. Write Current Search Results to File" << endl
+         << "2. Chose Sorting Order" << endl
+         << "3. Select Fields to Write" << endl
+         << "4. Back" << endl
+         << ": ";
+
+    cin >> menuOption;
+
+    switch(menuOption) {
+
+      case 1:
+        searchList.writeOut();
+        break;
+
+      case 2:
+        sortList();
+        break;
+
+      case 3:
+        searchList.selectFields();
+        searchList.writeOut();
+        break;
+
+      case 4:
+        menu = false;
+        break;
+
+      default:
+        cout << "That is not a valid choice. Please choose from the given options" << endl;
+
+    }
+
+  }
+
+}
+
+void Database::sortMenu() {
+
+  int menuOption;
+  cout << "Select Which Field to Sort Search Results By: ";
+
+  cout << "1. Last Name" << endl
+       << "2. Company Name" << endl
+       << "3. State" << endl
+       << "4. Country" << endl
+       << "5. City" << endl
+       << "6. Go Back" << endl
+       << ": ";
+
+  cin >> menuOption;
+
+  while(menuOption > 6 || menuOption < 1) {
+    cout << "Please Enter a valid menu choice: ";
+    cin >> menuOption;
+  }
+
+  switch(menuOption) {
+
+    case 1:
+      searchList.sortLastName();
+      break;
+    case 2:
+      searchList.sortCompany();
+      break;
+    case 3:
+      searchList.sortState();
+      break;
+    case 4:
+      searchList.sortCountry();
+      break;
+    case 5:
+      searchList.sortCity();
+      break;
+    case 6:
+      break;
+
+  }
+
 
 }

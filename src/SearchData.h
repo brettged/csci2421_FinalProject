@@ -43,6 +43,8 @@ class SearchData {
     list<Record>* current;
     list<Record>* previous;
 
+    int fields[15] = {0}; // array to keep track of which fields to print
+
 
   public:
 
@@ -73,7 +75,6 @@ class SearchData {
 
 
     //************ Tools to sort the list of search results *************
-
     void sortLastName();
     void sortCompany();
     void sortState();
@@ -81,6 +82,11 @@ class SearchData {
     void sortCity();
     void selectFields();
 
+
+    void writeOut();
+
+
+    string retField(Record* contact, int fNum) const;
 
     friend ostream& operator << (ostream& out, const SearchData& results);
     friend ofstream& operator << (ofstream& out, const SearchData& results);

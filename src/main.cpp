@@ -45,9 +45,9 @@ int main() {
 
   // addressBook.mainMenu();
 
-  addressBook.sortList();
+  // addressBook.sortList();
 
-  // addressBook.searchMenu();
+  addressBook.searchMenu();
 
   return 0;
 
@@ -60,9 +60,6 @@ int main() {
 // TODO - Search Results output to file
 //      - Fix menu flow
 //      - add delete record option to search menus
-//      - modify record function
-//      - IDEA - make database I/O it's own class
-
 
 
 // void outputDriver(Database adrBook) {

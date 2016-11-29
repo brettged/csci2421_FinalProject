@@ -40,6 +40,7 @@ void SearchData::clear() {
 string SearchData::getTerm() {
 
   string term;
+  cout << endl;
   cout << "Enter term: ";
   cin.ignore();
   getline(cin, term);
@@ -51,7 +52,9 @@ int SearchData::getField() {
 
   int field;
 
+  cout << endl;
   cout << "Select field:" << endl;
+  cout << "-------------" << endl;
   cout << "1. First Name" << endl
        << "2. Middle Name" << endl
        << "3. Last Name" << endl
@@ -420,6 +423,7 @@ bool SearchData::searchAll(string searchTerm, Record* contact, bool exact) {
 
 //************* Sorting Operations ****************
 
+
 void SearchData::sortLastName() {
 
 
@@ -527,14 +531,118 @@ void SearchData::sortCity() {
 
 void SearchData::selectFields() {
 
+  int temp;
+
+  cout << "Enter the fields to want to write out (0 to finish) ";
+  cout << "1. ID#" << endl
+       << "2. First Name" << endl
+       << "3. Middle Name" << endl
+       << "4. Last Name" << endl
+       << "5. Company Name" << endl
+       << "6. Home Phone" << endl
+       << "7. Office Phone" << endl
+       << "8. Email" << endl
+       << "9. Mobile Phone" << endl
+       << "10. Street Address" << endl
+       << "11. City" << endl
+       << "12. State" << endl
+       << "13. Zip Code" << endl
+       << "14. Country" << endl
+       << "15. Affiliates" << endl
+       << ": ";
+  cin >> temp;
+
+  while (temp != 0) {
+    fields[temp - 1] = 1;
+    cin >> temp;
+  }
+
+  cin.ignore();
+  return;
 }
 
 
+//************** Output Operations ****************
+
+void SearchData::writeOut() {
+
+  ofstream outFile;
+  string filename;
+  char yesno;
+
+  cout << "Enter the name of a file to write to: ";
+  cin >> filename;
+
+  cout << "If this file exists it will be overwritten! Continue? (y/n) ";
+  cin >> yesno;
+  if (yesno == 'n' || yesno == 'N') {
+    cout << "Enter a new file name: ";
+    cin >> filename;
+  }
+
+  outFile.open(filename);
+
+  outFile << *this;
+
+
+
+}
+
+string SearchData::retField(Record* contact, int fNum) const {
+
+  string fieldValue;
+
+  switch(fNum) {
+
+    case 2:
+      fieldValue = contact->getFirstName();
+      break;
+    case 3:
+      fieldValue = contact->getMidName();
+      break;
+    case 4:
+      fieldValue = contact->getLastName();
+      break;
+    case 5:
+      fieldValue = contact->getCompany();
+      break;
+    case 6:
+      fieldValue = contact->getHomePhone();
+      break;
+    case 7:
+      fieldValue = contact->getOffice();
+      break;
+    case 8:
+      fieldValue = contact->getEmail();
+      break;
+    case 9:
+      fieldValue = contact->getMobile();
+      break;
+    case 10:
+      fieldValue = contact->getStAddr();
+      break;
+    case 11:
+      fieldValue = contact->getCity();
+      break;
+    case 12:
+      fieldValue = contact->getState();
+      break;
+    case 13:
+      fieldValue = contact->getZipCode();
+      break;
+    case 14:
+      fieldValue = contact->getCountry();
+      break;
+  }
+
+  return fieldValue;
+
+}
 
 //************* Overloaded operators ***************
 
 ostream& operator << (ostream& out, const SearchData& results) {
-  
+
   for (list<Record>::iterator it = results.current->begin(); it != results.current->end(); ++it) {
 
     out << *it;
@@ -547,8 +655,42 @@ ostream& operator << (ostream& out, const SearchData& results) {
 
 ofstream& operator << (ofstream& out, const SearchData& results) {
 
-  for (list<Record>::const_iterator it = results.current->begin(); it != results.current->end(); ++it) {
-    out << *it << endl;
+  Record* ptr;
+
+  for (list<Record>::iterator it = results.current->begin(); it != results.current->end(); ++it) {
+    // out << *it << endl;
+
+    ptr = &(*it);
+
+    for (int i = 0; i < 15; i++) {
+
+      if (i == 0){
+        if (results.fields[0] == 1) {
+          // print the id number
+          out << it->getId();
+          out << endl;
+        }
+      }
+
+      else if (i < 14) {
+        if (results.fields[i] == 1) {
+          out << results.retField(ptr, i+1);
+          out << endl;
+        }
+      }
+      else if (results.fields[i] == 1) {
+
+        for (list<Affiliate>::iterator it2 = ptr->getAffiliate().begin(); it2 != ptr->getAffiliate().end(); ++it2) {
+
+          out << *it2 << endl; // Affiliate class has it's own overloaded ostream operator
+
+        }
+      }
+
+    }
+    out << '|' << endl;
+
   }
+  return out;
 
 }

@@ -113,6 +113,7 @@ class Database {
                        // delete entry
 
     void displayDataMenu(); // sub-menu for displaying database entries to the screen
+    void sortMenu();
 
     void chooseFieldsMenu(); // menu allowing user to pick which fields to display or search from
 

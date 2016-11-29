@@ -238,11 +238,11 @@ ofstream& operator << (ofstream& out, const Record& contact) {
        << contact.country << endl;
 
        // utilize list iterator to display all the affiliates
- for (list<Affiliate>::const_iterator it = contact.affiliates.begin(); it != contact.affiliates.end(); ++it) {
+  for (list<Affiliate>::const_iterator it = contact.affiliates.begin(); it != contact.affiliates.end(); ++it) {
 
-   out << *it << endl; // Affiliate class has it's own overloaded ostream operator
+    out << *it << endl; // Affiliate class has it's own overloaded ostream operator
 
- }
+  }
 
  // small formatting modifier to make sure contacts with no affiliates
  // get displayed correctly
