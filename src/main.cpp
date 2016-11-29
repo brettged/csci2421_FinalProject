@@ -43,11 +43,11 @@ int main() {
 
   // outputDriver(addressBook);
 
-  // addressBook.mainMenu();
+  addressBook.mainMenu();
 
   // addressBook.sortList();
 
-  addressBook.searchMenu();
+  // addressBook.searchMenu();
 
   return 0;
 

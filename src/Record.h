@@ -64,7 +64,6 @@ class Record {
 
     list<Affiliate> affiliates; // double linked list holds the affiliates
 
-
   public:
 
     Record(); // default constructor

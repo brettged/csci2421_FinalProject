@@ -69,7 +69,7 @@ class Affiliate {
       return out;
 
     }
-
+    
 };
 
 #endif

@@ -533,7 +533,7 @@ void SearchData::selectFields() {
 
   int temp;
 
-  cout << "Enter the fields to want to write out (0 to finish) ";
+  cout << "Enter the fields to want to write out (0 to finish)" << endl;
   cout << "1. ID#" << endl
        << "2. First Name" << endl
        << "3. Middle Name" << endl
@@ -570,11 +570,14 @@ void SearchData::writeOut() {
   string filename;
   char yesno;
 
-  cout << "Enter the name of a file to write to: ";
-  cin >> filename;
+  // cout << "Enter the name of a file to write to: ";
+  // cin >> filename;
+  //
+  // cout << "If this file exists it will be overwritten! Continue? (y/n) ";
+  // cin >> yesno;
 
-  cout << "If this file exists it will be overwritten! Continue? (y/n) ";
-  cin >> yesno;
+  filename = "testOut.txt";
+
   if (yesno == 'n' || yesno == 'N') {
     cout << "Enter a new file name: ";
     cin >> filename;
@@ -656,11 +659,13 @@ ostream& operator << (ostream& out, const SearchData& results) {
 ofstream& operator << (ofstream& out, const SearchData& results) {
 
   Record* ptr;
-
+  
   for (list<Record>::iterator it = results.current->begin(); it != results.current->end(); ++it) {
-    // out << *it << endl;
 
     ptr = &(*it);
+
+
+
 
     for (int i = 0; i < 15; i++) {
 
@@ -678,12 +683,15 @@ ofstream& operator << (ofstream& out, const SearchData& results) {
           out << endl;
         }
       }
-      else if (results.fields[i] == 1) {
+      else if (i == 14) {
+        if (results.fields[i] == 1) {
+          list<Affiliate> currentAffils = ptr->getAffiliate(); // temporary list of affiliates so we can iterate over and display
 
-        for (list<Affiliate>::iterator it2 = ptr->getAffiliate().begin(); it2 != ptr->getAffiliate().end(); ++it2) {
+          for (list<Affiliate>::const_iterator itr = currentAffils.begin(); itr != currentAffils.end(); ++itr) {
 
-          out << *it2 << endl; // Affiliate class has it's own overloaded ostream operator
+            out << *itr << endl; // Affiliate class has it's own overloaded ostream operator
 
+          }
         }
       }
 

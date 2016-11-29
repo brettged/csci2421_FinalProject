@@ -576,9 +576,50 @@ string Database::getSearchTerm() {
 
 void Database::sortList() {
 
-  searchList.searchTree("CO", 11, dataTree.Root(), true);
-  // searchList.sortLastName();
-  searchList.sortCompany();
+  int menuOption;
+
+  cout << "Select Category to Sort Search Results: " << endl;
+  cout << "1. ID#" << endl
+       << "2. Last Name" << endl
+       << "3. Company Name" << endl
+       << "4. State" << endl
+       << "5. Country" << endl
+       << "6. City" << endl
+       << ": ";
+
+  cin >> menuOption;
+
+  switch (menuOption)
+  {
+  case 1:
+    // already sorted by id number
+    break;
+
+  case 2:
+    searchList.sortLastName();
+    break;
+  case 3:
+    searchList.sortCompany();
+    break;
+  case 4:
+    searchList.sortState();
+    break;
+  case 5:
+    searchList.sortCountry();
+    break;
+  case 6:
+    searchList.sortCity();
+    break;
+
+  default:
+    cout << "That is not a valid choice" << endl;
+    break;
+  }
+
+
+  // searchList.searchTree("CO", 11, dataTree.Root(), true);
+  // // searchList.sortLastName();
+  // searchList.sortCompany();
 
   cout << searchList;
 
@@ -630,7 +671,7 @@ void Database::mainMenu() {
       break;
 
     case 3:
-      displayDataMenu();
+      outputDataMenu();
       break;
 
     case 4:
@@ -659,7 +700,7 @@ void Database::mainMenu() {
 
 
 void Database::searchMenu() {
-  // TODO - search implementations
+
   cout << "Search Database" << endl;
   cout << "---------------" << endl;
 
@@ -751,6 +792,8 @@ void Database::searchSubMenu() {
     cin >> menuOption;
     cin.ignore();
 
+    // menuOption = 5;
+
     switch(menuOption) {
 
       case 1:
@@ -771,7 +814,7 @@ void Database::searchSubMenu() {
         break;
 
       case 5:
-        displayDataMenu();
+        outputDataMenu();
         break;
 
       case 6:
@@ -906,7 +949,7 @@ void Database::updateMenu() {
 
 }
 
-void Database::displayDataMenu() {
+void Database::outputDataMenu() {
   // TODO - figure out display stuff
   // cout << "Browse data menu called" << endl;
 
@@ -926,6 +969,7 @@ void Database::displayDataMenu() {
          << ": ";
 
     cin >> menuOption;
+    // menuOption = 3;
 
     switch(menuOption) {
 
