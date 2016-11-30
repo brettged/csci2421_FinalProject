@@ -31,7 +31,7 @@ int main() {
 
   // Create the database
   Database addressBook;
-  
+
   // Display the main menu to the user, all other operations will be controlled
   // from within the Database menus
 
@@ -40,3 +40,10 @@ int main() {
   return 0;
 
 } // End of main
+
+
+// TODO - Secondary SearchData
+// TODO - Finish Documentation
+// TODO - Final test on cse getSearchID
+// TODO - Report
+// TODO - Error Detection

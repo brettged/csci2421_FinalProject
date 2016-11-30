@@ -44,7 +44,7 @@ class Affiliate {
   public:
 
     Affiliate(){}; // constructor
-    
+
     ~Affiliate(){}; // destructor
 
 
@@ -56,8 +56,8 @@ class Affiliate {
 
 
     //************* Accessor Methods ***************
-    string getFirstName() {return firstName;};
-    string getLastName() {return lastName;};
+    string getFirstName() const {return firstName;};
+    string getLastName() const {return lastName;};
     string getPhone() {return mobilePhone;};
     string getEmail() {return email;};
 
@@ -71,6 +71,20 @@ class Affiliate {
 
     }
 
+    bool operator==(const Affiliate& affil) const {
+      // Overload equality operator for affiliate comparison
+      if (getLastName() == affil.getLastName() && getFirstName() == affil.getFirstName()) {
+        return true;
+      }
+
+      return false;
+    }
+
+
 };
+
+
+// bool Affiliate::operator==(const Affiliate& affil) const
+
 
 #endif

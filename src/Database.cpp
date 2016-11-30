@@ -329,30 +329,7 @@ void Database::addEntry() {
 
   while (option == 'y') {
 
-    Affiliate tempAffil;
-
-    cout << "Affiliate First Name: ";
-    cin >> tempString;
-    tempAffil.setFirstName(tempString);
-
-
-    cout << "Affiliate Last Name: ";
-    cin >> tempString;
-    tempAffil.setLastName(tempString);
-
-
-    cin.ignore();
-    cout << "Affiliate Phone Number: ";
-    getline(cin, tempString);
-    tempAffil.setPhone(tempString);
-
-
-    cout << "Affiliate Email: ";
-    getline(cin, tempString);
-    tempAffil.setEmail(tempString);
-
-
-    contactPtr->addAffiliate(tempAffil); // add the affiliate to the record
+    contactPtr->addAffiliate(); // add the affiliate to the record
 
     cout << "Enter another affiliate? (y/n) ";
     cin >> option;
@@ -449,6 +426,7 @@ void Database::modifyEntry() {
 
   Record* ptr = searchList.idSearch(idNum, &dataTree); // get the record from database
 
+  cout << endl;
   cout << *ptr << endl; // display the current record
 
   char modify = 'y';
@@ -460,14 +438,28 @@ void Database::modifyEntry() {
 
     // modifiying an affiliate field function slightly differently
     if (field == 14) {
+      int menuOpt;
+      cout << endl;
+      cout << "   1. Delete Affiliate" << endl
+           << "   2. Add Affiliate" << endl
+           << "   : ";
 
-      // TODO
+      cin >> menuOpt;
+
+      if (menuOpt == 1) {
+        ptr->rmvAffiliate();
+      }
+
+      else if (menuOpt == 2) {
+        ptr->addAffiliate();
+      }
     }
 
-    string newField = searchList.getTerm(); // get the new field value from user
+    else {
+      string newField = searchList.getTerm(); // get the new field value from user
 
-    // switch statement mutates the correct field
-    switch(field) {
+      // switch statement mutates the correct field
+      switch(field) {
       case 1:
         ptr->setFirstName(newField);
         break;
@@ -548,6 +540,9 @@ void Database::modifyEntry() {
         newField = searchList.getTerm();
         ptr->setCountry(newField);
       }
+
+    }
+
 
       // See if user wants to change another field
       cout << "Change another field? (y/n) ";
@@ -660,6 +655,7 @@ void Database::mainMenu() {
          << "   2. Update Database" << endl
          << "   3. Browse Records" << endl
          << "   4. Search Database" << endl
+         << "   5. Write Database to File" << endl
          << "   0. Exit" << endl
          << "   : ";
 
@@ -684,6 +680,9 @@ void Database::mainMenu() {
       searchMenu();
       break;
 
+    case 5:
+      writeDatabase();
+      break;
     case 0:
       runProgram = false;
       cout << "Goodbye" << endl;
@@ -696,6 +695,52 @@ void Database::mainMenu() {
   }
 
   return;
+}
+
+void Database::writeDatabase() {
+
+  ofstream outFile;
+  string filename;
+  char yesno;
+
+  cout << endl;
+  cout << "Enter the name of a file to write to: ";
+  cin >> filename;
+
+  cout << endl;
+  cout << "If this file exists it will be overwritten! Continue? (y/n) ";
+  cin >> yesno;
+
+  if (yesno == 'n' || yesno == 'N') {
+    cout << "Enter a new file name: ";
+    cin >> filename;
+  }
+
+  outFile.open(filename);
+
+  writeFile(dataTree.Root(), outFile);
+}
+
+void Database::writeFile(Node* node, ofstream& outfile) {
+
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Recursively Visits binary tree in pre-order
+  //                and writes all Record fields to file.
+
+  //*******************************************************
+
+  outfile << *node->getContact();
+
+  if (node->Left() != nullptr) { // If the node has a left subtree,
+    writeFile(node->Left(), outfile); // recursively call the function on that branch
+  }
+
+  if (node->Right() != nullptr) { // If the node has a right subtree,
+    writeFile(node->Right(), outfile); // recursively call the function on that branch
+  }
 }
 
 void Database::searchMenu() {
@@ -944,7 +989,7 @@ void Database::updateMenu() {
          << "   2. Modify Record" << endl
          << "   3. Delete Record" << endl
          << "   4. Go Back" << endl
-         << "      : ";
+         << "   : ";
 
     cin >> menuOption;
 

@@ -42,7 +42,7 @@ private:
 public:
     BSTree();
     ~BSTree();
-    Node* Root() { return root; }
+    Node* Root() const{ return root; }
     void setRoot(Node * _root) {root = _root;}
 
     // ***** B. Gedvilas edits 11/22/2016 *****

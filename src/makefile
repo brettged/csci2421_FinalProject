@@ -13,7 +13,7 @@ LIBS = -lm
 
 OBJS = main.o Database.o Record.o BSTree.o SearchData.o
 
-TARGET = gedvilasProj
+TARGET = gedvilasProj_Database
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LIBDIR) $(LIBS)

@@ -87,7 +87,8 @@ class Record {
     void setZipCode(string _zipCode);
     void setCountry(string _country);
     void addAffiliate(Affiliate _affil);
-    void clearAll();
+    void addAffiliate();
+    void rmvAffiliate();
 
     // ******** Accessor Methods **********
 

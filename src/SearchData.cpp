@@ -573,7 +573,7 @@ void SearchData::writeOut() {
   cout << endl;
   cout << "Enter the name of a file to write to: ";
   cin >> filename;
-
+  
   cout << endl;
   cout << "If this file exists it will be overwritten! Continue? (y/n) ";
   cin >> yesno;
@@ -587,9 +587,8 @@ void SearchData::writeOut() {
 
   outFile << *this;
 
-
-
 }
+
 
 string SearchData::retField(Record* contact, int fNum) const {
 

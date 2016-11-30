@@ -75,6 +75,10 @@ class Database {
 
     // Output functions for database
 
+    void writeDatabase();
+    void writeFile(Node* node, ofstream& outfile);
+
+
     // void sortList();
     string getSearchTerm();
 

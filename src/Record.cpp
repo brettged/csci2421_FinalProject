@@ -103,11 +103,52 @@ void Record::addAffiliate(Affiliate _affil) {
   affiliates.push_back(_affil);
 }
 
-void Record::clearAll() {
+void Record::addAffiliate() {
+  string tempString;
+  Affiliate tempAffil;
 
-  affiliates.clear();
+  cout << "Affiliate First Name: ";
+  cin >> tempString;
+  tempAffil.setFirstName(tempString);
 
 
+  cout << "Affiliate Last Name: ";
+  cin >> tempString;
+  tempAffil.setLastName(tempString);
+
+
+  cin.ignore();
+  cout << "Affiliate Phone Number: ";
+  getline(cin, tempString);
+  tempAffil.setPhone(tempString);
+
+
+  cout << "Affiliate Email: ";
+  getline(cin, tempString);
+  tempAffil.setEmail(tempString);
+
+  addAffiliate(tempAffil);
+
+}
+
+void Record::rmvAffiliate() {
+
+  Affiliate* temp = new Affiliate;
+
+  string last;
+  string first;
+  cout << "Enter full name of affiliate to remove: ";
+  cin >> first;
+  cin.ignore();
+  getline(cin, last);
+  temp->setFirstName(first);
+  temp->setLastName(last);
+
+  // cout << temp->getLastName() << endl;
+
+  affiliates.remove(*temp);
+  delete temp;
+  return;
 }
 
 bool operator < (const Record& left, const Record& right) {
@@ -189,7 +230,7 @@ ofstream& operator << (ofstream& out, const Record& contact) {
   //*******************************************************
 
   // ensure leading 0's are printed in the id number
-  out << endl << setw(9) << setfill('0') << contact.idNum << endl
+  out << setw(9) << setfill('0') << contact.idNum << endl
        // write all the fields
        << contact.firstName << endl
        << contact.middleName << endl
@@ -214,11 +255,11 @@ ofstream& operator << (ofstream& out, const Record& contact) {
 
  // small formatting modifier to make sure contacts with no affiliates
  // get displayed correctly
- if (contact.affiliates.size() == 0) {
-   cout << endl;
- }
+ // if (contact.affiliates.size() == 0) {
+ //   out << endl;
+ // }
 
- out << '|'; // write a character delimiting each record
+ out << '|' << endl; // write a character delimiting each record
 
   return out;
 }

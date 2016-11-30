@@ -174,8 +174,10 @@ void BSTree::printPreorder(Node* node)
   //       left subtree, visits right subtree) and outputs the key at each node
   //       when it is visited.
 
-  cout << node->Key() << endl; // in preorder we visit the node before any of its
+  // cout << node->Key() << endl; // in preorder we visit the node before any of its
                                // subtrees.
+
+  cout << *node->getContact();
 
   if (node->Left() != nullptr) { // If the node has a left subtree,
     printPreorder(node->Left()); // recursively call the function on that branch
