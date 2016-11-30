@@ -110,53 +110,17 @@ void Record::clearAll() {
 
 }
 
-//
-// void Record::modifyRecord() {
-//
-//
-//   char modify = 'y';
-//
-//
-//   while(modify) {
-//
-//     int field;
-//
-//     cout << "Field to Modify:" << endl;
-//     cout << "1. First Name" << endl
-//          << "2. Middle Name" << endl
-//          << "3. Last Name" << endl
-//          << "4. Company Name" << endl
-//          << "5. Home Phone" << endl
-//          << "6. Office Phone" << endl
-//          << "7. Email" << endl
-//          << "8. Mobile Phone" << endl
-//          << "9. Street Address" << endl
-//          << "10. City" << endl
-//          << "11. State" << endl
-//          << "12. Zip Code" << endl
-//          << "13. Country" << endl
-//          << "14. Affiliates" << endl
-//          << ": ";
-//
-//     cin >> field;
-//
-//     cout << "Enter New Value: "
-//
-//     switch(field) {
-//
-//       case 1:
-//
-//     }
-//
-//
-//   }
-//
-//
-// }
-
-
 bool operator < (const Record& left, const Record& right) {
 
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Overloaded the less than operator for the Record class. one
+  //                Record is less than another if the last name is in higher
+  //                alphabetical order.
+
+  //*******************************************************
   return left.lastName < right.lastName;
 
 }
@@ -165,10 +129,14 @@ bool operator < (const Record& left, const Record& right) {
 
 ostream& operator << (ostream& out, const Record& contact) {
 
+  //*******************************************************
+
   // Precondition:
   // Postcondition:
   // Functionality: Overloads the generic ostream operator <<. When output is
   //                piped to the console, it will invoke this operator.
+
+  //*******************************************************
 
   out  << "           ID#: " << setw(9) << setfill('0') << contact.idNum << endl
        << "    First Name: " << contact.firstName << endl
@@ -186,16 +154,15 @@ ostream& operator << (ostream& out, const Record& contact) {
        << "       Country: " << contact.country << endl
        << "    Affiliates: ";
 
+       // utilize STL list<> iterators to visit all the affiliates
   for (list<Affiliate>::const_iterator it = contact.affiliates.begin(); it != contact.affiliates.end(); ++it) {
 
     if (it == contact.affiliates.begin()) {
-     out << *it << endl;
-
+     out << *it << endl; // affiliate has its own overloaded ostream operator
     }
     else {
      out << "                " << *it << endl;
     }
-
   }
 
   // small formatting modifier to make sure contacts with no affiliates
@@ -203,10 +170,7 @@ ostream& operator << (ostream& out, const Record& contact) {
   if (contact.affiliates.size() == 0) {
     cout << endl;
   }
-
-
   out << "              |" << endl;
-
 
   return out;
 }
@@ -214,11 +178,15 @@ ostream& operator << (ostream& out, const Record& contact) {
 
 ofstream& operator << (ofstream& out, const Record& contact) {
 
+  //*******************************************************
+
   // Precondition:
   // Postcondition:
   // Functionality: Overloads the ofstream operator <<. This function
   //                allows each record to be written to a file in the
   //                same format as the original input file.
+
+  //*******************************************************
 
   // ensure leading 0's are printed in the id number
   out << endl << setw(9) << setfill('0') << contact.idNum << endl

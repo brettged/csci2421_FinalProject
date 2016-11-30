@@ -6,7 +6,7 @@
 //
 //  Author: Brett Gedvilas
 //  Class:  CSCI 2421
-//  Date:   11/23/2016
+//  Date:   11/29/2016
 //
 //
 //  Assignment: Final Project - A c++ Database System
@@ -43,9 +43,9 @@ class Affiliate {
 
   public:
 
-    Affiliate(){};
-
-    ~Affiliate(){};
+    Affiliate(){}; // constructor
+    
+    ~Affiliate(){}; // destructor
 
 
     //************ Mutator Methods *****************
@@ -63,13 +63,14 @@ class Affiliate {
 
     friend ostream& operator << (ostream& out, const Affiliate& affil){
 
+      // Overload operator to easily display each affiliate field
       out << affil.firstName << " " << affil.lastName << "," << affil.mobilePhone
           << "," << affil.email << ";";
 
       return out;
 
     }
-    
+
 };
 
 #endif

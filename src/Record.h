@@ -6,16 +6,15 @@
 //
 //  Author: Brett Gedvilas
 //  Class:  CSCI 2421
-//  Date:   10/30/2016
+//  Date:   11/29/2016
 //
 //
 //  Assignment: Final Project - A c++ Database System
 //
 //
-//  This file contains the Record class delcaration
-//
-//
-//
+//  This file contains the Record class delcaration. The record class contains
+//  member variables corresponding to each field that a entry in the database cannot
+//  have, and their associated mutator and accessor functions.
 //
 //
 //##############################################################################
@@ -108,8 +107,6 @@ class Record {
     string getCountry() {return country;};
     list<Affiliate> getAffiliate() {return affiliates;}; // returns a linked list of the affiliates
 
-
-    // void modifyRecord();
 
     // overload less than operator
     friend bool operator < (const Record& left, const Record& right);

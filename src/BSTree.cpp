@@ -7,7 +7,7 @@
 //  Author: Brett Gedvilas
 //  Class:  CSCI 2421
 //  Date:   11/23/2016
-//
+//  Edited by Brett Gedvilas at marked locations
 //
 //  Assignment: Final Project - A c++ Database System
 //
@@ -42,11 +42,16 @@ void BSTree::freeNode(Node* leaf)
     {
 
     }
+
+    // EDIT
+    // CHANGED - The original file used an else if statement here,
+    //           this led to a memory leak when destructing the tree.
+    //           Using if statement fixes leak
     // else
     if ( leaf != nullptr ) {
+    // END EDIT
       freeNode(leaf->Left());
       freeNode(leaf->Right());
-      // delete leaf->getContact();
       delete leaf;
     }
 
@@ -66,17 +71,17 @@ void BSTree::freeNode(Node* leaf)
 //     }
 // }
 
-void BSTree::addNode(Record* contactPtr) {
+void BSTree::addNode(Record* contactPtr) { // function takes Record* instead of int
   // No elements. Add the root
   if ( root == nullptr ) {
       Node* n = new Node();
+
+      // EDIT
+      // in addition to dynamically allocating a node, each node adds a pointer
+      // to a Contact
       n->setKey(contactPtr->getId());
       n->setDataPtr(contactPtr); // set the node pointer to the record
-
-      // Debug statement
-      // Record* testPtr;
-      // testPtr = n->getContact();
-      // cout << testPtr->getLastName() << endl;
+      // END EDIT
 
       root = n;
   }
@@ -88,13 +93,15 @@ void BSTree::addNode(Record* contactPtr) {
 
 // Add a node (private)
 void BSTree::addNode(Record* contactPtr, Node* leaf) {
-    if ( contactPtr->getId() <= leaf->Key() )
+  // Function takes Record* instead of int as parameter
+
+    if ( contactPtr->getId() <= leaf->Key() ) // EDIT - use the contact ID as the key
     {
         if ( leaf->Left() != nullptr )
-            addNode(contactPtr, leaf->Left());
+            addNode(contactPtr, leaf->Left()); // uses contactPtr as key
         else {
             Node* n = new Node();
-            n->setKey(contactPtr->getId());
+            n->setKey(contactPtr->getId()); // set key to the id
             n->setDataPtr(contactPtr); // set the node pointer to the record
             n->setParent(leaf);
             leaf->setLeft(n);
@@ -379,21 +386,4 @@ Node* BSTree::deleteNode(Node* root, unsigned int key)
         }
         return root;
 
-}
-
-
-void visitNodes(Node* node) {
-
-  // If the node has a left subtree, recursively call function on that branch
-  if (node->Left() != nullptr) {
-    visitNodes(node->Left());
-  }
-
-  // NOTE - node gets visited here
-  cout << *node->getContact();
-
-  // then search the right subtree
-  if (node->Right() != nullptr) {
-    visitNodes(node->Right());
-  }
 }

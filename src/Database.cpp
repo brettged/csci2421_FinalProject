@@ -6,7 +6,7 @@
 //
 //  Author: Brett Gedvilas
 //  Class:  CSCI 2421
-//  Date:   11/17/2016
+//  Date:   11/29/2016
 //
 //
 //  Assignment: Final Project - A c++ Database System
@@ -24,7 +24,7 @@
 #include <string>
 #include <sstream>
 
-
+#include "BSTree.h"
 #include "Database.h"
 #include "Record.h"
 #include "SearchData.h"
@@ -33,6 +33,7 @@ using std::fstream;
 using std::cout;
 using std::cin;
 using std::string;
+
 
 Database::Database() {
   // default constructor
@@ -48,8 +49,6 @@ Database::~Database() {
 void Database::readFile() {
   //*******************************************************
 
-  // readFile()
-  //
   // Precondition:
   // Postcondition: The calling Database object will be populated
   //                with contact data from a file
@@ -63,12 +62,10 @@ void Database::readFile() {
   string fileName;
 
   // Prompt the user to enter the filename to read
-  // cout << "Enter the file name to read into the database: ";
-  // cin >> fileName;
+  cout << "Enter the file name to read into the database: ";
+  cin >> fileName;
 
-  fileName = "databasesmall.txt";
-
-  inFile.open(fileName);
+  inFile.open(fileName); // open file
 
   // Error check to see if file successfully opened
   if(!inFile) {
@@ -76,7 +73,7 @@ void Database::readFile() {
     return;
   }
 
-  cout << endl << "reading file..." << endl << endl;
+  cout << endl << "reading file... ";
 
   unsigned int tempInt; // Temporary variable to hold integer values
   string tempString; // Temporary variable to hold string values
@@ -85,8 +82,6 @@ void Database::readFile() {
   while (inFile >> tempInt) {
 
     Record* contactPtr = new Record; // dynamically allocate memory for a new contact
-
-    size++; //increment size of database by 1
 
     contactPtr->setId(tempInt);
 
@@ -180,23 +175,20 @@ void Database::readFile() {
 
       contactPtr->addAffiliate(tempAffil); // add the affiliate to the record
 
-      getline(inFile, tempString);
-
-
+      getline(inFile, tempString); // get next line in the file
     }
 
     addEntry(contactPtr); // adds record to database tree
 
   }
 
-  inFile.close();
+  cout << getSize() << " Records added to database." << endl;
+  inFile.close(); // close the file
 
 }
 
 bool Database::validateID(unsigned int testID) {
   //*******************************************************
-
-  // invalidID(unsigned int)
 
   // Precondition:
   // Postcondition:
@@ -208,18 +200,26 @@ bool Database::validateID(unsigned int testID) {
 
   //*******************************************************
 
-  bool valid;
+  // bool valid;
 
   // start at root of tree and try to find a node with the new id number
-  valid = (testID != (dataTree.findNode(testID, dataTree.Root()))->Key());
 
-  return valid; // return true if number is unique, false if not
+  if (dataTree.findNode(testID, dataTree.Root()) == nullptr) {
+    return true;
+  }
+  else {
+    return false;
+  }
+  //
+  // valid = (testID != (dataTree.findNode(testID, dataTree.Root()))->Key());
+  //
+  // return valid; // return true if number is unique, false if not
 }
 
 void Database::addEntry() {
   //*******************************************************
 
-  // addEntry(Record)
+  // Public addEntry()
 
   // Precondition:
   // Postcondition: A record is added to the database
@@ -228,15 +228,16 @@ void Database::addEntry() {
 
   //*******************************************************
 
-  Record* contactPtr = new Record;
+  Record* contactPtr = new Record; // dynamically allocate memory for a new Record
 
+  // temporary variables to hold fields
   unsigned int tempInt;
-
   string tempString;
 
   bool validID = false;
 
   do {
+    // get ID# from user and check to see if it is already in database
     cout << "Enter Unique 9 digit ID#: ";
     cin >> tempInt;
 
@@ -249,9 +250,9 @@ void Database::addEntry() {
 
   } while(!validID);
 
-  contactPtr->setId(tempInt);
+  contactPtr->setId(tempInt); // set id number
 
-
+  // Prompt user for all the fields of the new contact
   cout << "    First Name: ";
   cin >> tempString;
   contactPtr->setFirstName(tempString);
@@ -322,6 +323,7 @@ void Database::addEntry() {
 
   char option;
 
+  // Check to see if any affiliates need to be added
   cout << "Do you have any affiliates to enter? (y/n) ";
   cin >> option;
 
@@ -357,14 +359,14 @@ void Database::addEntry() {
   }
 
   cout << "Adding entry..." << endl;
-  addEntry(contactPtr); // call private addEntry()
+  addEntry(contactPtr); // add the entry to the database
 
 }
 
 void Database::addEntry(Record* _contactPtr) {
   //*******************************************************
 
-  // addEntry(Record) - public
+  // Private addEntry function
 
   // Precondition:
   // Postcondition: A record is added to the database
@@ -373,20 +375,31 @@ void Database::addEntry(Record* _contactPtr) {
 
   //*******************************************************
 
-  dataTree.addNode(_contactPtr);
-  size++;
+  dataTree.addNode(_contactPtr); // add node to BSTree with a pointer to a new contact
+  size++; // increase size of database
 
 }
 
 void Database::removeEntry() {
+  //*******************************************************
 
+  // Public removeEntry()
+
+  // Precondition:
+  // Postcondition: A node is removed from the database
+  // Functionality: This function prompts the user for a id#
+  //                and removes that Record from the database
+  //                if the id# is in the database, and displays
+  //                an error message if it's not in the database
+
+  //*******************************************************
   unsigned int idNum;
   cout << "Enter ID number of record: ";
   cin >> idNum;
 
-  if (!validateID(idNum)) {
-    // dataTree.deleteNode(idNum); CHANGED
-    removeEntry(idNum);
+  if (!validateID(idNum)) { // make sure the id# of the contact to delete is in the database
+    removeEntry(idNum); // call private remove entry to delete node/contact info
+    cout << "Successfully Removed!" << endl;
   }
 
   else {
@@ -398,7 +411,7 @@ void Database::removeEntry() {
 void Database::removeEntry(unsigned int idNum) {
   //*******************************************************
 
-  // removeEntry()
+  // Private removeEntry()
 
   // Precondition:
   // Postcondition: A record is deleted from the database
@@ -407,16 +420,27 @@ void Database::removeEntry(unsigned int idNum) {
 
   //*******************************************************
 
-  dataTree.deleteNode(idNum);
-  size--;
+  dataTree.deleteNode(idNum); // call the BSTree deleteNode function
+  size--; // decrement size
 }
 
 void Database::modifyEntry() {
 
+  //*******************************************************
+
+  // Precondition: The entry to modify must be in the database
+  // Postcondition: A Record in the database is modified
+  // Functionality: This function allows the user to modify
+  //                any field of a Record except the id number
+
+  //*******************************************************
+
+  // Get ID# from user
   unsigned int idNum;
   cout << "Enter ID# of record to modify: ";
   cin >> idNum;
 
+  // Validate the entry is in the database
   while(validateID(idNum)) {
     cout << "Invalid ID#" << endl;
     cout << "Enter ID# of record to modify: ";
@@ -425,24 +449,24 @@ void Database::modifyEntry() {
 
   Record* ptr = searchList.idSearch(idNum, &dataTree); // get the record from database
 
-  cout << *ptr << endl; // display the record
+  cout << *ptr << endl; // display the current record
 
   char modify = 'y';
 
-
+  // While loop lets the user modify as many fields as they wish
   while(modify == 'y' || modify == 'Y') {
 
-    int field = searchList.getField();
-
+    int field = searchList.getField(); // get the field the user wants to modify
 
     // modifiying an affiliate field function slightly differently
     if (field == 14) {
 
-
+      // TODO
     }
 
-    string newField = searchList.getTerm();
+    string newField = searchList.getTerm(); // get the new field value from user
 
+    // switch statement mutates the correct field
     switch(field) {
       case 1:
         ptr->setFirstName(newField);
@@ -484,6 +508,7 @@ void Database::modifyEntry() {
         ptr->setCountry(newField);
         break;
       case 15:
+        // Mutate all the fields
         newField = searchList.getTerm();
         ptr->setFirstName(newField);
 
@@ -524,107 +549,91 @@ void Database::modifyEntry() {
         ptr->setCountry(newField);
       }
 
+      // See if user wants to change another field
       cout << "Change another field? (y/n) ";
       cin >> modify;
   }
 
-  cout << *ptr << endl; // display the update record
-
+  cout << *ptr << endl; // display the updated record
 }
 
-// Record* Database::idSearch(unsigned int idNum) {
-//   // *******************************************************
-//   //
-//   // idSearch()
-//   //
+
+// void Database::sortList() {
+//
+//   //*******************************************************
+//
 //   // Precondition:
-//   // Postcondition:
-//   // Functionality:
-//   // *******************************************************
+//   // Postcondition: Search list will be sorted based on given
+//   //                field.
+//   // Functionality: Prompts the user for which field to sort
+//   //                the search results by, then calls appropriate
+//   //                sort function.
 //
-//   Node* nPtr;
-//   nPtr = dataTree.findNode(idNum, dataTree.Root()); // find the node with the key to delete
+//   //*******************************************************
 //
-//   if (nPtr == nullptr) {
-//     return nullptr;
+//   int menuOption;
+//
+//   cout << "Select Category to Sort Search Results: " << endl;
+//   cout << "1. ID#" << endl
+//        << "2. Last Name" << endl
+//        << "3. Company Name" << endl
+//        << "4. State" << endl
+//        << "5. Country" << endl
+//        << "6. City" << endl
+//        << ": ";
+//
+//   cin >> menuOption;
+//
+//   switch (menuOption)
+//   {
+//   case 1:
+//     // already sorted by id number
+//     break;
+//
+//   case 2:
+//     searchList.sortLastName();
+//     break;
+//   case 3:
+//     searchList.sortCompany();
+//     break;
+//   case 4:
+//     searchList.sortState();
+//     break;
+//   case 5:
+//     searchList.sortCountry();
+//     break;
+//   case 6:
+//     searchList.sortCity();
+//     break;
+//
+//   default:
+//     cout << "That is not a valid choice" << endl;
+//     break;
 //   }
 //
-//   return nPtr->getContact(); // return a pointer to record from the node
+//   // cout << searchList;
 //
 // }
+void Database::visitNodes(Node* node) {
+  // Precondition:
+  // Postcondition: All contacts in the database are output to console
+  // Functionality: This function visits the nodes of the binary search tree in
+  //                order and when a node is visited, the contents of the Record
+  //                pointed at by the node is output to the console.
 
-
-
-string Database::getSearchTerm() {
-
-  string searchTerm;
-  cout << "Enter the search term: ";
-  cin >> searchTerm;
-
-  return searchTerm;
-
-}
-
-// list<Record> Database::exactSearch(string searchTerm) {
-//
-// }
-//
-// list<Record> Database::containsSearch(string searchTerm) {
-//
-//
-// }
-
-void Database::sortList() {
-
-  int menuOption;
-
-  cout << "Select Category to Sort Search Results: " << endl;
-  cout << "1. ID#" << endl
-       << "2. Last Name" << endl
-       << "3. Company Name" << endl
-       << "4. State" << endl
-       << "5. Country" << endl
-       << "6. City" << endl
-       << ": ";
-
-  cin >> menuOption;
-
-  switch (menuOption)
-  {
-  case 1:
-    // already sorted by id number
-    break;
-
-  case 2:
-    searchList.sortLastName();
-    break;
-  case 3:
-    searchList.sortCompany();
-    break;
-  case 4:
-    searchList.sortState();
-    break;
-  case 5:
-    searchList.sortCountry();
-    break;
-  case 6:
-    searchList.sortCity();
-    break;
-
-  default:
-    cout << "That is not a valid choice" << endl;
-    break;
+  // If the node has a left subtree, recursively call function on that branch
+  if (node->Left() != nullptr) {
+    visitNodes(node->Left());
   }
 
+  // NOTE - node gets visited here
+  cout << *node->getContact();
 
-  // searchList.searchTree("CO", 11, dataTree.Root(), true);
-  // // searchList.sortLastName();
-  // searchList.sortCompany();
-
-  cout << searchList;
-
+  // then search the right subtree
+  if (node->Right() != nullptr) {
+    visitNodes(node->Right());
+  }
 }
-
 
 //********************** Menu Functions ****************************
 
@@ -632,11 +641,10 @@ void Database::sortList() {
 void Database::mainMenu() {
   //*******************************************************
 
-  // mainMenu()
-
   // Precondition:
   // Postcondition:
   // Functionality:
+
   //*******************************************************
 
   int menuOption; // user menu choice
@@ -644,25 +652,23 @@ void Database::mainMenu() {
   bool runProgram = true;
 
   while(runProgram) {
+    cout << endl;
+    cout << "      Main Menu:" << endl;
+    cout << " --------------------" << endl;
 
-    cout << "Main Menu:" << endl;
-    cout << "----------" << endl;
-
-    cout << "1. Read Data File" << endl
-         << "2. Update Database" << endl
-         << "3. Browse Records" << endl
-         << "4. Search Database" << endl
-         << "5. Write Data to File" << endl
-         << "0. Exit" << endl
-         << ": ";
+    cout << "   1. Read Data From File" << endl
+         << "   2. Update Database" << endl
+         << "   3. Browse Records" << endl
+         << "   4. Search Database" << endl
+         << "   0. Exit" << endl
+         << "   : ";
 
     cin >> menuOption;
-
-    cout << endl;
 
     switch(menuOption) {
 
     case 1:
+      cout << endl;
       readFile();
       break;
 
@@ -671,15 +677,11 @@ void Database::mainMenu() {
       break;
 
     case 3:
-      outputDataMenu();
+      visitNodes(dataTree.Root());
       break;
 
     case 4:
       searchMenu();
-      break;
-
-    case 5:
-      // writeOut(); // writes current database to file
       break;
 
     case 0:
@@ -691,18 +693,21 @@ void Database::mainMenu() {
       cout << "That is not a valid choice. Please choose from the given options" << endl;
 
     }
-
-    cout << endl;
   }
 
   return;
 }
 
-
 void Database::searchMenu() {
 
-  cout << "Search Database" << endl;
-  cout << "---------------" << endl;
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+
+  //*******************************************************
+
 
   int menuOption;
   bool menu = true;
@@ -710,13 +715,16 @@ void Database::searchMenu() {
   int field;
   string term;
 
-  while(menu) {
 
-    cout  << "1. Search for ID#" << endl
-          << "2. Search by exact matches" << endl
-          << "3. Search by matches containing" << endl
-          << "4. Main Menu" << endl
-          << ": ";
+  while(menu) {
+    cout << endl;
+    cout << "      Search Database" << endl;
+    cout << "    -------------------" << endl;
+    cout << "   1. Search for ID#" << endl
+         << "   2. Search by exact matches" << endl
+         << "   3. Search by matches containing" << endl
+         << "   4. Main Menu" << endl
+         << "   : ";
 
     cin >> menuOption;
 
@@ -767,27 +775,35 @@ void Database::searchMenu() {
 
 void Database::searchSubMenu() {
 
-  cout << endl;
-  cout << "Search Results" << endl;
-  cout << "--------------" << endl;
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+
+  //*******************************************************
+
 
   int menuOption;
   bool menu = true;
 
 
   while(menu) {
+    cout << endl;
+    cout << "      Search Results" << endl;
+    cout << "  ----------------------" << endl;
 
     cout << endl << "Your search returned " << searchList.getSearchResults().size()
     << " results" << endl << endl;
 
-    cout << "1. Refine Search Results" << endl
-         << "2. New Search" << endl
-         << "3. Browse Results" << endl
-         << "4. Modify an Entry" << endl
-         << "5. Write search results to file" << endl
-         << "6. Remove an Entry from Database" << endl
-         << "7. Back to Search Menu" << endl
-         << ": ";
+    cout << "   1. Refine Search Results" << endl
+         << "   2. New Search" << endl
+         << "   3. Browse Results" << endl
+         << "   4. Modify an Entry" << endl
+         << "   5. Write search results to file" << endl
+         << "   6. Remove an Entry from Database" << endl
+         << "   7. Back to Search Menu" << endl
+         << "   : ";
 
     cin >> menuOption;
     cin.ignore();
@@ -834,8 +850,14 @@ void Database::searchSubMenu() {
 
 void Database::searchAgain() {
 
-  cout << "Sub Search" << endl;
-  cout << "----------" << endl;
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+
+  //*******************************************************
+
 
   int menuOption;
   bool menu = true;
@@ -844,12 +866,15 @@ void Database::searchAgain() {
   string term;
 
   while(menu) {
+    cout << endl;
+    cout << "      Sub Search" << endl;
+    cout << "  ------------------" << endl;
 
-    cout << "1. Search for ID#" << endl
-         << "2. Search for exact matches" << endl
-         << "3. Search for matches containing" << endl
-         << "4. Go Back" << endl
-         << ": ";
+    cout << "   1. Search for ID#" << endl
+         << "   2. Search for exact matches" << endl
+         << "   3. Search for matches containing" << endl
+         << "   4. Go Back" << endl
+         << "   : ";
 
     cin >> menuOption;
 
@@ -897,21 +922,29 @@ void Database::searchAgain() {
 }
 
 void Database::updateMenu() {
-  // TODO - updata menu shit
 
-  cout << "Modify Database" << endl;
-  cout << "---------------" << endl;
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality:
+
+  //*******************************************************
+
+
 
   int menuOption;
   bool menu = true;
 
   while(menu) {
-
-    cout << "1. Add New Record" << endl
-         << "2. Modify Record" << endl
-         << "3. Delete Record" << endl
-         << "4. Go Back" << endl
-         << ": ";
+    cout << endl;
+    cout << "      Modify Database" << endl;
+    cout << "   ---------------------" << endl;
+    cout << "   1. Add New Record" << endl
+         << "   2. Modify Record" << endl
+         << "   3. Delete Record" << endl
+         << "   4. Go Back" << endl
+         << "      : ";
 
     cin >> menuOption;
 
@@ -924,10 +957,10 @@ void Database::updateMenu() {
         modifyEntry();
         break;
       case 3:
-
-        cout << "1. Search for a Record"
-             << "2. Enter ID# of Record to remove"
-             << ": ";
+        cout << endl;
+        cout << "      1. Search for a Record" << endl
+             << "      2. Enter ID# of Record to remove" << endl
+             << "      : ";
 
         cin >> menuOption;
 
@@ -950,26 +983,31 @@ void Database::updateMenu() {
 }
 
 void Database::outputDataMenu() {
-  // TODO - figure out display stuff
-  // cout << "Browse data menu called" << endl;
+
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Menu to allow user to choose how to output
+  //                search results.
+
+  //*******************************************************
 
   int menuOption;
   bool menu = true;
 
-  cout << endl;
-  cout << "Output Database" << endl;
-  cout << "---------------" << endl << endl;
 
   while(menu) {
-
-    cout << "1. Write Current Search Results to File" << endl
-         << "2. Chose Sorting Order" << endl
-         << "3. Select Fields to Write" << endl
-         << "4. Back" << endl
-         << ": ";
+    cout << endl;
+    cout << "      Data Output" << endl;
+    cout << "  -------------------" << endl;
+    cout << "   1. Write to File" << endl
+         << "   2. Chose Sorting Order" << endl
+         << "   3. Select Fields to Write" << endl
+         << "   4. Back" << endl
+         << "   : ";
 
     cin >> menuOption;
-    // menuOption = 3;
 
     switch(menuOption) {
 
@@ -978,7 +1016,7 @@ void Database::outputDataMenu() {
         break;
 
       case 2:
-        sortList();
+        sortMenu();
         break;
 
       case 3:
@@ -1001,16 +1039,28 @@ void Database::outputDataMenu() {
 
 void Database::sortMenu() {
 
-  int menuOption;
-  cout << "Select Which Field to Sort Search Results By: ";
+  //*******************************************************
 
-  cout << "1. Last Name" << endl
-       << "2. Company Name" << endl
-       << "3. State" << endl
-       << "4. Country" << endl
-       << "5. City" << endl
-       << "6. Go Back" << endl
-       << ": ";
+  // Precondition:
+  // Postcondition:
+  // Functionality: Menu allowing user to choose which field to sortMenu
+  //                by
+
+  //*******************************************************
+
+
+  int menuOption;
+
+  cout << endl;
+  cout << "      Select Which Field to Sort Search Results By: " << endl;
+
+  cout << "   1. Last Name" << endl
+       << "   2. Company Name" << endl
+       << "   3. State" << endl
+       << "   4. Country" << endl
+       << "   5. City" << endl
+       << "   6. Go Back" << endl
+       << "   : ";
 
   cin >> menuOption;
 

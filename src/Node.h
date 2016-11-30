@@ -6,7 +6,7 @@
 //
 //  Author: Brett Gedvilas
 //  Class:  CSCI 2421
-//  Date:   10/30/2016
+//  Date:   11/29/2016
 //  Edited by Brett Gedvilas at marked locations
 //
 //  Assignment: Final Project - c++ Database
@@ -29,9 +29,6 @@ using namespace std;
 
 #include "Record.h" // include the Record class
 
-//***************** End of Edits *****************
-
-
 
 //Placeholder for a composite data type
 // class Datatype{
@@ -40,6 +37,8 @@ using namespace std;
 //
 //
 // };
+
+//***************** End of Edits *****************
 
 //Binary Tree Node
 class Node {
@@ -57,9 +56,10 @@ private:
     Node* right;
     Node* parent;
 public:
-    // Node() { key = -1; left = nullptr; right = nullptr; parent = nullptr;};
 
-    //************ B. Gedvilas Edits *****************
+  //************ B. Gedvilas Edits *****************
+
+  // Node() { key = -1; left = nullptr; right = nullptr; parent = nullptr;};
 
     // Since the database BSTree is organized based upon the unique id number for
     // each entry, the node key will eventually get set to the id#.
@@ -67,6 +67,7 @@ public:
     // will be used as the initialization value.
     Node() {key = 0; left = nullptr; right=nullptr; parent = nullptr;};
 
+    // Destructor, must delete dynamically allocated Records
     ~Node() {
       delete dataPtr; // de-allocate the record the node points to
     }

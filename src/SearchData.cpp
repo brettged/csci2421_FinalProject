@@ -53,24 +53,24 @@ int SearchData::getField() {
   int field;
 
   cout << endl;
-  cout << "Select field:" << endl;
-  cout << "-------------" << endl;
-  cout << "1. First Name" << endl
-       << "2. Middle Name" << endl
-       << "3. Last Name" << endl
-       << "4. Company Name" << endl
-       << "5. Home Phone" << endl
-       << "6. Office Phone" << endl
-       << "7. Email" << endl
-       << "8. Mobile Phone" << endl
-       << "9. Street Address" << endl
-       << "10. City" << endl
-       << "11. State" << endl
-       << "12. Zip Code" << endl
-       << "13. Country" << endl
-       << "14. Affiliates" << endl
-       << "15. All Fields" << endl
-       << ": ";
+  cout << "      Select field:" << endl;
+  cout << "   -------------------" << endl;
+  cout << "   1. First Name" << endl
+       << "   2. Middle Name" << endl
+       << "   3. Last Name" << endl
+       << "   4. Company Name" << endl
+       << "   5. Home Phone" << endl
+       << "   6. Office Phone" << endl
+       << "   7. Email" << endl
+       << "   8. Mobile Phone" << endl
+       << "   9. Street Address" << endl
+       << "   10. City" << endl
+       << "   11. State" << endl
+       << "   12. Zip Code" << endl
+       << "   13. Country" << endl
+       << "   14. Affiliates" << endl
+       << "   15. All Fields" << endl
+       << "   : ";
 
   cin >> field;
   return field;
@@ -570,13 +570,13 @@ void SearchData::writeOut() {
   string filename;
   char yesno;
 
-  // cout << "Enter the name of a file to write to: ";
-  // cin >> filename;
-  //
-  // cout << "If this file exists it will be overwritten! Continue? (y/n) ";
-  // cin >> yesno;
+  cout << endl;
+  cout << "Enter the name of a file to write to: ";
+  cin >> filename;
 
-  filename = "testOut.txt";
+  cout << endl;
+  cout << "If this file exists it will be overwritten! Continue? (y/n) ";
+  cin >> yesno;
 
   if (yesno == 'n' || yesno == 'N') {
     cout << "Enter a new file name: ";
@@ -659,7 +659,7 @@ ostream& operator << (ostream& out, const SearchData& results) {
 ofstream& operator << (ofstream& out, const SearchData& results) {
 
   Record* ptr;
-  
+
   for (list<Record>::iterator it = results.current->begin(); it != results.current->end(); ++it) {
 
     ptr = &(*it);
