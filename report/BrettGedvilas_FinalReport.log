@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.21)  10 NOV 2016 19:31
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.21)  30 NOV 2016 18:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -198,40 +198,48 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 51.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 40.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 51.
- [3]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 40.
+ [2] [3]
 <flowChart.png, id=17, 577.15625pt x 396.48125pt>
 File: flowChart.png Graphic file (type png)
  <use flowChart.png>
-Package pdftex.def Info: flowChart.png used on input line 63.
+Package pdftex.def Info: flowChart.png used on input line 95.
 (pdftex.def)             Requested size: 346.29642pt x 237.89058pt.
- [4 <./flowChart.png>] [5] [6] [7] (./BrettGedvilas_FinalReport.aux) ) 
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 120.
+ [4 <./flowChart.png>] [5] [6] <menuFlow.png, id=30, 484.81125pt x 524.96124pt>
+File: menuFlow.png Graphic file (type png)
+
+<use menuFlow.png>
+Package pdftex.def Info: menuFlow.png used on input line 235.
+(pdftex.def)             Requested size: 290.88899pt x 314.97917pt.
+ [7 <./menuFlow.png>] [8] (./BrettGedvilas_FinalReport.aux) ) 
 Here is how much of TeX's memory you used:
- 1986 strings out of 495028
- 28730 string characters out of 6181497
+ 1993 strings out of 495028
+ 28845 string characters out of 6181497
  91091 words of memory out of 5000000
- 5192 multiletter control sequences out of 15000+600000
- 8452 words of font info for 30 fonts, out of 8000000 for 9000
+ 5198 multiletter control sequences out of 15000+600000
+ 8811 words of font info for 31 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  37i,6n,23p,251b,244s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmsy10.pfb>
-Output written on BrettGedvilas_FinalReport.pdf (7 pages, 102443 bytes).
+</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb>
+Output written on BrettGedvilas_FinalReport.pdf (8 pages, 120469 bytes).
 PDF statistics:
- 55 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 60 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

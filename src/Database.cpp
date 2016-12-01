@@ -552,63 +552,6 @@ void Database::modifyEntry() {
   cout << *ptr << endl; // display the updated record
 }
 
-
-// void Database::sortList() {
-//
-//   //*******************************************************
-//
-//   // Precondition:
-//   // Postcondition: Search list will be sorted based on given
-//   //                field.
-//   // Functionality: Prompts the user for which field to sort
-//   //                the search results by, then calls appropriate
-//   //                sort function.
-//
-//   //*******************************************************
-//
-//   int menuOption;
-//
-//   cout << "Select Category to Sort Search Results: " << endl;
-//   cout << "1. ID#" << endl
-//        << "2. Last Name" << endl
-//        << "3. Company Name" << endl
-//        << "4. State" << endl
-//        << "5. Country" << endl
-//        << "6. City" << endl
-//        << ": ";
-//
-//   cin >> menuOption;
-//
-//   switch (menuOption)
-//   {
-//   case 1:
-//     // already sorted by id number
-//     break;
-//
-//   case 2:
-//     searchList.sortLastName();
-//     break;
-//   case 3:
-//     searchList.sortCompany();
-//     break;
-//   case 4:
-//     searchList.sortState();
-//     break;
-//   case 5:
-//     searchList.sortCountry();
-//     break;
-//   case 6:
-//     searchList.sortCity();
-//     break;
-//
-//   default:
-//     cout << "That is not a valid choice" << endl;
-//     break;
-//   }
-//
-//   // cout << searchList;
-//
-// }
 void Database::visitNodes(Node* node) {
   // Precondition:
   // Postcondition: All contacts in the database are output to console
@@ -853,8 +796,6 @@ void Database::searchSubMenu() {
     cin >> menuOption;
     cin.ignore();
 
-    // menuOption = 5;
-
     switch(menuOption) {
 
       case 1:
@@ -1094,10 +1035,12 @@ void Database::sortMenu() {
   //*******************************************************
 
 
-  int menuOption;
+  int primary;
+  int secondary;
 
   cout << endl;
-  cout << "      Select Which Field to Sort Search Results By: " << endl;
+
+  cout << "Enter primary and secondary sorting fields, or primary and 0 for one sort: "<<endl;
 
   cout << "   1. Last Name" << endl
        << "   2. Company Name" << endl
@@ -1107,34 +1050,9 @@ void Database::sortMenu() {
        << "   6. Go Back" << endl
        << "   : ";
 
-  cin >> menuOption;
+  cin >> primary;
+  cin >> secondary;
 
-  while(menuOption > 6 || menuOption < 1) {
-    cout << "Please Enter a valid menu choice: ";
-    cin >> menuOption;
-  }
-
-  switch(menuOption) {
-
-    case 1:
-      searchList.sortLastName();
-      break;
-    case 2:
-      searchList.sortCompany();
-      break;
-    case 3:
-      searchList.sortState();
-      break;
-    case 4:
-      searchList.sortCountry();
-      break;
-    case 5:
-      searchList.sortCity();
-      break;
-    case 6:
-      break;
-
-  }
-
+  searchList.sortList(primary, secondary);
 
 }

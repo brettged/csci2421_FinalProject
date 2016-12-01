@@ -151,6 +151,34 @@ void Record::rmvAffiliate() {
   return;
 }
 
+
+string Record::searchField(int sNum) {
+
+  string field;
+
+  switch(sNum) {
+
+    case 1:
+      field = getLastName();
+      break;
+    case 2:
+      field = getCompany();
+      break;
+    case 3:
+      field = getState();
+      break;
+    case 4:
+      field = getCountry();
+      break;
+    case 5:
+      field = getCity();
+      break;
+  }
+
+  return field;
+
+}
+
 bool operator < (const Record& left, const Record& right) {
 
   //*******************************************************

@@ -108,6 +108,7 @@ class Record {
     string getCountry() {return country;};
     list<Affiliate> getAffiliate() {return affiliates;}; // returns a linked list of the affiliates
 
+    string searchField(int);
 
     // overload less than operator
     friend bool operator < (const Record& left, const Record& right);

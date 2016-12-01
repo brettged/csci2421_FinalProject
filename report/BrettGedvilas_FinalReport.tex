@@ -14,7 +14,16 @@
 
 \section*{Project Summary}
 
-The goal of this project was to create a simple database in c++!
+The goal of this project was to create a simple database in c++. Broadly speaking, a database is simply a structure that 
+contains a set of (usually) related information. In our case, the database was to serve as an address book where each entry 
+in the database can be considered a contact. Then, each entry contains information specific to that contact such as: name, 
+address, phone number, email etc. The implementation of the database uses a binary search tree as the main data structure 
+using a unique contact ID\# as the key for correctly inserting and traversing the tree. Moving deeper into the structure 
+of the tree, each contact is an instance of an abstract data type called Record that holds the various fields for the 
+contact.
+
+After defining the main structure of the database, functionality had to be added to allow the user to make meaningful 
+queries to the contents of the database and generate output.
 
 \newpage
 
@@ -23,6 +32,28 @@ The goal of this project was to create a simple database in c++!
 % ************************  Function Summary ***************************
 \section*{Summary of Functions}
 
+These functions all pertain to the user interaction with the database and demonstrate the functionality of the database. 
+The parameters and some smaller functions have been omitted for clarity.
+
+\begin{itemize}
+
+\item searchTree()
+\item subSearch() 
+\item visitNodes()
+\item modifyEntry()
+\item removeEntry()
+\item writeDatabase()
+\item readFile()
+\item sortLastName()
+\item sortCompany()
+\item sortState()
+\item sortCountry()
+\item sortCity()
+\item selectFields()
+
+
+
+\end{itemize}
 
 \newpage
 
@@ -35,7 +66,7 @@ The goal of this project was to create a simple database in c++!
 \vspace{.5cm}
 By: Brett Gedvilas\\
 Student ID: 810-74-9234\\
-Date: October 27, 2016\\
+Date: November 30, 2016\\
 \end{center}
 
 \subsection*{Problem Description}
@@ -50,8 +81,9 @@ to a desired location. The program can read in a list of contacts from an extern
 \begin{itemize}
 	\item Modify the database manually by adding and deleting records in the database or modifying an existing entry.
 	\item Search the database using a field of the users choice and perform sub-searches on the search results.
-	\item Sort the database (or search results) using a given field.
-	\item Display selected fields of either database entries or search results.
+	\item Browse search results
+	\item Sort the results from a database query using a given field.
+	\item Display selected fields of search results.
 	\item Output the database or search results to a file.
 \end{itemize}
 \newpage
@@ -81,19 +113,15 @@ Basic Program Flow
 		
 	\end{enumerate}		
 	
-	 
-	
-	
-
 
 \subsection*{Output Requirements}
 
-	The program can pipe information from the database to an output .txt file. All output will be in ascii
-coded text. The format of the output mirrors the format of the input file for the database. Each record is separated by a |.
-The fields of each record are newline delimited, and within the affiliate field, each affiliate is separated by a semi-colon,
- and the sub-fields of each affiliate (if used) are delimited by a comma. The user will have the option of which fields to 
-include in the output file. The output can consist of the entire database, or the results of a search query. A detailed
- description of each output field is shown below.
+	The program can pipe information from the database to an output .txt file as ascii 
+coded text. The format of the output mirrors the format of the input file for the database. Each record is separated by a $
+|$. The fields of each record are newline delimited, and within the affiliate field, each affiliate is separated by a semi-
+colon, and the sub-fields of each affiliate (if used) are delimited by a comma. The user will have the option of which 
+fields to include in the output file. The output can consist of the entire database, or the results of a search query. A 
+detailed description of each output field is shown below.
 
 	\begin{description}
 	
@@ -112,10 +140,10 @@ include in the output file. The output can consist of the entire database, or th
 		\item[Street Address] String
 		\item[City] String
 		\item[State] String
-		\item[Zip Code] Unsigned Integer
+		\item[Zip Code] String
 		\item[Country] String
-		
-		\item[Affiliate] Linked List
+		\item[Affiliate] Linked List - Each field of an affiliate (first name, last name, email and phone number) is stored
+										as a string.
 		
 	\end{description}
 
@@ -125,6 +153,12 @@ include in the output file. The output can consist of the entire database, or th
 \subsection*{Problem Solution Discussion}
 	% 1 paragraph, ~100 words
 
+The solution to this problem can be described in a number of steps. First, read in data from a file to populate the database. 
+While the data is being read in, parse into contacts, insert each individual contact into a binary tree. To remove a contact: 
+search binary tree for corresponding ID\# and delete the node holding that contact. To search database: get which field to 
+search for and search term, visit every node in the binary tree and compare selected field to search term. If match is found,
+ insert the contact information into a linked list. 
+
 
 \subsection*{Data Structures}
 
@@ -133,7 +167,8 @@ in the address book will be represented by a node in the tree, organized by the 
 leverage the power of the Binary Search Tree in order to efficiently search by ID number but searching using other fields
 will require each node in the tree to be visited.
 	
-	Two main areas surface when considering the data structures to be used in the program: How to store the affiliates for each contact, and how to store search results from a database query.
+	Two main areas surface when considering the data structures to be used in the program: How to store the affiliates for
+ each contact, and how to store search results from a database query.
 	
 	\begin{enumerate}
 		\item I decided that the affiliates for each contact will be stored using a linked list, taking advantage of the c++ 
@@ -163,11 +198,9 @@ will require each node in the tree to be visited.
 		\item Search results from the database fall under one of two categories:
 		
 		\begin{enumerate}
-			\item Last Name Search - I made the assumption that by and large, the most common search of the database will
-									  be by last name. For this reason, I chose to leverage the search efficiency of the
-									  database and create a second binary search tree for all the contacts, but ordered by
-									  last name as opposed to the ID\#. Then all subsequent searches using the last name 
-									  as a search field can occur in log(n) time.
+			\item ID\# Search - Because the binary search tree is ordered using the ID numbers and each contact has a unique
+								ID, any ID\# search will occur in log(n) time and return either a single Record, or nothing, 
+								if the ID doesn't exist in the database.
 			
 			\item Other Fields - Data structures for other searches will by dynamically created and destroyed while the 
 								 program is running. In my design, the user will not be limited to the number of searches
@@ -192,32 +225,28 @@ will require each node in the tree to be visited.
 
 
 	The program uses a menu-driven, text-based user interface scheme. The top level menu is the main menu, which then 
-branches to most of the sub-menus.
+branches to sub-menus which allow the user to choose between different operations on the database. All menus require the
+user to input an integer to select which operation to perform. The majority of menus are governed by a switch() 
+statement to execute the correct menu selection. Some menu options call other menus, some cause functions to execute, and
+some do both. The flow between menus is shown below.
 
 \vspace{.25cm}
 
-Main Menu: 
-\begin{enumerate}
-\setlength\itemsep{-2pt}
-\item Browse Contacts
-\item Search Contacts
-\item Modify Address Book
-\item Write to file
-\end{enumerate}
+\includegraphics[scale = .6]{menuFlow.png}
 
 
+\newpage
 
-%\newpage
-%
-%
-%% ********************* Summary of Program Status *********************
-%\section*{Program Status}
-%
-%This program successfully compiles and runs.
-%
-%
-%\subsection*{CSEgrid Status}
-%
-%I just made the csegrid my bitch!
+
+% ********************* Summary of Program Status *********************
+\section*{Program Status}
+
+The program currently performs all required functions as I interpret them except sub-sorting. The user can perform a primary 
+sort on a list of search results, but the secondary sorting has not been implemented.
+
+
+\subsection*{CSEgrid Status}
+
+The program successfully compiles and runs on the CSE grid using both databasesmall.txt and databaselarge.txt.
 
 \end{document}

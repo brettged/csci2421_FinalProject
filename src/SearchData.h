@@ -71,16 +71,12 @@ class SearchData {
 
 
     //************ Tools to sort the list of search results *************
-    void sortLastName();
-    void sortCompany();
-    void sortState();
-    void sortCountry();
-    void sortCity();
-    void selectFields();
 
+    void sortList(int primary, int secondary);
 
     //*********** Tools to output results of search ***************
 
+    void selectFields();
     void writeOut();
 
     string retField(Record* contact, int fNum) const;

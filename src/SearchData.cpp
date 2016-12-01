@@ -423,112 +423,6 @@ bool SearchData::searchAll(string searchTerm, Record* contact, bool exact) {
 
 //************* Sorting Operations ****************
 
-
-void SearchData::sortLastName() {
-
-
-  (*current).sort();
-
-}
-
-void SearchData::sortCompany() {
-
-
-  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
-
-    Record* small = &(*it1);
-
-    list<Record>::iterator it2 = it1;
-
-    for (++it2; it2 != current->end(); ++it2) {
-
-      if (small->getCompany() > it2->getCompany()) {
-        small = &(*it2);
-      }
-
-    }
-
-    Record swp = *it1;
-    *it1 = *small;
-    *small = swp;
-
-
-  }
-
-
-
-
-}
-
-void SearchData::sortState() {
-  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
-
-    Record* small = &(*it1);
-
-    list<Record>::iterator it2 = it1;
-
-    for (++it2; it2 != current->end(); ++it2) {
-
-      if (small->getState() > it2->getState()) {
-        small = &(*it2);
-      }
-
-    }
-
-    Record swp = *it1;
-    *it1 = *small;
-    *small = swp;
-
-
-  }
-}
-
-void SearchData::sortCountry() {
-  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
-
-    Record* small = &(*it1);
-
-    list<Record>::iterator it2 = it1;
-
-    for (++it2; it2 != current->end(); ++it2) {
-
-      if (small->getCountry() > it2->getCountry()) {
-        small = &(*it2);
-      }
-
-    }
-
-    Record swp = *it1;
-    *it1 = *small;
-    *small = swp;
-
-
-  }
-}
-
-void SearchData::sortCity() {
-  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
-
-    Record* small = &(*it1);
-
-    list<Record>::iterator it2 = it1;
-
-    for (++it2; it2 != current->end(); ++it2) {
-
-      if (small->getCity() > it2->getCity()) {
-        small = &(*it2);
-      }
-
-    }
-
-    Record swp = *it1;
-    *it1 = *small;
-    *small = swp;
-
-
-  }
-}
-
 void SearchData::selectFields() {
 
   int temp;
@@ -549,17 +443,78 @@ void SearchData::selectFields() {
        << "13. Zip Code" << endl
        << "14. Country" << endl
        << "15. Affiliates" << endl
+       << "16. Write All Fields" << endl
        << ": ";
   cin >> temp;
 
   while (temp != 0) {
-    fields[temp - 1] = 1;
-    cin >> temp;
+
+    if (temp == 16) {
+
+      for (int i = 0; i < 15; i++) {
+        fields[i] = 1;
+      }
+      temp = 0;
+    }
+
+    else {
+      fields[temp - 1] = 1;
+      cin >> temp;
+    }
+
   }
 
   cin.ignore();
   return;
 }
+
+void SearchData::sortList(int primary, int secondary) {
+
+  for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
+
+    Record* small = &(*it1);
+
+    list<Record>::iterator it2 = it1;
+
+    for (++it2; it2 != current->end(); ++it2) {
+
+      if (small->searchField(primary) > it2->searchField(primary)) {
+        small = &(*it2);
+      }
+
+    }
+
+    Record swp = *it1;
+    *it1 = *small;
+    *small = swp;
+  }
+
+  if (secondary != 0) {
+    for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
+
+      Record* small = &(*it1);
+
+      list<Record>::iterator it2 = it1;
+
+      for (++it2; it2 != current->end(); ++it2) {
+
+        if ((small->searchField(primary) == it2->searchField(primary)) && (small->searchField(secondary) > it2->searchField(secondary))) {
+          small = &(*it2);
+        }
+
+      }
+
+      Record swp = *it1;
+      *it1 = *small;
+      *small = swp;
+    }
+
+
+  }
+
+
+}
+
 
 
 //************** Output Operations ****************
@@ -573,7 +528,7 @@ void SearchData::writeOut() {
   cout << endl;
   cout << "Enter the name of a file to write to: ";
   cin >> filename;
-  
+
   cout << endl;
   cout << "If this file exists it will be overwritten! Continue? (y/n) ";
   cin >> yesno;
@@ -641,6 +596,8 @@ string SearchData::retField(Record* contact, int fNum) const {
 
 }
 
+
+
 //************* Overloaded operators ***************
 
 ostream& operator << (ostream& out, const SearchData& results) {
@@ -662,9 +619,6 @@ ofstream& operator << (ofstream& out, const SearchData& results) {
   for (list<Record>::iterator it = results.current->begin(); it != results.current->end(); ++it) {
 
     ptr = &(*it);
-
-
-
 
     for (int i = 0; i < 15; i++) {
 

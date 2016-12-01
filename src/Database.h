@@ -78,8 +78,6 @@ class Database {
     void writeDatabase();
     void writeFile(Node* node, ofstream& outfile);
 
-
-    // void sortList();
     string getSearchTerm();
 
     // Menu functions
