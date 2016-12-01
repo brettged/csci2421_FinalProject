@@ -1,5 +1,23 @@
-
-
+//##############################################################################
+//
+//
+//  FileName: SearchData.cpp
+//
+//
+//  Author: Brett Gedvilas
+//  Class:  CSCI 2421
+//  Date:   11/29/2016
+//
+//
+//  Assignment: Final Project - A c++ Database System
+//
+//
+//  This file contains the implementation of the SearchData class. This class
+//  governs the searching and most of the output from the database.
+//
+//
+//
+//##############################################################################
 
 
 #include <iostream>
@@ -25,7 +43,13 @@ SearchData::~SearchData() {
 
 list<Record> SearchData::getSearchResults() {
 
-  // return searchResults;
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Returns a list of records
+
+  //*******************************************************
 
   return *current; // returns the contents of the list pointed to by current
 
@@ -33,11 +57,27 @@ list<Record> SearchData::getSearchResults() {
 
 void SearchData::clear() {
 
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Clears the list of search results
+
+  //*******************************************************
+
   searchResults.clear(); // use the stl list clear function
   current = &searchResults;
 }
 
 string SearchData::getTerm() {
+
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Prompts the user for a term
+
+  //*******************************************************
 
   string term;
   cout << endl;
@@ -96,6 +136,15 @@ unsigned int SearchData::getSearchID() {
 
 // Search functions, returns linked lists of search results or maybe a BSTree
 void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact) {
+
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition: A record is added to the search results if term is found
+  // Functionality: This function performs a recursive search
+  //                on the binary tree.
+
+  //*******************************************************
 
   string recordWord;
   current = &searchResults;
@@ -190,6 +239,16 @@ void SearchData::searchTree(string searchTerm, int field, Node* node, bool exact
 // overloaded exact search, searches the current search results
 void SearchData::subSearch(string searchTerm, int field, bool exact) {
 
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: This function performs a sub search on the
+  //                database by searching the current list of
+  //                search results.
+
+  //*******************************************************
+
   string recordWord;
 
   if (current == &subSearchResults) {
@@ -283,6 +342,15 @@ void SearchData::subSearch(string searchTerm, int field, bool exact) {
 
 bool SearchData::affilSearch(string searchTerm, list<Affiliate> affil, bool exact) {
 
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: This function searches a list of affiliates
+  //                for the given search term. Returns true if found, false if not
+
+  //*******************************************************
+
   bool inAffil = false;
 
   if (exact) {
@@ -330,11 +398,11 @@ bool SearchData::affilSearch(string searchTerm, list<Affiliate> affil, bool exac
 Record* SearchData::idSearch(unsigned int idNum, BSTree* tree) {
   //*******************************************************
 
-  // idSearch()
-
   // Precondition:
-  // Postcondition:
-  // Functionality:
+  // Postcondition: Binary tree is searched
+  // Functionality: Searches the binary search tree for an id number.
+  //                Returns pointer to record if found, nullptr if not
+
   //*******************************************************
 
   Node* nPtr;
@@ -425,6 +493,19 @@ bool SearchData::searchAll(string searchTerm, Record* contact, bool exact) {
 
 void SearchData::selectFields() {
 
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Prompts the user to select which fields they
+  //                want to output
+
+  //*******************************************************
+
+  for (int i = 0; i < 15; i++) {
+    fields[i] = 0; // set all fields to not display initially
+  }
+
   int temp;
 
   cout << "Enter the fields to want to write out (0 to finish)" << endl;
@@ -461,7 +542,7 @@ void SearchData::selectFields() {
       fields[temp - 1] = 1;
       cin >> temp;
     }
-
+    
   }
 
   cin.ignore();
@@ -470,6 +551,16 @@ void SearchData::selectFields() {
 
 void SearchData::sortList(int primary, int secondary) {
 
+  //*******************************************************
+
+  // Precondition:
+  // Postcondition:
+  // Functionality: Sorts the list of search results based on a
+  //                primary key and secondary key if desired
+
+  //*******************************************************
+
+  // First for loop sorts list using the primary sorting key
   for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
 
     Record* small = &(*it1);
@@ -490,6 +581,8 @@ void SearchData::sortList(int primary, int secondary) {
   }
 
   if (secondary != 0) {
+
+    // Second for loop sorts list using secondary sorting key
     for(list<Record>::iterator it1 = current->begin(); it1 != (--current->end()); ++it1) {
 
       Record* small = &(*it1);
@@ -498,6 +591,7 @@ void SearchData::sortList(int primary, int secondary) {
 
       for (++it2; it2 != current->end(); ++it2) {
 
+        // only need to sort if the primary keys are equal, otherwise the secondary key doesn't matter
         if ((small->searchField(primary) == it2->searchField(primary)) && (small->searchField(secondary) > it2->searchField(secondary))) {
           small = &(*it2);
         }
@@ -508,11 +602,7 @@ void SearchData::sortList(int primary, int secondary) {
       *it1 = *small;
       *small = swp;
     }
-
-
   }
-
-
 }
 
 
@@ -520,6 +610,9 @@ void SearchData::sortList(int primary, int secondary) {
 //************** Output Operations ****************
 
 void SearchData::writeOut() {
+
+  // Prompts the user for a filename and writes the current search list to the
+  // file.
 
   ofstream outFile;
   string filename;
@@ -546,6 +639,8 @@ void SearchData::writeOut() {
 
 
 string SearchData::retField(Record* contact, int fNum) const {
+
+  // Returns a string value based upon the contact and integer passed in
 
   string fieldValue;
 

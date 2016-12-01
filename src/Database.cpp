@@ -577,11 +577,13 @@ void Database::visitNodes(Node* node) {
 
 
 void Database::mainMenu() {
+
   //*******************************************************
 
   // Precondition:
   // Postcondition:
-  // Functionality:
+  // Functionality: This function displays the main menu to the
+  //                user, and controls the flow of the program
 
   //*******************************************************
 
@@ -642,6 +644,16 @@ void Database::mainMenu() {
 
 void Database::writeDatabase() {
 
+  //*******************************************************
+
+  // Precondition: Database has a non-zero number of entries
+  // Postcondition: The current database is written to a file
+  // Functionality: This function prompts the user for a file
+  //                name and then writes the current database
+  //                to the file.
+
+  //*******************************************************
+
   ofstream outFile;
   string filename;
   char yesno;
@@ -692,7 +704,7 @@ void Database::searchMenu() {
 
   // Precondition:
   // Postcondition:
-  // Functionality:
+  // Functionality: Displays the search menu
 
   //*******************************************************
 
@@ -767,7 +779,9 @@ void Database::searchSubMenu() {
 
   // Precondition:
   // Postcondition:
-  // Functionality:
+  // Functionality: Displays the results of a search and allows
+  //                the user to perform sub searches or output the
+  //                results.
 
   //*******************************************************
 
@@ -812,15 +826,15 @@ void Database::searchSubMenu() {
         break;
 
       case 4:
-        modifyEntry();
+        modifyEntry(); // modify an entry
         break;
 
       case 5:
-        outputDataMenu();
+        outputDataMenu(); // call menu for outputting data
         break;
 
       case 6:
-        removeEntry();
+        removeEntry(); // call function to remove record
 
       case 7:
         menu = false;
@@ -840,7 +854,8 @@ void Database::searchAgain() {
 
   // Precondition:
   // Postcondition:
-  // Functionality:
+  // Functionality: This menu allows the user to perform a sub
+  //                search on the current list of search results
 
   //*******************************************************
 
@@ -913,7 +928,8 @@ void Database::updateMenu() {
 
   // Precondition:
   // Postcondition:
-  // Functionality:
+  // Functionality: Provides user options for making updates
+  //                to the database
 
   //*******************************************************
 
@@ -1029,8 +1045,8 @@ void Database::sortMenu() {
 
   // Precondition:
   // Postcondition:
-  // Functionality: Menu allowing user to choose which field to sortMenu
-  //                by
+  // Functionality: Menu allowing user to choose which fields
+  //                to sort by
 
   //*******************************************************
 
@@ -1053,6 +1069,6 @@ void Database::sortMenu() {
   cin >> primary;
   cin >> secondary;
 
-  searchList.sortList(primary, secondary);
+  searchList.sortList(primary, secondary); // call sorting function
 
 }

@@ -44,11 +44,7 @@ The parameters and some smaller functions have been omitted for clarity.
 \item removeEntry()
 \item writeDatabase()
 \item readFile()
-\item sortLastName()
-\item sortCompany()
-\item sortState()
-\item sortCountry()
-\item sortCity()
+\item sortList()
 \item selectFields()
 
 
@@ -153,9 +149,9 @@ detailed description of each output field is shown below.
 \subsection*{Problem Solution Discussion}
 	% 1 paragraph, ~100 words
 
-The solution to this problem can be described in a number of steps. First, read in data from a file to populate the database. 
-While the data is being read in, parse into contacts, insert each individual contact into a binary tree. To remove a contact: 
-search binary tree for corresponding ID\# and delete the node holding that contact. To search database: get which field to 
+The algorithm for my solution can be described in a number of logical steps. First, read in data from a file to populate the database. 
+While the data is being read in, parse into contacts, insert each individual contact into a binary tree. To remove a contact, 
+search binary tree for corresponding ID\# and delete the node holding that contact. To search database, get which field to 
 search for and search term, visit every node in the binary tree and compare selected field to search term. If match is found,
  insert the contact information into a linked list. 
 
@@ -241,8 +237,8 @@ some do both. The flow between menus is shown below.
 % ********************* Summary of Program Status *********************
 \section*{Program Status}
 
-The program currently performs all required functions as I interpret them except sub-sorting. The user can perform a primary 
-sort on a list of search results, but the secondary sorting has not been implemented.
+The program currently performs all required functions as I interpret them. The user can read in a .txt file containing
+database information and then perform searches and generate output based on a variety of criteria.
 
 
 \subsection*{CSEgrid Status}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.21)  30 NOV 2016 18:36
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.21)  30 NOV 2016 22:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -210,15 +210,15 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 <flowChart.png, id=17, 577.15625pt x 396.48125pt>
 File: flowChart.png Graphic file (type png)
  <use flowChart.png>
-Package pdftex.def Info: flowChart.png used on input line 95.
+Package pdftex.def Info: flowChart.png used on input line 91.
 (pdftex.def)             Requested size: 346.29642pt x 237.89058pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 120.
+(Font)              <10.95> on input line 116.
  [4 <./flowChart.png>] [5] [6] <menuFlow.png, id=30, 484.81125pt x 524.96124pt>
 File: menuFlow.png Graphic file (type png)
 
 <use menuFlow.png>
-Package pdftex.def Info: menuFlow.png used on input line 235.
+Package pdftex.def Info: menuFlow.png used on input line 231.
 (pdftex.def)             Requested size: 290.88899pt x 314.97917pt.
  [7 <./menuFlow.png>] [8] (./BrettGedvilas_FinalReport.aux) ) 
 Here is how much of TeX's memory you used:
@@ -236,7 +236,7 @@ f-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist
 type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmsy10.pfb>
-Output written on BrettGedvilas_FinalReport.pdf (8 pages, 120469 bytes).
+Output written on BrettGedvilas_FinalReport.pdf (8 pages, 120432 bytes).
 PDF statistics:
  60 PDF objects out of 1000 (max. 8388607)
  39 compressed objects within 1 object stream

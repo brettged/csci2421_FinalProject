@@ -42,7 +42,7 @@ class SearchData {
     list<Record>* current;
     list<Record>* previous;
 
-    int fields[15] = {0}; // array to keep track of which fields to print
+    int fields[15] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; // array to keep track of which fields to print
 
 
   public:
